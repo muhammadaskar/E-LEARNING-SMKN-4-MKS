@@ -7,6 +7,27 @@ const store = createStore({
             data: {},
             token: sessionStorage.getItem('TOKEN'),
             role: sessionStorage.getItem('ROLE'),
+        },
+        teachers: {
+            data: {},
+            loading: false
+        },
+        students: {
+            data: {},
+            loading: false
+        },
+        currentTeacher: {
+            data: {},
+            loading: false
+        },
+        currentStudent: {
+            data: {},
+            loading: false
+        },
+        notification: {
+            show: false,
+            type: 'success',
+            message: ''
         }
     },
     getters: {},
@@ -46,13 +67,111 @@ const store = createStore({
                     return res;
                 });
             return response;
+        },
+        editTeacherAccount({ }, teacher) {
+            // delete teacher.foto_url
+            let response = axiosClient.put(`/admin-teacher/${teacher.user_id}`, teacher)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        getTeachersAccount({ commit }) {
+            commit("setTeacherLoading", true)
+            return axiosClient.get('/admin-teacher').then((res) => {
+                commit("setTeacherLoading", false)
+                commit("setTeachersAccount", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getTeacherAccount({ commit }, id) {
+            return axiosClient
+                .get(`/admin-teacher/${id}`)
+                .then((res) => {
+                    commit("setCurrentTeacher", res.data)
+                    // console.log(res.data)
+                    return res
+                })
+        },
+        deleteTeacherAccount({ commit }, id) {
+            return axiosClient.delete(`/admin-teacher/${id}`).then((res) => {
+                return res
+            })
+        },
 
-        }
+        saveStudentAccount({ commit }, student) {
+            let response = axiosClient.post('/admin-student', student)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        getStudentsAccount({ commit }) {
+            commit("setStudentLoading", true)
+            return axiosClient.get('/admin-student').then((res) => {
+                commit("setStudentLoading", false)
+                commit("setStudentsAccount", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getStudentAccount({ commit }, id) {
+            return axiosClient
+                .get(`/admin-student/${id}`)
+                .then((res) => {
+                    commit("setCurrentStudent", res.data)
+                    return res
+                })
+        },
+        editStudentAccount({ }, student) {
+            let response = axiosClient.put(`/admin-student/${student.user_id}`, student)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            // console.log(student.user_id)
+            return response;
+        },
+        deleteStudentAccount({ commit }, id) {
+            return axiosClient.delete(`/admin-student/${id}`).then((res) => {
+                return res
+            })
+        },
+
     },
     mutations: {
 
         setUser: (state, user) => {
             state.user.data = user;
+        },
+        setTeachersAccount: (state, teachers) => {
+            state.teachers.data = teachers
+        },
+        setStudentsAccount: (state, students) => {
+            state.students.data = students
+        },
+        setCurrentTeacher: (state, teacher) => {
+            state.currentTeacher.data = teacher
+            console.log(state.currentTeacher.data)
+        },
+        setCurrentStudent: (state, student) => {
+            state.currentStudent.data = student
+            console.log(state.currentStudent.data)
+        },
+        setTeacherLoading: (state, loading) => {
+            state.teachers.loading = loading
+        },
+        setStudentLoading: (state, loading) => {
+            state.students.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;
@@ -67,6 +186,14 @@ const store = createStore({
             state.user.token = null
             sessionStorage.removeItem('TOKEN')
             sessionStorage.removeItem('ROLE')
+        },
+        notify: (state, { message, type }) => {
+            state.notification.show = true;
+            state.notification.type = type;
+            state.notification.message = message;
+            setTimeout(() => {
+                state.notification.show = false;
+            }, 3000)
         },
     },
     modules: {}

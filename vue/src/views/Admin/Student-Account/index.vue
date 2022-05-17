@@ -3,10 +3,10 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1 class="text-3x1 font-bold text-gray-900">Akun Guru</h1>
+          <h1 class="text-3x1 font-bold text-gray-900">Akun Siswa</h1>
           <!-- {{ surveys }} -->
           <router-link
-            :to="{ name: 'AddTeacherAccount' }"
+            :to="{ name: 'AddStudentAccount' }"
             class="
               py-2
               px-3
@@ -29,11 +29,11 @@
                 stroke-width="2"
                 d="M12 4v16m8-8H4"
               /></svg
-            >Tambah akun guru</router-link
+            >Tambah akun siswa</router-link
           >
         </div>
       </template>
-        <div v-if="teachers.loading">
+        <div v-if="students.loading">
           <div class="border shadow rounded-md p-4 max-w-sm w-full">
             <div class="animate-pulse flex space-x-4">
               <!-- <div class="rounded-full bg-slate-700 h-10 w-10"></div> -->
@@ -63,7 +63,7 @@
             <tr>
               <th scope="col" class="px-6 py-3">Nama</th>
               <th scope="col" class="px-6 py-3">Email</th>
-              <th scope="col" class="px-6 py-3">NIP</th>
+              <th scope="col" class="px-6 py-3">NIS</th>
               <th scope="col" class="px-6 py-3">Status Akun</th>
               <th scope="col" class="px-6 py-3">
                 <span class="sr-only">Edit</span>
@@ -71,7 +71,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b bg-gray-800 border-gray-700" v-for="teacher  in teachers.data" :key="teacher.id">
+            <tr class="bg-white border-b bg-gray-800 border-gray-700" v-for="student  in students.data" :key="student.id">
               <th
                 scope="row"
                 class="
@@ -81,12 +81,12 @@
                   text-gray-900 text-white
                 "
               >
-               {{  teacher.name }}
+               {{  student.name }}
               </th>
-              <td class="px-6 py-4">{{ teacher.email }}</td>
-              <td class="px-6 py-4">{{ teacher.nip }}</td>
+              <td class="px-6 py-4">{{ student.email }}</td>
+              <td class="px-6 py-4">{{ student.nis }}</td>
               <td class="px-6 py-4">
-                <div v-if="teacher.is_active" class="text-green-600">
+                <div v-if="student.is_active" class="text-green-600">
                 aktif
                 </div>
                 <div v-else class="text-yellow-600">
@@ -96,7 +96,7 @@
               </td>
               <td class="px-6 py-4 text-right">
                 <router-link
-                  :to="{name: 'AdminEditTeacherAccount', params: {id: teacher.user_id}}"
+                  :to="{name: 'AdminEditStudentAccount', params: {id: student.user_id}}"
                   class="
                     font-medium
                     text-blue-600 text-blue-500
@@ -105,9 +105,9 @@
                   >edit</router-link
                 >
                 <button
-                v-if="teacher.user_id"
+                v-if="student.user_id"
                 type="button"
-                @click="deleteTeacherAccount(teacher.user_id)"
+                @click="deleteStudentAccount(student.user_id)"
                 class="
                   pl-2
                   rounded-full
@@ -136,18 +136,18 @@ const router = useRouter();
 
 const route = useRoute();
 
-const teachers = computed(() => store.state.teachers);
+const students = computed(() => store.state.students);
 
-store.dispatch("getTeachersAccount")
+store.dispatch("getStudentsAccount")
 
-function deleteTeacherAccount(id) {
+function deleteStudentAccount(id) {
   if (confirm("Apakah anda yakin ingin menghapus?")) {
-      store.dispatch("deleteTeacherAccount", id).then(() => {
+      store.dispatch("deleteStudentAccount", id).then(() => {
         store.commit("notify", {
         type: "success",
-        message: "akun guru berhasil dihapus ",
+        message: "akun siswa berhasil dihapus ",
       });
-      store.dispatch("getTeachersAccount")
+      store.dispatch("getStudentsAccount")
     });
   }
 }

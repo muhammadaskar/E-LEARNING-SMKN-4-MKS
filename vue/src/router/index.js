@@ -3,6 +3,11 @@ import { createRouter, createWebHistory } from "vue-router"
 import DashboardAdmin from "../views/Admin/Dashboard.vue"
 import AdminTeacherAccount from "../views/Admin/Teacher-Account/index.vue"
 import AdminAddTeacherAccount from "../views/Admin/Teacher-Account/AddTeacher.vue"
+import AdminEditTeacherAccount from "../views/Admin/Teacher-Account/EditTeacher.vue"
+
+import AdminStudentAccount from "../views/Admin/Student-Account/index.vue"
+import AdminAddStudentAccount from "../views/Admin/Student-Account/AddStudent.vue"
+import AdminEditStudentAccount from "../views/Admin/Student-Account/EditStudent.vue"
 
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
@@ -31,6 +36,10 @@ const routes = [
             { path: '/dashboard-admin', name: 'Dashboard', component: DashboardAdmin },
             { path: '/admin/teacher-account', name: 'TeacherAccount', component: AdminTeacherAccount },
             { path: '/admin/teacher-account/new', name: 'AddTeacherAccount', component: AdminAddTeacherAccount },
+            { path: '/admin/teacher-account/edit/:id', name: 'AdminEditTeacherAccount', component: AdminEditTeacherAccount },
+            { path: '/admin/student-account', name: 'StudentAccount', component: AdminStudentAccount },
+            { path: '/admin/student-account/new', name: 'AddStudentAccount', component: AdminAddStudentAccount },
+            { path: '/admin/student-account/edit/:id', name: 'AdminEditStudentAccount', component: AdminEditStudentAccount },
         ]
     },
     {

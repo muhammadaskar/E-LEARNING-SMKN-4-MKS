@@ -260,7 +260,7 @@
 
     <router-view></router-view>
 
-    <!-- <Notification /> -->
+    <Notification />
   </div>
 </template>
 
@@ -280,10 +280,12 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 
+import Notification from "./Notification.vue";
+
 const navigation = [
   { name: "Dasbor", to: "/dashboard-admin" },
   { name: "Guru", to: "/admin/teacher-account" },
-  //   { name: "Wali Murid", to: "manage-akun-wali" },
+  { name: "Siswa", to: "/admin/student-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
   //   { name: "Calendar", href: "#",},
   //   { name: "Reports", href: "#",},

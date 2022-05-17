@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAdminTeacherRequest extends FormRequest
+class UpdateAdminStudentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,13 +14,6 @@ class StoreAdminTeacherRequest extends FormRequest
     public function authorize()
     {
         return true;
-    }
-
-    protected function prepareForValidation()
-    {
-        $this->merge([
-            'user_id' => $this->user()->id
-        ]);
     }
 
     /**
@@ -36,7 +29,7 @@ class StoreAdminTeacherRequest extends FormRequest
             'foto' => 'nullable|string',
             'gender' => 'required',
             'address' => 'required',
-            'nip' => 'required',
+            'nis' => 'required',
             'user_id' => 'exists:users,id'
         ];
     }

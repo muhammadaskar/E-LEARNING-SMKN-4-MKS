@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 
-class AdminTeacherResource extends JsonResource
+class AdminStudentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,7 +22,7 @@ class AdminTeacherResource extends JsonResource
             'password' => $this->password,
             'foto_url' => $this->foto ? URL::to($this->foto) : null,
             'user_id' => $this->user_id,
-            'nip' => $this->nip,
+            'nis' => $this->nip,
             'is_active' => $this->is_active,
             'created_at' => (new \DateTime($this->created_at))->format('Y-m-d H:i:s'),
             'updated_at' => (new \DateTime($this->updated_at))->format('Y-m-d H:i:s'),

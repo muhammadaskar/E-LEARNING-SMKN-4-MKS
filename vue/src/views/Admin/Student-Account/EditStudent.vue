@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="flex justify-between items-center">
           <h1 class="text-3x1 font-bold text-gray-900">
-            <router-link :to="{ name: 'TeacherAccount' }">
+            <router-link :to="{ name: 'StudentAccount' }">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 inline-block"
@@ -17,7 +17,7 @@
                   clip-rule="evenodd"
                 /></svg
             ></router-link>
-            Akun Guru
+            Akun Siswa
           </h1>
         </div>
       </template>
@@ -29,7 +29,7 @@
         </div>
         <form
           class="animate-fade-in-down row-span-3"
-          @submit.prevent="saveTeacher"
+          @submit.prevent="saveStudent"
         >
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Teacher Account Fields -->
@@ -167,17 +167,17 @@
               </div>
               <!--/ Email -->
 
-              <!-- NIP -->
+              <!-- NIs -->
               <div>
-                <label for="nip" class="block text-sm font-medium text-gray-700"
-                  >NIP</label
+                <label for="nis" class="block text-sm font-medium text-gray-700"
+                  >NIS</label
                 >
                 <input
                   type="number"
-                  name="nip"
-                  id="nip"
-                  autocomplete="nip"
-                  v-model="model.nip"
+                  name="nis"
+                  id="nis"
+                  autocomplete="nis"
+                  v-model="model.nis"
                   class="
                     mt-1
                     focus:ring-indigo-500 focus:border-indigo-500
@@ -190,16 +190,22 @@
                   "
                 />
               </div>
-              <!--/ NIP -->
+              <!--/ NIs -->
 
-              <!-- GENDER -->
+                            <!-- GENDER -->
               <div>
                 <label for="gender" class="block text-sm font-medium text-gray-700"
                   >Jenis Kelamin</label
                 >
                  <select id="gender" name="gender" autocomplete="gender" v-model="model.gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="L">Laki-laki</option>
+                 <!-- <div v-if="model.gender=='L'">
+                    <option value="L" selected>Laki-laki</option>
                     <option value="P">Perempuan</option>
+                 </div> -->
+                    <option value="L" v-if="model.gender=='L'" selected>Laki-laki</option>
+                    <option value="P" v-if="model.gender=='L'">Perempuan</option>
+                    <option value="P" v-if="model.gender=='P'" selected>Perempuan</option>
+                    <option value="P" v-if="model.gender=='P'">Laki-laki</option>
                   </select>
               </div>
               <!--/ GENDER -->
@@ -260,11 +266,12 @@ const route = useRoute();
 let model = ref({
   name: "",
   email: "",
-  nip: "",
+  nis: "",
   foto: null,
   foto_url: null,
   gender: "",
   address: "",
+
 });
 
 function onImageChoose(e) {
@@ -280,14 +287,28 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
-function saveTeacher() {
-  store.dispatch("saveTeacherAccount", model.value).then(({ data }) => {
+watch(
+  () => store.state.currentStudent.data,
+  (newVal) => {
+    model.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+      status: newVal.status !== "draft",
+    };
+  }
+);
+
+if (route.params.id) {
+  store.dispatch("getStudentAccount", route.params.id);
+}
+
+function saveStudent() {
+  store.dispatch("editStudentAccount", model.value).then(({ data }) => {
     store.commit("notify", {
       type: "success",
-      message: "akun guru berhasil disimpan ",
+      message: "akun siswa berhasil disimpan ",
     });
     router.push({
-      name: "TeacherAccount"
+      name: "StudentAccount"
     });
   });
 }

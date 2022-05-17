@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::middleware('role')->group(function () {
         Route::resource('admin-teacher', AdminTeacherController::class);
+        Route::get('admin-teacher/{id}', [AdminTeacherController::class, 'show']);
+        Route::delete('admin-teacher/{user_id}', [AdminTeacherController::class, 'destroy']);
+
+        Route::resource('admin-student', AdminStudentController::class);
+        Route::get('admin-student/{user_id}', [AdminStudentController::class, 'show']);
+        Route::delete('admin-student/{user_id}', [AdminStudentController::class, 'destroy']);
     });
 
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);

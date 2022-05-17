@@ -13,7 +13,7 @@ class UpdateAdminTeacherRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateAdminTeacherRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'email' => 'required',
+            'foto' => 'nullable|string',
+            'gender' => 'required',
+            'address' => 'required',
+            'nip' => 'required',
+            'user_id' => 'exists:users,id'
         ];
     }
 }

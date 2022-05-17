@@ -192,14 +192,20 @@
               </div>
               <!--/ NIP -->
 
-              <!-- GENDER -->
+                            <!-- GENDER -->
               <div>
                 <label for="gender" class="block text-sm font-medium text-gray-700"
                   >Jenis Kelamin</label
                 >
                  <select id="gender" name="gender" autocomplete="gender" v-model="model.gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option value="L">Laki-laki</option>
+                 <!-- <div v-if="model.gender=='L'">
+                    <option value="L" selected>Laki-laki</option>
                     <option value="P">Perempuan</option>
+                 </div> -->
+                    <option value="L" v-if="model.gender=='L'" selected>Laki-laki</option>
+                    <option value="P" v-if="model.gender=='L'">Perempuan</option>
+                    <option value="P" v-if="model.gender=='P'" selected>Perempuan</option>
+                    <option value="P" v-if="model.gender=='P'">Laki-laki</option>
                   </select>
               </div>
               <!--/ GENDER -->
@@ -265,6 +271,7 @@ let model = ref({
   foto_url: null,
   gender: "",
   address: "",
+
 });
 
 function onImageChoose(e) {
@@ -280,8 +287,22 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
+watch(
+  () => store.state.currentTeacher.data,
+  (newVal) => {
+    model.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+      status: newVal.status !== "draft",
+    };
+  }
+);
+
+if (route.params.id) {
+  store.dispatch("getTeacherAccount", route.params.id);
+}
+
 function saveTeacher() {
-  store.dispatch("saveTeacherAccount", model.value).then(({ data }) => {
+  store.dispatch("editTeacherAccount", model.value).then(({ data }) => {
     store.commit("notify", {
       type: "success",
       message: "akun guru berhasil disimpan ",

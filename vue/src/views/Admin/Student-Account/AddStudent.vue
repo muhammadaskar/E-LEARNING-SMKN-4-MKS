@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="flex justify-between items-center">
           <h1 class="text-3x1 font-bold text-gray-900">
-            <router-link :to="{ name: 'TeacherAccount' }">
+            <router-link :to="{ name: 'StudentAccount' }">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 inline-block"
@@ -17,7 +17,7 @@
                   clip-rule="evenodd"
                 /></svg
             ></router-link>
-            Akun Guru
+            Akun Siswa
           </h1>
         </div>
       </template>
@@ -29,7 +29,7 @@
         </div>
         <form
           class="animate-fade-in-down row-span-3"
-          @submit.prevent="saveTeacher"
+          @submit.prevent="saveStudent"
         >
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Teacher Account Fields -->
@@ -167,17 +167,17 @@
               </div>
               <!--/ Email -->
 
-              <!-- NIP -->
+              <!-- NIS -->
               <div>
-                <label for="nip" class="block text-sm font-medium text-gray-700"
-                  >NIP</label
+                <label for="nis" class="block text-sm font-medium text-gray-700"
+                  >NIS</label
                 >
                 <input
                   type="number"
-                  name="nip"
-                  id="nip"
-                  autocomplete="nip"
-                  v-model="model.nip"
+                  name="nis"
+                  id="nis"
+                  autocomplete="nis"
+                  v-model="model.nis"
                   class="
                     mt-1
                     focus:ring-indigo-500 focus:border-indigo-500
@@ -190,7 +190,7 @@
                   "
                 />
               </div>
-              <!--/ NIP -->
+              <!--/ NIS -->
 
               <!-- GENDER -->
               <div>
@@ -255,12 +255,10 @@ import store from "../../../store";
 
 const router = useRouter();
 
-const route = useRoute();
-
 let model = ref({
   name: "",
   email: "",
-  nip: "",
+  nis: "",
   foto: null,
   foto_url: null,
   gender: "",
@@ -280,14 +278,14 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
-function saveTeacher() {
-  store.dispatch("saveTeacherAccount", model.value).then(({ data }) => {
+function saveStudent() {
+  store.dispatch("saveStudentAccount", model.value).then(({ data }) => {
     store.commit("notify", {
       type: "success",
-      message: "akun guru berhasil disimpan ",
+      message: "akun siswa berhasil disimpan ",
     });
     router.push({
-      name: "TeacherAccount"
+      name: "StudentAccount"
     });
   });
 }

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AdminTeacher;
-use App\Http\Requests\StoreAdminTeacherRequest;
-use App\Http\Requests\UpdateAdminTeacherRequest;
-use App\Http\Resources\AdminTeacherResource;
+use App\Models\AdminStudent;
+use App\Http\Requests\StoreAdminStudentRequest;
+use App\Http\Requests\UpdateAdminStudentRequest;
+use App\Http\Resources\AdminStudentResource;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
-class AdminTeacherController extends Controller
+class AdminStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,8 +22,8 @@ class AdminTeacherController extends Controller
     public function index()
     {
         $data = DB::table('users')
-            ->join('teachers', 'users.id', '=', 'teachers.user_id')
-            ->where('users.role', '=', 'teacher')
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->where('users.role', '=', 'student')
             ->get();
         return response()->json($data);
     }
@@ -32,10 +31,10 @@ class AdminTeacherController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreAdminTeacherRequest  $request
+     * @param  \App\Http\Requests\StoreAdminStudentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAdminTeacherRequest $request)
+    public function store(StoreAdminStudentRequest $request)
     {
         $data = $request->validated();
 
@@ -47,34 +46,34 @@ class AdminTeacherController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['nip']),
-            'role' => 'teacher',
+            'password' => bcrypt($data['nis']),
+            'role' => 'student',
             'foto' => $data['foto'],
             'gender' => $data['gender'],
             'address' => $data['address'],
         ]);
 
-        $teacher = AdminTeacher::create([
+        $student = AdminStudent::create([
             'user_id' => $user->id,
-            'nip' => $data['nip'],
+            'nis' => $data['nis'],
             'is_active' => true
         ]);
 
-        return new AdminTeacherResource($teacher);
+        return new AdminStudentResource($student);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AdminTeacher  $adminTeacher
+     * @param  \App\Models\AdminStudent  $adminStudent
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
         $data = DB::table('users')
-            ->join('teachers', 'users.id', '=', 'teachers.user_id')
-            ->where('users.role', '=', 'teacher')
-            ->where('users.id', '=', $id)
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->where('users.role', '=', 'student')
+            ->where('users.id', '=', $user_id)
             ->first();
 
         return response()->json([
@@ -82,7 +81,7 @@ class AdminTeacherController extends Controller
             'foto_url' => $data->foto ? URL::to($data->foto) : null,
             'name' => $data->name,
             'email' => $data->email,
-            'nip' => $data->nip,
+            'nis' => $data->nis,
             'gender' => $data->gender,
             'address' => $data->address,
         ]);
@@ -91,11 +90,11 @@ class AdminTeacherController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateAdminTeacherRequest  $request
-     * @param  \App\Models\AdminTeacher  $adminTeacher
+     * @param  \App\Http\Requests\UpdateAdminStudentRequest  $request
+     * @param  \App\Models\AdminStudent  $adminStudent
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAdminTeacherRequest $request)
+    public function update(UpdateAdminStudentRequest $request)
     {
         $data = $request->validated();
 
@@ -108,8 +107,8 @@ class AdminTeacherController extends Controller
                 ->update([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['nip']),
-                    'role' => 'teacher',
+                    'password' => bcrypt($data['nis']),
+                    'role' => 'student',
                     'foto' => $data['foto'],
                     'gender' => $data['gender'],
                     'address' => $data['address'],
@@ -120,35 +119,35 @@ class AdminTeacherController extends Controller
                 ->update([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['nip']),
-                    'role' => 'teacher',
+                    'password' => bcrypt($data['nis']),
+                    'role' => 'student',
                     'gender' => $data['gender'],
                     'address' => $data['address'],
                 ]);
         }
 
 
-        $teacher = DB::table('teachers')
+        $student = DB::table('students')
             ->where('user_id', '=', $request->user_id)
             ->update([
                 'user_id' => $request->user_id,
-                'nip' => $data['nip'],
+                'nis' => $data['nis'],
                 'is_active' => true
             ]);
 
-        return response()->json($teacher);
+        return response()->json($student);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AdminTeacher  $adminTeacher
+     * @param  \App\Models\AdminStudent  $adminStudent
      * @return \Illuminate\Http\Response
      */
     public function destroy($user_id)
     {
         DB::table('users')->where('id', '=', $user_id)->delete();
-        DB::table('teachers')->where('user_id', '=', $user_id)->delete();
+        DB::table('students')->where('user_id', '=', $user_id)->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'data berhasil dihapus'
@@ -178,7 +177,7 @@ class AdminTeacherController extends Controller
             throw new \Exception('did not match data URI with image data');
         }
 
-        $dir = 'assets/images/teacher/';
+        $dir = 'assets/images/student/';
         $file = Str::random() . '.' . $type;
         $absolutePath = public_path($dir);
         $relativePath = $dir . $file;

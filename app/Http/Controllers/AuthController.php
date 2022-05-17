@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,10 @@ class AuthController extends Controller
                 'required',
                 'confirmed',
                 Password::min(8)->mixedCase()->numbers()->symbols()
-            ]
+            ],
+            'gender' => 'required',
+            'address' => 'required',
+            'nik' => 'required',
         ]);
 
         /** @var \App\Models\User $user */
@@ -27,15 +31,20 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
             'role' => 'admin',
-            'foto' => 'default.png'
+            'gender' => $data['gender'],
+            'address' => $data['address']
         ]);
 
         $token = $user->createToken('main')->plainTextToken;
 
-        $userId = $user->id;
+
+        Admin::create([
+            'user_id' => $user->id,
+            'nik' => $data['nik']
+        ]);
 
         return response([
-            'userId' => $userId,
+            'userId' => $user->id,
             'user' => $user,
             'token' => $token,
             'role' => $user->role

@@ -3,21 +3,21 @@
   <div>
     <div>
       <img
-        class="mx-auto h-12 w-auto"
-        src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+        class="mx-auto h-20 w-auto"
+        src="https://smkn4makassar.sch.id/assets/images/logo.png"
         alt="Workflow"
       />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Register for free
+        Registrasi akun
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Or
+        atau
         {{ " " }}
         <router-link
           :to="{ name: 'Login' }"
           class="font-medium text-indigo-600 hover:text-indigo-500"
         >
-          login to your account
+          login di sini
         </router-link>
       </p>
     </div>
@@ -52,6 +52,36 @@
               sm:text-sm
             "
             placeholder="Nama Lengkap"
+          />
+        </div>
+        <div>
+          <label for="nik" class="sr-only">NIK</label>
+          <input
+            id="nik"
+            name="nik"
+            type="number"
+            autocomplete="nik"
+            required=""
+            v-model="user.nik"
+            class="
+              appearance-none
+              rounded-none
+              relative
+              block
+              w-full
+              px-3
+              py-2
+              border border-gray-300
+              placeholder-gray-500
+              text-gray-900
+              rounded-md
+              focus:outline-none
+              focus:ring-indigo-500
+              focus:border-indigo-500
+              focus:z-10
+              sm:text-sm
+            "
+            placeholder="NIK"
           />
         </div>
         <div>
@@ -136,7 +166,7 @@
               border border-gray-300
               placeholder-gray-500
               text-gray-900
-              rounded-b-md
+              rounded-md
               focus:outline-none
               focus:ring-indigo-500
               focus:border-indigo-500
@@ -145,6 +175,54 @@
             "
             placeholder="Konfirmasi kata sandi"
           />
+        </div>
+        <div>
+          <label for="gender" class="sr-only"
+            >Jenis Kelamin</label
+          >
+           <select id="gender" name="gender" autocomplete="gender" v-model="user.gender" class="appearance-none
+              rounded-none
+              relative
+              block
+              w-full
+              px-3
+              py-2
+              border border-gray-300
+              placeholder-gray-500
+              text-gray-900
+              rounded-md
+              focus:outline-none
+              focus:ring-indigo-500
+              focus:border-indigo-500
+              focus:z-10
+              sm:text-sm">
+              <option value="">Jenis kelamin</option>
+              <option value="L">Laki-laki</option>
+              <option value="P">Perempuan</option>
+            </select>
+        </div>
+        <div>
+          <label for="address" class="sr-only"
+            >Konfirmasi kata sandi</label
+          >
+          <textarea id="address" name="address" rows="3" 
+          v-model="user.address"
+          class="appearance-none
+              rounded-none
+              relative
+              block
+              w-full
+              px-3
+              py-2
+              border border-gray-300
+              placeholder-gray-500
+              text-gray-900
+              rounded-b-md
+              focus:outline-none
+              focus:ring-indigo-500
+              focus:border-indigo-500
+              focus:z-10
+              sm:text-sm" placeholder="Alamat lengkap"/>
         </div>
       </div>
 
@@ -172,7 +250,7 @@
             focus:ring-indigo-500
           "
         >
-          Sign up
+          Daftar
         </button>
       </div>
     </form>
@@ -191,6 +269,9 @@ const user = {
   email: "",
   password: "",
   password_confirmation: "",
+  gender: "",
+  address: "",
+  nik: ""
 };
 
 function register(e) {
