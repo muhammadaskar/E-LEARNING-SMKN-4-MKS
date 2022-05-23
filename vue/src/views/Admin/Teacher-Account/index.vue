@@ -33,23 +33,25 @@
           >
         </div>
       </template>
-        <div v-if="teachers.loading">
-          <div class="border shadow rounded-md p-4 max-w-sm w-full">
-            <div class="animate-pulse flex space-x-4">
-              <!-- <div class="rounded-full bg-slate-700 h-10 w-10"></div> -->
-              <div class="flex-1 space-y-6 py-1">
-                <div class="h-2 bg-slate-700 rounded"></div>
-                <div class="space-y-3">
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="h-2 bg-slate-700 rounded col-span-2"></div>
-                    <div class="h-2 bg-slate-700 rounded col-span-1"></div>
-                  </div>
-                  <div class="h-2 bg-slate-700 rounded"></div>
+      <div v-if="teachers.loading" class="flex justify-center">
+        <div
+          class="border border-white-300 shadow rounded-md p-4 w-full mx-auto"
+        >
+          <div class="animate-pulse flex space-x-4">
+            <!-- <div class="rounded-full bg-slate-700 h-10 w-10"></div> -->
+            <div class="flex-1 space-y-6 py-1">
+              <div class="h-2 bg-slate-700 rounded"></div>
+              <div class="space-y-3">
+                <div class="grid grid-cols-3 gap-4">
+                  <div class="h-2 bg-slate-700 rounded col-span-2"></div>
+                  <div class="h-2 bg-slate-700 rounded col-span-1"></div>
                 </div>
+                <div class="h-2 bg-slate-700 rounded"></div>
               </div>
             </div>
           </div>
         </div>
+      </div>
       <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 text-gray-400">
           <thead
@@ -71,32 +73,29 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b bg-gray-800 border-gray-700" v-for="teacher  in teachers.data" :key="teacher.id">
+            <tr
+              class="bg-white border-b bg-gray-800 border-gray-700"
+              v-for="teacher in teachers.data"
+              :key="teacher.id"
+            >
               <th
                 scope="row"
-                class="
-                  px-6
-                  py-4
-                  font-medium
-                  text-gray-900 text-white
-                "
+                class="px-6 py-4 font-medium text-gray-900 text-white"
               >
-               {{  teacher.name }}
+                {{ teacher.name }}
               </th>
               <td class="px-6 py-4">{{ teacher.email }}</td>
               <td class="px-6 py-4">{{ teacher.nip }}</td>
               <td class="px-6 py-4">
-                <div v-if="teacher.is_active" class="text-green-600">
-                aktif
-                </div>
-                <div v-else class="text-yellow-600">
-                tidak aktif
-                </div>
-                
+                <div v-if="teacher.is_active" class="text-green-600">aktif</div>
+                <div v-else class="text-yellow-600">tidak aktif</div>
               </td>
               <td class="px-6 py-4 text-right">
                 <router-link
-                  :to="{name: 'AdminEditTeacherAccount', params: {id: teacher.user_id}}"
+                  :to="{
+                    name: 'AdminEditTeacherAccount',
+                    params: { id: teacher.user_id },
+                  }"
                   class="
                     font-medium
                     text-blue-600 text-blue-500
@@ -105,18 +104,18 @@
                   >edit</router-link
                 >
                 <button
-                v-if="teacher.user_id"
-                type="button"
-                @click="deleteTeacherAccount(teacher.user_id)"
-                class="
-                  pl-2
-                  rounded-full
-                  border border-transparent
-                  text-sm text-red-500
-                "
-              >
-            hapus
-          </button>
+                  v-if="teacher.user_id"
+                  type="button"
+                  @click="deleteTeacherAccount(teacher.user_id)"
+                  class="
+                    pl-2
+                    rounded-full
+                    border border-transparent
+                    text-sm text-red-500
+                  "
+                >
+                  hapus
+                </button>
               </td>
             </tr>
           </tbody>
@@ -128,7 +127,7 @@
 
 <script setup>
 import PageComponent from "../../../components/PageComponent.vue";
-import store from "../../../store"
+import store from "../../../store";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -138,20 +137,19 @@ const route = useRoute();
 
 const teachers = computed(() => store.state.teachers);
 
-store.dispatch("getTeachersAccount")
+store.dispatch("getTeachersAccount");
 
 function deleteTeacherAccount(id) {
   if (confirm("Apakah anda yakin ingin menghapus?")) {
-      store.dispatch("deleteTeacherAccount", id).then(() => {
-        store.commit("notify", {
+    store.dispatch("deleteTeacherAccount", id).then(() => {
+      store.commit("notify", {
         type: "success",
         message: "akun guru berhasil dihapus ",
       });
-      store.dispatch("getTeachersAccount")
+      store.dispatch("getTeachersAccount");
     });
   }
 }
-
 </script>
 
 <style>

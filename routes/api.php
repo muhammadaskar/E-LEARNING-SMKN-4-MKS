@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminParentController;
 use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
@@ -30,6 +31,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('admin-student', AdminStudentController::class);
         Route::get('admin-student/{user_id}', [AdminStudentController::class, 'show']);
         Route::delete('admin-student/{user_id}', [AdminStudentController::class, 'destroy']);
+
+        Route::resource('admin-parent', AdminParentController::class);
+        Route::get('admin-parent/{user_id}', [AdminParentController::class, 'show']);
+        Route::delete('admin-parent/{user_id}', [AdminParentController::class, 'destroy']);
     });
 
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);

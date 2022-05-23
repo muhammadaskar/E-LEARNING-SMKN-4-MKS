@@ -16,11 +16,19 @@ const store = createStore({
             data: {},
             loading: false
         },
+        parents: {
+            data: {},
+            loading: false
+        },
         currentTeacher: {
             data: {},
             loading: false
         },
         currentStudent: {
+            data: {},
+            loading: false
+        },
+        currentParent: {
             data: {},
             loading: false
         },
@@ -147,6 +155,52 @@ const store = createStore({
             })
         },
 
+        saveParentAccount({ commit }, parent) {
+            let response = axiosClient.post('/admin-parent', parent)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+
+        getParentsAccount({ commit }) {
+            commit("setParentLoading", true)
+            return axiosClient.get('/admin-parent').then((res) => {
+                commit("setParentLoading", false)
+                commit("setParentsAccount", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getParentAccount({ commit }, id) {
+            return axiosClient
+                .get(`/admin-parent/${id}`)
+                .then((res) => {
+                    commit("setCurrentParent", res.data)
+                    return res
+                })
+        },
+
+        editParentAccount({ }, parent) {
+            let response = axiosClient.put(`/admin-parent/${parent.user_parent_id}`, parent)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            // console.log(student.user_id)
+            return response;
+        },
+
+        deleteParentAccount({ commit }, id) {
+            return axiosClient.delete(`/admin-parent/${id}`).then((res) => {
+                return res
+            })
+        },
+
     },
     mutations: {
 
@@ -159,6 +213,9 @@ const store = createStore({
         setStudentsAccount: (state, students) => {
             state.students.data = students
         },
+        setParentsAccount: (state, parents) => {
+            state.parents.data = parents
+        },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
             console.log(state.currentTeacher.data)
@@ -167,11 +224,18 @@ const store = createStore({
             state.currentStudent.data = student
             console.log(state.currentStudent.data)
         },
+        setCurrentParent: (state, parent) => {
+            state.currentParent.data = parent
+            console.log(state.currentParent.data)
+        },
         setTeacherLoading: (state, loading) => {
             state.teachers.loading = loading
         },
         setStudentLoading: (state, loading) => {
             state.students.loading = loading
+        },
+        setParentLoading: (state, loading) => {
+            state.parents.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

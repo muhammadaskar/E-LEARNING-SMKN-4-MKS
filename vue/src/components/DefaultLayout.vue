@@ -169,7 +169,7 @@
             :to="item.to"
             active-class="bg-gray-900 text-white"
             :class="[
-              this.$route.name === item.to.name
+              this.$route.name == item.to.name
                 ? ''
                 : 'text-gray-300 hover:bg-gray-700 hover:text-white',
               'block px-3 py-2 rounded-md text-base font-medium',
@@ -286,6 +286,7 @@ const navigation = [
   { name: "Dasbor", to: "/dashboard-admin" },
   { name: "Guru", to: "/admin/teacher-account" },
   { name: "Siswa", to: "/admin/student-account" },
+  { name: "Orang Tua", to: "/admin/parent-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
   //   { name: "Calendar", href: "#",},
   //   { name: "Reports", href: "#",},

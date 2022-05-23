@@ -9,6 +9,10 @@ import AdminStudentAccount from "../views/Admin/Student-Account/index.vue"
 import AdminAddStudentAccount from "../views/Admin/Student-Account/AddStudent.vue"
 import AdminEditStudentAccount from "../views/Admin/Student-Account/EditStudent.vue"
 
+import AdminParentAccount from "../views/Admin/Parent-Account/index.vue"
+import AdminAddParentAccount from "../views/Admin/Parent-Account/AddParent.vue"
+import AdminEditParentAccount from "../views/Admin/Parent-Account/EditParent.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
@@ -40,6 +44,9 @@ const routes = [
             { path: '/admin/student-account', name: 'StudentAccount', component: AdminStudentAccount },
             { path: '/admin/student-account/new', name: 'AddStudentAccount', component: AdminAddStudentAccount },
             { path: '/admin/student-account/edit/:id', name: 'AdminEditStudentAccount', component: AdminEditStudentAccount },
+            { path: '/admin/parent-account', name: 'ParentAccount', component: AdminParentAccount },
+            { path: '/admin/parent-account/new', name: 'AddParentAccount', component: AdminAddParentAccount },
+            { path: '/admin/parent-account/edit/:id', name: 'AdminEditParentAccount', component: AdminEditParentAccount },
         ]
     },
     {

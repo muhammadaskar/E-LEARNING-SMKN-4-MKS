@@ -3,10 +3,10 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1 class="text-3x1 font-bold text-gray-900">Akun Siswa</h1>
+          <h1 class="text-3x1 font-bold text-gray-900">Akun Orang Tua</h1>
           <!-- {{ surveys }} -->
           <router-link
-            :to="{ name: 'AddStudentAccount' }"
+            :to="{ name: 'AddParentAccount' }"
             class="
               py-2
               px-3
@@ -29,11 +29,11 @@
                 stroke-width="2"
                 d="M12 4v16m8-8H4"
               /></svg
-            >Tambah akun siswa</router-link
+            >Tambah akun orang tua</router-link
           >
         </div>
       </template>
-      <div v-if="students.loading" class="flex justify-center">
+      <div v-if="parents.loading" class="flex justify-center">
         <div
           class="border border-white-300 shadow rounded-md p-4 w-full mx-auto"
         >
@@ -65,7 +65,8 @@
             <tr>
               <th scope="col" class="px-6 py-3">Nama</th>
               <th scope="col" class="px-6 py-3">Email</th>
-              <th scope="col" class="px-6 py-3">NIS</th>
+              <th scope="col" class="px-6 py-3">NIK</th>
+              <th scope="col" class="px-6 py-3">Anak</th>
               <th scope="col" class="px-6 py-3">Status Akun</th>
               <th scope="col" class="px-6 py-3">
                 <span class="sr-only">Edit</span>
@@ -75,26 +76,27 @@
           <tbody>
             <tr
               class="bg-white border-b bg-gray-800 border-gray-700"
-              v-for="student in students.data"
-              :key="student.id"
+              v-for="parent in parents.data"
+              :key="parent.id"
             >
               <th
                 scope="row"
                 class="px-6 py-4 font-medium text-gray-900 text-white"
               >
-                {{ student.name }}
+                {{ parent.parent_name }}
               </th>
-              <td class="px-6 py-4">{{ student.email }}</td>
-              <td class="px-6 py-4">{{ student.nis }}</td>
+              <td class="px-6 py-4">{{ parent.parent_email }}</td>
+              <td class="px-6 py-4">{{ parent.nik }}</td>
+              <td class="px-6 py-4">{{ parent.student_name }}</td>
               <td class="px-6 py-4">
-                <div v-if="student.is_active" class="text-green-600">aktif</div>
+                <div v-if="parent.is_active" class="text-green-600">aktif</div>
                 <div v-else class="text-yellow-600">tidak aktif</div>
               </td>
               <td class="px-6 py-4 text-right">
                 <router-link
                   :to="{
-                    name: 'AdminEditStudentAccount',
-                    params: { id: student.user_id },
+                    name: 'AdminEditParentAccount',
+                    params: { id: parent.user_parent_id },
                   }"
                   class="
                     font-medium
@@ -104,9 +106,9 @@
                   >edit</router-link
                 >
                 <button
-                  v-if="student.user_id"
+                  v-if="parent.user_id"
                   type="button"
-                  @click="deleteStudentAccount(student.user_id)"
+                  @click="deleteParentAccount(parent.user_parent_id)"
                   class="
                     pl-2
                     rounded-full
@@ -135,18 +137,18 @@ const router = useRouter();
 
 const route = useRoute();
 
-const students = computed(() => store.state.students);
+const parents = computed(() => store.state.parents);
 
-store.dispatch("getStudentsAccount");
+store.dispatch("getParentsAccount");
 
-function deleteStudentAccount(id) {
+function deleteParentAccount(id) {
   if (confirm("Apakah anda yakin ingin menghapus?")) {
-    store.dispatch("deleteStudentAccount", id).then(() => {
+    store.dispatch("deleteParentAccount", id).then(() => {
       store.commit("notify", {
         type: "success",
-        message: "akun siswa berhasil dihapus ",
+        message: "akun parent berhasil dihapus ",
       });
-      store.dispatch("getStudentsAccount");
+      store.dispatch("getParentsAccount");
     });
   }
 }
