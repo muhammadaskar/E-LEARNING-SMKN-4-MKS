@@ -13,10 +13,17 @@ import AdminParentAccount from "../views/Admin/Parent-Account/index.vue"
 import AdminAddParentAccount from "../views/Admin/Parent-Account/AddParent.vue"
 import AdminEditParentAccount from "../views/Admin/Parent-Account/EditParent.vue"
 
+
+import DashboardTeacher from "../views/Teacher/Dashboard.vue"
+import TeacherMateri from "../views/Teacher/Materi/index.vue"
+import TeacherAddMateri from "../views/Teacher/Materi/AddMateri.vue"
+import TeacherEditMateri from "../views/Teacher/Materi/EditMateri.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
 import DefaultLayout from "../components/DefaultLayout.vue"
+import DefaultLayoutTeacher from "../components/DefaultLayoutTeacher.vue"
 import AuthLayout from "../components/AuthLayout.vue"
 
 import store from "../store"
@@ -47,6 +54,27 @@ const routes = [
             { path: '/admin/parent-account', name: 'ParentAccount', component: AdminParentAccount },
             { path: '/admin/parent-account/new', name: 'AddParentAccount', component: AdminAddParentAccount },
             { path: '/admin/parent-account/edit/:id', name: 'AdminEditParentAccount', component: AdminEditParentAccount },
+        ]
+    },
+    {
+        path: '/',
+        name: 'DashboardTeacher',
+        redirect: '/dashboard-teacher',
+        component: DefaultLayoutTeacher,
+        meta: { requiresAuth: true },
+        beforeEnter: (to, from, next) => {
+            // reject the navigation
+            if (store.state.user.role != 'teacher') {
+                console.log('gagal')
+            } else {
+                next()
+            }
+        },
+        children: [
+            { path: '/dashboard-teacher', name: 'DashboardTeacher', component: DashboardTeacher },
+            { path: '/teacher/materi', name: 'TeacherMateri', component: TeacherMateri },
+            { path: '/teacher/materi/new', name: 'AddTeacherMateri', component: TeacherAddMateri },
+            { path: '/admin/teacher-materi/edit/:id', name: 'TeacherEditMateri', component: TeacherEditMateri }
         ]
     },
     {
@@ -81,7 +109,11 @@ router.beforeEach((to, from, next) => {
     } else if (store.state.user.token && to.meta.isGuest) {
         if (store.state.user.role === 'admin') {
             next({ name: "Dashboard" });
-        } else {
+        }
+        if (store.state.user.role === 'teacher') {
+            next({ name: "DashboardTeacher" });
+        }
+        else {
             next()
         }
     } else {

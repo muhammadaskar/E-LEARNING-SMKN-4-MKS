@@ -207,6 +207,11 @@ function login(e) {
           name: "Dashboard",
         });
       }
+      if (role === "teacher") {
+        router.push({
+          name: "DashboardTeacher",
+        });
+      }
     })
     .catch((err) => {
       errorMsg.value = err.response.data.error;

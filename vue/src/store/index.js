@@ -20,6 +20,10 @@ const store = createStore({
             data: {},
             loading: false
         },
+        materis: {
+            data: {},
+            loading: false
+        },
         currentTeacher: {
             data: {},
             loading: false
@@ -29,6 +33,10 @@ const store = createStore({
             loading: false
         },
         currentParent: {
+            data: {},
+            loading: false
+        },
+        currentMateri: {
             data: {},
             loading: false
         },
@@ -201,6 +209,50 @@ const store = createStore({
             })
         },
 
+        saveTeacherMateri({ commit }, materi) {
+            let response = axiosClient.post('/teacher-materi', materi, {
+                'content-type': "multipart/form-data;"
+            })
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        getTeacherMateris({ commit }) {
+            commit("setMateriLoading", true)
+            return axiosClient.get('/teacher-materi').then((res) => {
+                commit("setMateriLoading", false)
+                commit("setTeacherMateris", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getTeacherMateri({ commit }, id) {
+            return axiosClient
+                .get(`/teacher-materi/${id}`)
+                .then((res) => {
+                    commit("setCurrentMateri", res.data)
+                    return res
+                })
+        },
+        editTeacherMateri({ }, materi) {
+            let response = axiosClient.put(`/teacher-materi/${materi.materi_id}`, materi)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        deleteMateri({ commit }, id) {
+            return axiosClient.delete(`/teacher-materi/${id}`).then((res) => {
+                return res
+            })
+        },
+
     },
     mutations: {
 
@@ -216,6 +268,9 @@ const store = createStore({
         setParentsAccount: (state, parents) => {
             state.parents.data = parents
         },
+        setTeacherMateris: (state, materis) => {
+            state.materis.data = materis
+        },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
             console.log(state.currentTeacher.data)
@@ -228,6 +283,10 @@ const store = createStore({
             state.currentParent.data = parent
             console.log(state.currentParent.data)
         },
+        setCurrentMateri: (state, materi) => {
+            state.currentMateri.data = materi
+            console.log(state.currentMateri.data)
+        },
         setTeacherLoading: (state, loading) => {
             state.teachers.loading = loading
         },
@@ -236,6 +295,9 @@ const store = createStore({
         },
         setParentLoading: (state, loading) => {
             state.parents.loading = loading
+        },
+        setMateriLoading: (state, loading) => {
+            state.materis.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

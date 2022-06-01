@@ -142,11 +142,11 @@ const parents = computed(() => store.state.parents);
 store.dispatch("getParentsAccount");
 
 function deleteParentAccount(id) {
-  if (confirm("Apakah anda yakin ingin menghapus?")) {
+  if (confirm("Apakah anda yakin ingin menghapus ?")) {
     store.dispatch("deleteParentAccount", id).then(() => {
       store.commit("notify", {
         type: "success",
-        message: "akun parent berhasil dihapus ",
+        message: "akun guru berhasil dihapus ",
       });
       store.dispatch("getParentsAccount");
     });

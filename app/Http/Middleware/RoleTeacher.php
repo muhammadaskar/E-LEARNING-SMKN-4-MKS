@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class Role
+class RoleTeacher
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class Role
     public function handle(Request $request, Closure $next)
     {
         $user = $request->user();
-        if ($user->role === 'admin') {
+        if ($user->role === 'teacher') {
             return $next($request);
         }
         abort(403, "Cannot access to restricted page");

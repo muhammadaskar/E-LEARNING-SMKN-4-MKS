@@ -25,3 +25,9 @@ Route::get('/dashboard', function () {
 Route::get('/tables', function () {
     return view('admin.tables');
 });
+
+Route::get('/tes', function () {
+    $data = "123.String";
+    $whatIWant = substr($data, strpos($data, ".") + 1);
+    echo $whatIWant;
+});

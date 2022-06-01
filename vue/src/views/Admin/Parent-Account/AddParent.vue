@@ -30,6 +30,7 @@
         <form
           class="animate-fade-in-down row-span-3"
           @submit.prevent="saveParent"
+          enctype="multipart/form-data"
         >
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Teacher Account Fields -->

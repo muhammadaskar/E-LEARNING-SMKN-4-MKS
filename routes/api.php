@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherMateriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::middleware('role')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::resource('admin-teacher', AdminTeacherController::class);
         Route::get('admin-teacher/{id}', [AdminTeacherController::class, 'show']);
         Route::delete('admin-teacher/{user_id}', [AdminTeacherController::class, 'destroy']);
@@ -36,7 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('admin-parent/{user_id}', [AdminParentController::class, 'show']);
         Route::delete('admin-parent/{user_id}', [AdminParentController::class, 'destroy']);
     });
-
+    Route::middleware('teacher')->group(function () {
+        Route::resource('teacher-materi', TeacherMateriController::class);
+        Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
+        Route::put('teacher-materi/{id}', [TeacherMateriController::class, 'update']);
+        Route::delete('teacher-materi/{id}', [TeacherMateriController::class, 'destroy']);
+    });
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);
 });
 

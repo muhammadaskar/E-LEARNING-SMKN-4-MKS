@@ -283,10 +283,10 @@ import { useRouter } from "vue-router";
 import Notification from "./Notification.vue";
 
 const navigation = [
-  { name: "Dasbor", to: "/dashboard-admin" },
-  { name: "Guru", to: "/admin/teacher-account" },
-  { name: "Siswa", to: "/admin/student-account" },
-  { name: "Orang Tua", to: "/admin/parent-account" },
+  { name: "Dasbor", to: "/dashboard-teacher" },
+  { name: "Materi", to: "/teacher/materi" },
+  //   { name: "Siswa", to: "/admin/student-account" },
+  //   { name: "Orang Tua", to: "/admin/parent-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
   //   { name: "Calendar", href: "#",},
   //   { name: "Reports", href: "#",},
