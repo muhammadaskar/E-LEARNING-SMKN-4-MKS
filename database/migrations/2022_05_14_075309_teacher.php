@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('nip')->unique();
             $table->boolean('is_active')->default(false);
             $table->timestamps();

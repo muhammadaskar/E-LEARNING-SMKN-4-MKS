@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignIdFor(AdminStudent::class, 'student_id');
             $table->string('nik')->unique();
             $table->boolean('is_active')->default(false);

@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('evaluation_questions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TeacherMateri::class, 'materi_id');
+            $table->foreignId('materi_id')->constrained('materis');
             $table->string('question1');
             $table->string('question2');
             $table->string('question3');
