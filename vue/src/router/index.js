@@ -19,6 +19,10 @@ import TeacherMateri from "../views/Teacher/Materi/index.vue"
 import TeacherAddMateri from "../views/Teacher/Materi/AddMateri.vue"
 import TeacherEditMateri from "../views/Teacher/Materi/EditMateri.vue"
 
+import TeacherAssignment from "../views/Teacher/Assignment/index.vue"
+import TeacherAddAssignment from "../views/Teacher/Assignment/AddAssignment.vue"
+import TeacherEditAssignment from "../views/Teacher/Assignment/EditAssignment.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
@@ -74,7 +78,10 @@ const routes = [
             { path: '/dashboard-teacher', name: 'DashboardTeacher', component: DashboardTeacher },
             { path: '/teacher/materi', name: 'TeacherMateri', component: TeacherMateri },
             { path: '/teacher/materi/new', name: 'AddTeacherMateri', component: TeacherAddMateri },
-            { path: '/admin/teacher-materi/edit/:id', name: 'TeacherEditMateri', component: TeacherEditMateri }
+            { path: '/admin/teacher-materi/edit/:id', name: 'TeacherEditMateri', component: TeacherEditMateri },
+            { path: '/teacher/assignment', name: 'TeacherAssignment', component: TeacherAssignment },
+            { path: '/teacher/assignment/new', name: 'AddTeacherAssignment', component: TeacherAddAssignment },
+            { path: '/admin/teacher-assignment/edit/:id', name: 'TeacherEditAssignment', component: TeacherEditAssignment },
         ]
     },
     {

@@ -24,6 +24,10 @@ const store = createStore({
             data: {},
             loading: false
         },
+        assignments: {
+            data: {},
+            loading: false
+        },
         currentTeacher: {
             data: {},
             loading: false
@@ -37,6 +41,10 @@ const store = createStore({
             loading: false
         },
         currentMateri: {
+            data: {},
+            loading: false
+        },
+        currentAssignment: {
             data: {},
             loading: false
         },
@@ -253,6 +261,48 @@ const store = createStore({
             })
         },
 
+        saveTeacherAssignment({ commit }, assignment) {
+            let response = axiosClient.post('/teacher-assignment', assignment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                })
+            return response;
+        },
+        getTeacherAssignments({ commit }) {
+            commit("setAssignmentLoading", true)
+            return axiosClient.get('/teacher-assignment').then((res) => {
+                commit("setAssignmentLoading", false)
+                commit("setTeacherAsignments", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getTeacherAssignment({ commit }, id) {
+            return axiosClient
+                .get(`/teacher-assignment/${id}`)
+                .then((res) => {
+                    commit("setCurrentAssignment", res.data)
+                    return res
+                })
+        },
+        editTeacherAssignment({ }, assignment) {
+            let response = axiosClient.put(`/teacher-assignment/${assignment.id}`, assignment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        deleteAssignment({ commit }, id) {
+            return axiosClient.delete(`/teacher-assignment/${id}`).then((res) => {
+                return res
+            })
+        },
+
     },
     mutations: {
 
@@ -271,6 +321,9 @@ const store = createStore({
         setTeacherMateris: (state, materis) => {
             state.materis.data = materis
         },
+        setTeacherAsignments: (state, assignments) => {
+            state.assignments.data = assignments
+        },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
             console.log(state.currentTeacher.data)
@@ -287,6 +340,10 @@ const store = createStore({
             state.currentMateri.data = materi
             console.log(state.currentMateri.data)
         },
+        setCurrentAssignment: (state, assignment) => {
+            state.currentAssignment.data = assignment
+            console.log(state.currentAssignment.data)
+        },
         setTeacherLoading: (state, loading) => {
             state.teachers.loading = loading
         },
@@ -298,6 +355,9 @@ const store = createStore({
         },
         setMateriLoading: (state, loading) => {
             state.materis.loading = loading
+        },
+        setAssignmentLoading: (state, loading) => {
+            state.assignments.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\TeacherMateriController;
 
 /*
@@ -42,6 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
         Route::put('teacher-materi/{id}', [TeacherMateriController::class, 'update']);
         Route::delete('teacher-materi/{id}', [TeacherMateriController::class, 'destroy']);
+
+        Route::resource('teacher-assignment', TeacherAssignmentController::class);
+        // Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
     });
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);
 });

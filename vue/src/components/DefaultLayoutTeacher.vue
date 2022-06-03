@@ -285,6 +285,7 @@ import Notification from "./Notification.vue";
 const navigation = [
   { name: "Dasbor", to: "/dashboard-teacher" },
   { name: "Materi", to: "/teacher/materi" },
+  { name: "Tugas", to: "/teacher/assignment" },
   //   { name: "Siswa", to: "/admin/student-account" },
   //   { name: "Orang Tua", to: "/admin/parent-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
