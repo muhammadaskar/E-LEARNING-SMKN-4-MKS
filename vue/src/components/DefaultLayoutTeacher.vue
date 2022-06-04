@@ -286,7 +286,7 @@ const navigation = [
   { name: "Dasbor", to: "/dashboard-teacher" },
   { name: "Materi", to: "/teacher/materi" },
   { name: "Tugas", to: "/teacher/assignment" },
-  //   { name: "Siswa", to: "/admin/student-account" },
+  { name: "Diskusi", to: "/teacher/discuss" },
   //   { name: "Orang Tua", to: "/admin/parent-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
   //   { name: "Calendar", href: "#",},

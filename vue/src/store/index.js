@@ -28,6 +28,14 @@ const store = createStore({
             data: {},
             loading: false
         },
+        discusses: {
+            data: {},
+            loading: false
+        },
+        comments: {
+            data: {},
+            loading: false
+        },
         currentTeacher: {
             data: {},
             loading: false
@@ -45,6 +53,14 @@ const store = createStore({
             loading: false
         },
         currentAssignment: {
+            data: {},
+            loading: false
+        },
+        currentDiscuss: {
+            data: {},
+            loading: false
+        },
+        currentComment: {
             data: {},
             loading: false
         },
@@ -302,6 +318,37 @@ const store = createStore({
                 return res
             })
         },
+        saveTeacherDiscuss({ commit }, discuss) {
+            let response = axiosClient.post('/teacher-discuss', discuss)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                })
+            return response;
+        },
+        getTeacherDiscusses({ commit }) {
+            commit("setDiscussLoading", true)
+            return axiosClient.get('/teacher-discuss').then((res) => {
+                commit("setDiscussLoading", false)
+                commit("setTeacherDiscusses", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getTeacherDiscuss({ commit }, id) {
+            commit("setCommentLoading", true)
+            return axiosClient
+                .get(`/teacher-discuss/${id}`)
+                .then((res) => {
+                    commit("setCurrentDiscuss", res.data.discuss)
+                    commit("setCommentLoading", false)
+                    commit("setCurrentComment", res.data.comments)
+                    return res
+                })
+        },
 
     },
     mutations: {
@@ -324,6 +371,9 @@ const store = createStore({
         setTeacherAsignments: (state, assignments) => {
             state.assignments.data = assignments
         },
+        setTeacherDiscusses: (state, discusses) => {
+            state.discusses.data = discusses
+        },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
             console.log(state.currentTeacher.data)
@@ -344,6 +394,14 @@ const store = createStore({
             state.currentAssignment.data = assignment
             console.log(state.currentAssignment.data)
         },
+        setCurrentDiscuss: (state, discuss) => {
+            state.currentDiscuss.data = discuss
+            console.log(state.currentDiscuss.data)
+        },
+        setCurrentComment: (state, comment) => {
+            state.currentComment.data = comment
+            console.log(state.currentComment.data)
+        },
         setTeacherLoading: (state, loading) => {
             state.teachers.loading = loading
         },
@@ -358,6 +416,12 @@ const store = createStore({
         },
         setAssignmentLoading: (state, loading) => {
             state.assignments.loading = loading
+        },
+        setDiscussLoading: (state, loading) => {
+            state.discusses.loading = loading
+        },
+        setCommentLoading: (state, loading) => {
+            state.comments.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

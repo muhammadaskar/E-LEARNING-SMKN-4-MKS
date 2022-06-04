@@ -3,9 +3,9 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1 class="text-3x1 font-bold text-gray-900">Tugas</h1>
-          <router-link
-            :to="{ name: 'AddTeacherAssignment' }"
+          <h1 class="text-3x1 font-bold text-gray-900">Diskusi</h1>
+          <button
+            @click="addDiscuss"
             class="
               py-2
               px-3
@@ -28,8 +28,8 @@
                 stroke-width="2"
                 d="M12 4v16m8-8H4"
               /></svg
-            >Tambah tugas</router-link
-          >
+            >Tambah diskusi
+          </button>
         </div>
       </template>
       <div v-if="assignments.loading" class="justify-center">
@@ -89,13 +89,13 @@
             </svg>
           </div>
           <div class="basis-5/6 pl-4">
-            <h1>{{ assignment.title }}</h1>
-            <div class="">{{ assignment.due_date }}</div>
+            <h1>{{ assignment.topic }}</h1>
+            <div class="">{{ assignment.created_at }}</div>
           </div>
           <div class="pt-3">
             <router-link
               :to="{
-                name: 'TeacherEditAssignment',
+                name: 'TeacherDetailDiscuss',
                 params: { id: assignment.id },
               }"
               class="
@@ -115,7 +115,7 @@
                 focus:ring-offset-2
                 focus:ring-cyan-500
               "
-              >edit</router-link
+              >detail</router-link
             >
           </div>
           <div class="pt-3 pl-2">
@@ -157,14 +157,40 @@ import store from "../../../store";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
-
 const router = useRouter();
 
 const route = useRoute();
 
-const assignments = computed(() => store.state.assignments);
+const assignments = computed(() => store.state.discusses);
+store.dispatch("getTeacherDiscusses");
 
-store.dispatch("getTeacherAssignments");
+async function addDiscuss() {
+  const { value: text } = await Swal.fire({
+    input: "textarea",
+    inputLabel: "Topik diskusi",
+    cancelButtonText: "Batal",
+    inputPlaceholder: "Masukkan topik diskusi di sini...",
+    inputAttributes: {
+      "aria-label": "Masukkan topik diskusi di sini",
+    },
+    showCancelButton: true,
+  });
+
+  if (text) {
+    // Swal.fire(text);
+    // console.log({ text });
+    store.dispatch("saveTeacherDiscuss", { text }).then(({ data }) => {
+      store.commit("notify", {
+        type: "success",
+        message: "topik berhasil disimpan ",
+      });
+      //   router.push({
+      //     name: "TeacherDiscuss",
+      //   });
+      store.dispatch("getTeacherDiscusses");
+    });
+  }
+}
 
 function deleteAssignment(id) {
   Swal.fire({

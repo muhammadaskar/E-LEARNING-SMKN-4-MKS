@@ -161,14 +161,8 @@ const router = useRouter();
 const route = useRoute();
 
 let model = ref({
-  name: "",
-  email: "",
-  nik: "",
-  foto: null,
-  foto_url: null,
-  gender: "",
-  address: "",
-  student_id: 0,
+  title: "",
+  description: "",
   due_date: "",
 });
 

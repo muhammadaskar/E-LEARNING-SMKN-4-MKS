@@ -23,6 +23,9 @@ import TeacherAssignment from "../views/Teacher/Assignment/index.vue"
 import TeacherAddAssignment from "../views/Teacher/Assignment/AddAssignment.vue"
 import TeacherEditAssignment from "../views/Teacher/Assignment/EditAssignment.vue"
 
+import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
+import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
@@ -82,6 +85,8 @@ const routes = [
             { path: '/teacher/assignment', name: 'TeacherAssignment', component: TeacherAssignment },
             { path: '/teacher/assignment/new', name: 'AddTeacherAssignment', component: TeacherAddAssignment },
             { path: '/admin/teacher-assignment/edit/:id', name: 'TeacherEditAssignment', component: TeacherEditAssignment },
+            { path: '/teacher/discuss', name: 'TeacherDiscuss', component: TeacherDiscuss },
+            { path: '/teacher/discuss/detail/:id', name: 'TeacherDetailDiscuss', component: TeacherDetailDiscuss },
         ]
     },
     {
