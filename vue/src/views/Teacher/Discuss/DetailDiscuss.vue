@@ -176,7 +176,7 @@
       </div>
       <form
         class="animate-fade-in-down row-span-3 mt-4"
-        @submit.prevent="saveDiscuss"
+        @submit.prevent="saveComment"
         enctype="multipart/form-data"
       >
         <Alert
@@ -202,6 +202,7 @@
               <textarea
                 id="discuss"
                 name="discuss"
+                v-model="model.comment"
                 rows="3"
                 class="
                   shadow-sm
@@ -260,6 +261,8 @@ import store from "../../../store";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 
+import Swal from "sweetalert2";
+
 const router = useRouter();
 
 const route = useRoute();
@@ -270,6 +273,8 @@ const route = useRoute();
 let model = ref({
   topic: "",
   user_id: "",
+  comment: "",
+  discuss_id: null,
 });
 
 const comments = computed(() => store.state.currentComment);
@@ -300,17 +305,36 @@ if (route.params.id) {
 let errors = ref("");
 
 function saveDiscuss() {
-  console.log(model.value.due_date);
   store
-    .dispatch("saveTeacherAssignment", model.value)
+    .dispatch("editTeacherDiscuss", model.value)
     .then(({ data }) => {
       store.commit("notify", {
         type: "success",
-        message: "tugas berhasil disimpan ",
+        message: "diskusi berhasil disimpan ",
       });
       router.push({
-        name: "TeacherAssignment",
+        name: "TeacherDiscuss",
       });
+    })
+    .catch((error) => {
+      console.error(error.response.status);
+      if (error.response.status === 422) {
+        errors.value = error.response.data.errors;
+      }
+    });
+}
+
+function saveComment() {
+  model.value.discuss_id = route.params.id;
+  store
+    .dispatch("saveTeacherComment", model.value)
+    .then(({ data }) => {
+      Swal.fire("", "komentar berhasil disimpan", "success");
+      store.dispatch("getTeacherDiscuss", route.params.id);
+      // store.commit("notify", {
+      //   type: "success",
+      //   message: "komen berhasil disimpan ",
+      // });
     })
     .catch((error) => {
       console.error(error.response.status);

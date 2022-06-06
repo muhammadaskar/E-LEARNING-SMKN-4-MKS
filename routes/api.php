@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeacherAssignmentController;
+use App\Http\Controllers\TeacherCommentController;
 use App\Http\Controllers\TeacherDiscussController;
 use App\Http\Controllers\TeacherMateriController;
 
@@ -47,8 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::resource('teacher-assignment', TeacherAssignmentController::class);
         Route::resource('teacher-discuss', TeacherDiscussController::class);
-        Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
-        Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'show']);
+        Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
+        Route::resource('teacher-comment', TeacherCommentController::class);
         // Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
     });
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);

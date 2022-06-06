@@ -349,6 +349,23 @@ const store = createStore({
                     return res
                 })
         },
+        editTeacherDiscuss({ }, discuss) {
+            console.log(discuss.id)
+            let response = axiosClient.put(`/teacher-discuss/${discuss.id}`, discuss)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        saveTeacherComment({ commit }, comment) {
+            let response = axiosClient.post('/teacher-comment', comment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                })
+            return response;
+        },
 
     },
     mutations: {

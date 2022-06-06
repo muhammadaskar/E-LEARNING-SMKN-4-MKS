@@ -51,8 +51,6 @@ class TeacherDiscussController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $user = $request->user();
-        $teacher = DB::table('teachers')->where('user_id', '=', $user->id)->first();
 
         $discuss = DB::table('discusses')
             ->join('teachers', 'discusses.teacher_id', '=', 'teachers.id')
@@ -60,10 +58,6 @@ class TeacherDiscussController extends Controller
             ->first();
 
         $comments = DB::table('comments')->where('discuss_id', '=', $id)->get();
-
-        $data = DB::table('comments')
-            ->join('discusses', 'comments.discuss_id', '=', 'discusses.id')
-            ->where('comments.discuss_id', '=', $id)->get();
 
         // return response()->json($data);
         return response()->json([
@@ -79,9 +73,19 @@ class TeacherDiscussController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $user = $request->user();
+        $teacher = DB::table('teachers')->where('user_id', '=', $user->id)->first();
+
+        $data = DB::table('discusses')
+            ->where('id', '=', $request->id)
+            ->update([
+                'teacher_id' => $teacher->id,
+                'topic' => $request->topic
+            ]);
+
+        return response()->json($data);
     }
 
     /**
