@@ -46,7 +46,18 @@
                 class="block text-sm font-medium text-gray-700"
                 >Topik</label
               >
+              <div v-if="discussLoading" class="justify-center">
+                <div class="p-6 w-full mx-auto mb-2">
+                  <div class="animate-pulse flex space-x-4">
+                    <div class="flex-1 space-y-6 py-1">
+                      <div class="h-2 bg-slate-700 rounded"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <textarea
+                v-else
                 id="discuss"
                 name="discuss"
                 rows="3"
@@ -95,37 +106,38 @@
         </div>
       </form>
 
-      <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
+      <div
+        class="
+          relative
+          overflow-x-auto
+          shadow-md
+          sm:rounded-lg
+          p-4
+          animate-fade-in-down
+        "
+      >
         <label for="discuss" class="block text-sm font-medium text-gray-700"
           >Komentar</label
         >
         <div v-if="comments.loading" class="justify-center">
-          <div
-            class="
-              border border-white-300
-              shadow
-              rounded-md
-              p-6
-              w-full
-              mx-auto
-              mb-2
-            "
-            v-for="n in 3"
-            :key="n"
-          >
-            <div class="animate-pulse flex space-x-4">
+          <div class="rounded-md p-6 w-full mx-auto mb-2">
+            <div class="animate-pulse flex space-x-4" v-for="n in 3" :key="n">
               <div class="flex-1 space-y-6 py-1">
-                <div class="h-2 bg-slate-700 rounded"></div>
                 <div class="h-2 bg-slate-700 rounded"></div>
               </div>
             </div>
           </div>
         </div>
+
+        <div v-else-if="comments.length == 0" class="justify-center">
+          <h1 class="text-center">Komentar belum tersedia</h1>
+        </div>
+
         <div
           v-else
           class="flex flex-row mb-2"
-          v-for="assignment in comments.data"
-          :key="assignment.id"
+          v-for="comment in comments.data"
+          :key="comment.id"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,14 +154,14 @@
             />
           </svg>
           <div class="basis-5/6 pl-4">
-            <h1>{{ assignment.comment }}</h1>
-            <p class="">{{ assignment.created_at }}</p>
+            <h1>{{ comment.comment }}</h1>
+            <p class="">{{ comment.created_at }}</p>
           </div>
           <div class="pt-3"></div>
-          <div class="pt-3 pl-2" v-if="assignment.user_id == model.user_id">
+          <div class="pt-3 pl-2" v-if="comment.user_id == model.user_id">
             <button
-              v-if="assignment.id"
-              @click="deleteAssignment(assignment.id)"
+              v-if="comment.id"
+              @click="deleteComment(comment.id)"
               type="button"
               class="
                 inline-flex
@@ -275,9 +287,12 @@ let model = ref({
   user_id: "",
   comment: "",
   discuss_id: null,
+  is_null: false,
 });
 
 const comments = computed(() => store.state.currentComment);
+
+const discussLoading = computed(() => store.state.currentDiscuss.loading);
 
 watch(
   () => store.state.currentDiscuss.data,
@@ -342,6 +357,29 @@ function saveComment() {
         errors.value = error.response.data.errors;
       }
     });
+}
+
+function deleteComment(id) {
+  Swal.fire({
+    title: "",
+    text: "Apakah anda yakin ingin menghapus?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ok",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      store.dispatch("deleteComment", id).then(() => {
+        store.commit("notify", {
+          type: "success",
+          message: "komentar berhasil dihapus ",
+        });
+        store.dispatch("getTeacherDiscuss", route.params.id);
+      });
+    }
+  });
 }
 </script>
 

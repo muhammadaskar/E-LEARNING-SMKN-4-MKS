@@ -32,7 +32,7 @@
           </button>
         </div>
       </template>
-      <div v-if="assignments.loading" class="justify-center">
+      <div v-if="discusses.loading" class="justify-center">
         <div
           class="
             border border-white-300
@@ -59,8 +59,8 @@
       <div
         v-else
         class="relative overflow-x-auto shadow-md sm:rounded-lg p-4"
-        v-for="assignment in assignments.data"
-        :key="assignment.id"
+        v-for="discuss in discusses.data"
+        :key="discuss.id"
       >
         <div class="flex flex-row">
           <div class="">
@@ -89,14 +89,14 @@
             </svg>
           </div>
           <div class="basis-5/6 pl-4">
-            <h1>{{ assignment.topic }}</h1>
-            <div class="">{{ assignment.created_at }}</div>
+            <h1>{{ discuss.topic }}</h1>
+            <div class="">{{ discuss.created_at }}</div>
           </div>
           <div class="pt-3">
             <router-link
               :to="{
                 name: 'TeacherDetailDiscuss',
-                params: { id: assignment.id },
+                params: { id: discuss.id },
               }"
               class="
                 inline-flex
@@ -120,8 +120,8 @@
           </div>
           <div class="pt-3 pl-2">
             <button
-              v-if="assignment.id"
-              @click="deleteAssignment(assignment.id)"
+              v-if="discuss.id"
+              @click="deleteDiscuss(discuss.id)"
               type="button"
               class="
                 inline-flex
@@ -161,7 +161,7 @@ const router = useRouter();
 
 const route = useRoute();
 
-const assignments = computed(() => store.state.discusses);
+const discusses = computed(() => store.state.discusses);
 store.dispatch("getTeacherDiscusses");
 
 async function addDiscuss() {
@@ -192,7 +192,7 @@ async function addDiscuss() {
   }
 }
 
-function deleteAssignment(id) {
+function deleteDiscuss(id) {
   Swal.fire({
     title: "",
     text: "Apakah anda yakin ingin menghapus?",
@@ -204,12 +204,12 @@ function deleteAssignment(id) {
     cancelButtonText: "Batal",
   }).then((result) => {
     if (result.isConfirmed) {
-      store.dispatch("deleteAssignment", id).then(() => {
+      store.dispatch("deleteDiscuss", id).then(() => {
         store.commit("notify", {
           type: "success",
-          message: "tugas berhasil dihapus ",
+          message: "diskusi berhasil dihapus ",
         });
-        store.dispatch("getTeacherAssignments");
+        store.dispatch("getTeacherDiscusses");
       });
     }
   });

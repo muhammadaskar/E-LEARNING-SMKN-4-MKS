@@ -62,7 +62,8 @@ const store = createStore({
         },
         currentComment: {
             data: {},
-            loading: false
+            loading: false,
+            length: 0
         },
         notification: {
             show: false,
@@ -339,13 +340,16 @@ const store = createStore({
                 })
         },
         getTeacherDiscuss({ commit }, id) {
+            commit("setCurrentDiscussLoading", true)
             commit("setCommentLoading", true)
             return axiosClient
                 .get(`/teacher-discuss/${id}`)
                 .then((res) => {
-                    commit("setCurrentDiscuss", res.data.discuss)
+                    commit("setCurrentDiscussLoading", false)
                     commit("setCommentLoading", false)
+                    commit("setCurrentDiscuss", res.data.discuss)
                     commit("setCurrentComment", res.data.comments)
+                    this.state.currentComment.length = res.data.comments.length
                     return res
                 })
         },
@@ -358,6 +362,11 @@ const store = createStore({
                 });
             return response;
         },
+        deleteDiscuss({ commit }, id) {
+            return axiosClient.delete(`/teacher-discuss/${id}`).then((res) => {
+                return res
+            })
+        },
         saveTeacherComment({ commit }, comment) {
             let response = axiosClient.post('/teacher-comment', comment)
                 .then((res) => {
@@ -365,6 +374,11 @@ const store = createStore({
                     return res;
                 })
             return response;
+        },
+        deleteComment({ commit }, id) {
+            return axiosClient.delete(`/teacher-comment/${id}`).then((res) => {
+                return res
+            })
         },
 
     },
@@ -438,7 +452,10 @@ const store = createStore({
             state.discusses.loading = loading
         },
         setCommentLoading: (state, loading) => {
-            state.comments.loading = loading
+            state.currentComment.loading = loading
+        },
+        setCurrentDiscussLoading: (state, loading) => {
+            state.currentDiscuss.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

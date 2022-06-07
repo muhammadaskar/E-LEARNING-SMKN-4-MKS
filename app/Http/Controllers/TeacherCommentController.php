@@ -68,6 +68,10 @@ class TeacherCommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('comments')->where('id', '=', $id)->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data berhasil dihapus'
+        ]);
     }
 }

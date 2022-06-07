@@ -58,8 +58,6 @@ class TeacherDiscussController extends Controller
             ->first();
 
         $comments = DB::table('comments')->where('discuss_id', '=', $id)->get();
-
-        // return response()->json($data);
         return response()->json([
             'discuss' => $discuss,
             'comments' => $comments,
@@ -96,6 +94,11 @@ class TeacherDiscussController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('comments')->where('discuss_id', '=', $id)->delete();
+        DB::table('discusses')->where('id', '=', $id)->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'data berhasil dihapus'
+        ]);
     }
 }
