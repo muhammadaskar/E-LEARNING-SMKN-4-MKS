@@ -26,11 +26,16 @@ import TeacherEditAssignment from "../views/Teacher/Assignment/EditAssignment.vu
 import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
 import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
 
+import DashboardStudent from "../views/Student/Dashboard.vue"
+import StudentMateris from "../views/Student/Materi/index.vue"
+import StudentMateri from "../views/Student/Materi/detailMateri.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
 import DefaultLayout from "../components/DefaultLayout.vue"
 import DefaultLayoutTeacher from "../components/DefaultLayoutTeacher.vue"
+import DefaultLayoutStudent from "../components/DefaultLayoutStudent.vue"
 import AuthLayout from "../components/AuthLayout.vue"
 
 import store from "../store"
@@ -90,6 +95,27 @@ const routes = [
         ]
     },
     {
+        path: '/',
+        name: 'DashboardStudent',
+        redirect: '/dashboard-student',
+        component: DefaultLayoutStudent,
+        meta: { requiresAuth: true },
+        beforeEnter: (to, from, next) => {
+            // reject the navigation
+            if (store.state.user.role != 'student') {
+                console.log('gagal')
+            } else {
+                next()
+            }
+        },
+        children: [
+            { path: '/dashboard-student', name: 'DashboardStudent', component: DashboardStudent },
+            { path: '/student-materi', name: 'StudentMateri', component: StudentMateris },
+            { path: '/student-materi/:id', name: 'StudentGetMateri', component: StudentMateri },
+            { path: '/student-assignment', name: 'StudentAssignment', component: StudentMateris },
+        ]
+    },
+    {
         path: '/auth',
         redirect: '/login',
         name: 'Auth',
@@ -124,6 +150,9 @@ router.beforeEach((to, from, next) => {
         }
         if (store.state.user.role === 'teacher') {
             next({ name: "DashboardTeacher" });
+        }
+        if (store.state.user.role === 'student') {
+            next({ name: "DashboardStudent" });
         }
         else {
             next()

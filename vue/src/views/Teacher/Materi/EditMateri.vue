@@ -880,6 +880,7 @@ import PageComponent from "../../../components/PageComponent.vue";
 import { useRoute, useRouter } from "vue-router";
 import store from "../../../store";
 import axios from "../../../axios";
+import FormData from "form-data";
 
 const router = useRouter();
 
@@ -924,6 +925,7 @@ watch(
 if (route.params.id) {
   store.dispatch("getTeacherMateri", route.params.id);
 }
+console.log(model.value.materi_id);
 
 function onChange(e) {
   const file = e.target.files[0];
@@ -931,6 +933,7 @@ function onChange(e) {
   console.log(model.value.file);
 }
 
+// var FormData = require("form-data");
 function saveMateri() {
   let fd = new FormData();
   fd.append("materi_id", model.value.materi_id);
@@ -970,9 +973,9 @@ function saveMateri() {
       type: "success",
       message: "materi berhasil disimpan ",
     });
-    router.push({
-      name: "TeacherMateri",
-    });
+    // router.push({
+    //   name: "TeacherMateri",
+    // });
   });
 }
 </script>

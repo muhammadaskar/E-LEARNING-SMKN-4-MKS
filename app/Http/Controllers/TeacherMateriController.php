@@ -129,32 +129,11 @@ class TeacherMateriController extends Controller
      */
     public function update(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'file' => 'required|mimes:pdf,docx,pptx',
-            'link' => 'required',
-            'description' => 'required',
-            'question1' => 'required',
-            'question2' => 'required',
-            'question3' => 'required',
-            'jawaban_a_pertanyaan_1' => 'required',
-            'jawaban_b_pertanyaan_1' => 'required',
-            'jawaban_c_pertanyaan_1' => 'required',
-            'jawaban_d_pertanyaan_1' => 'required',
-            'jawaban_benar_pertanyaan_1' => 'required',
-            'jawaban_a_pertanyaan_2' => 'required',
-            'jawaban_b_pertanyaan_2' => 'required',
-            'jawaban_c_pertanyaan_2' => 'required',
-            'jawaban_d_pertanyaan_2' => 'required',
-            'jawaban_benar_pertanyaan_2' => 'required',
-            'jawaban_a_pertanyaan_3' => 'required',
-            'jawaban_b_pertanyaan_3' => 'required',
-            'jawaban_c_pertanyaan_3' => 'required',
-            'jawaban_d_pertanyaan_3' => 'required',
-            'jawaban_benar_pertanyaan_3' => 'required',
-        ]);
-
         $fileName = null;
+
+        return response()->json([
+            'request' => $request->all()
+        ]);
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -207,6 +186,7 @@ class TeacherMateriController extends Controller
                 'jawaban_d_pertanyaan_3' => $request->jawaban_d_pertanyaan_3,
                 'jawaban_benar_pertanyaan_3' => $request->jawaban_benar_pertanyaan_3
             ]);
+
 
         return response()->json([
             'success' => true

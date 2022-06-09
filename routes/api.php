@@ -10,6 +10,7 @@ use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\TeacherCommentController;
 use App\Http\Controllers\TeacherDiscussController;
 use App\Http\Controllers\TeacherMateriController;
+use App\Http\Controllers\StudentMateriController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,15 +43,18 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::middleware('teacher')->group(function () {
         Route::resource('teacher-materi', TeacherMateriController::class);
-        Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
-        Route::put('teacher-materi/{id}', [TeacherMateriController::class, 'update']);
+        Route::put('teacher-materi', [TeacherMateriController::class, 'update']);
         Route::delete('teacher-materi/{id}', [TeacherMateriController::class, 'destroy']);
 
         Route::resource('teacher-assignment', TeacherAssignmentController::class);
         Route::resource('teacher-discuss', TeacherDiscussController::class);
         Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
         Route::resource('teacher-comment', TeacherCommentController::class);
-        // Route::get('teacher-materi/{id}', [TeacherMateriController::class, 'show']);
+    });
+
+    Route::middleware('student')->group(function () {
+        Route::resource('student-materi', StudentMateriController::class);
+        Route::post('student-evaluation-answer', [StudentMateriController::class, 'store']);
     });
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);
 });

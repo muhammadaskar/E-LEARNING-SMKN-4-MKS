@@ -311,8 +311,6 @@ watch(
   }
 );
 
-watch();
-
 if (route.params.id) {
   store.dispatch("getTeacherDiscuss", route.params.id);
 }

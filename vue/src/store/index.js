@@ -50,6 +50,7 @@ const store = createStore({
         },
         currentMateri: {
             data: {},
+            status_pengerjaan: {},
             loading: false
         },
         currentAssignment: {
@@ -64,6 +65,9 @@ const store = createStore({
             data: {},
             loading: false,
             length: 0
+        },
+        currentStatusMateri: {
+            data: {}
         },
         notification: {
             show: false,
@@ -265,7 +269,10 @@ const store = createStore({
                 })
         },
         editTeacherMateri({ }, materi) {
-            let response = axiosClient.put(`/teacher-materi/${materi.materi_id}`, materi)
+            console.log(materi)
+            let response = axiosClient.put(`/teacher-materi`, materi, {
+                'content-type': "multipart/form-data;"
+            })
                 .then((res) => {
                     console.log(res)
                     return res;
@@ -380,6 +387,36 @@ const store = createStore({
                 return res
             })
         },
+        getStudentMateris({ commit }) {
+            commit("setMateriLoading", true)
+            return axiosClient.get('/student-materi').then((res) => {
+                commit("setMateriLoading", false)
+                commit("setStudentMateris", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getStudentMateri({ commit }, id) {
+            commit("setCurrentMateriLoading", true)
+            return axiosClient
+                .get(`/student-materi/${id}`)
+                .then((res) => {
+                    commit("setCurrentMateriLoading", false)
+                    commit("setCurrentMateri", res.data)
+                    return res
+                })
+        },
+        sendEvalutionQuestion({ commit }, answer) {
+            let response = axiosClient.post('/student-evaluation-answer', answer)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
 
     },
     mutations: {
@@ -405,6 +442,9 @@ const store = createStore({
         setTeacherDiscusses: (state, discusses) => {
             state.discusses.data = discusses
         },
+        setStudentMateris: (state, materis) => {
+            state.materis.data = materis
+        },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
             console.log(state.currentTeacher.data)
@@ -419,7 +459,11 @@ const store = createStore({
         },
         setCurrentMateri: (state, materi) => {
             state.currentMateri.data = materi
-            console.log(state.currentMateri.data)
+            // console.log(state.currentMateri.data)
+        },
+        setCurrentMateriStatus: (state, materi) => {
+            state.currentStatusMateri.data = materi
+            console.log(state.currentStatusMateri.data)
         },
         setCurrentAssignment: (state, assignment) => {
             state.currentAssignment.data = assignment
@@ -456,6 +500,9 @@ const store = createStore({
         },
         setCurrentDiscussLoading: (state, loading) => {
             state.currentDiscuss.loading = loading
+        },
+        setCurrentMateriLoading: (state, loading) => {
+            state.currentMateri.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;
