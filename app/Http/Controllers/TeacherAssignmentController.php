@@ -48,7 +48,7 @@ class TeacherAssignmentController extends Controller
         $d = new DateTime($request->due_date);
         $timezone = new DateTimeZone('Asia/Jakarta');
         $formattedTime = $d;
-        // $formattedTime = $formattedTime->format('d-m-Y H:i:s');
+
         $date = $formattedTime->setTimezone($timezone);
 
         $data = Assignment::create([

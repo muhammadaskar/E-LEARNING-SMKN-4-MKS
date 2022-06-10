@@ -269,8 +269,8 @@ const store = createStore({
                 })
         },
         editTeacherMateri({ }, materi) {
-            console.log(materi)
-            let response = axiosClient.put(`/teacher-materi`, materi, {
+            id = materi.get("id");
+            let response = axiosClient.put(`/teacher-materi/${id}`, materi, {
                 'content-type': "multipart/form-data;"
             })
                 .then((res) => {
@@ -418,6 +418,38 @@ const store = createStore({
             return response;
         },
 
+        getStudentAssignments({ commit }, id) {
+            commit("setAssignmentLoading", true)
+            return axiosClient.get('/student-assignment').then((res) => {
+                commit("setAssignmentLoading", false)
+                commit("setStudentAsignments", res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getStudentAssignment({ commit }, id) {
+            commit("setCurrentAssignmentLoading", true)
+            return axiosClient.get(`/student-assignment/${id}`).then((res) => {
+                commit("setCurrentAssignmentLoading", false)
+                commit("setCurrentAssignment", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        sendStudentAssignment({ commit }, assignment) {
+            let response = axiosClient.post('/student-assignment', assignment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                })
+            return response;
+        },
+
     },
     mutations: {
 
@@ -437,6 +469,9 @@ const store = createStore({
             state.materis.data = materis
         },
         setTeacherAsignments: (state, assignments) => {
+            state.assignments.data = assignments
+        },
+        setStudentAsignments: (state, assignments) => {
             state.assignments.data = assignments
         },
         setTeacherDiscusses: (state, discusses) => {
@@ -503,6 +538,9 @@ const store = createStore({
         },
         setCurrentMateriLoading: (state, loading) => {
             state.currentMateri.loading = loading
+        },
+        setCurrentAssignmentLoading: (state, loading) => {
+            state.currentAssignment.loading = loading
         },
         setToken: (state, token) => {
             state.user.token = token;

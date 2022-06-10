@@ -30,6 +30,9 @@ import DashboardStudent from "../views/Student/Dashboard.vue"
 import StudentMateris from "../views/Student/Materi/index.vue"
 import StudentMateri from "../views/Student/Materi/detailMateri.vue"
 
+import StudentAssignments from "../views/Student/Assignment/index.vue"
+import StudentAssignment from "../views/Student/Assignment/detailAssignment.vue"
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
@@ -112,7 +115,8 @@ const routes = [
             { path: '/dashboard-student', name: 'DashboardStudent', component: DashboardStudent },
             { path: '/student-materi', name: 'StudentMateri', component: StudentMateris },
             { path: '/student-materi/:id', name: 'StudentGetMateri', component: StudentMateri },
-            { path: '/student-assignment', name: 'StudentAssignment', component: StudentMateris },
+            { path: '/student-assignment', name: 'StudentAssignments', component: StudentAssignments },
+            { path: '/student-assignment/:id', name: 'StudentGetAssignment', component: StudentAssignment },
         ]
     },
     {

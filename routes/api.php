@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\StudentAssignmentController;
 use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\TeacherCommentController;
 use App\Http\Controllers\TeacherDiscussController;
@@ -55,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('student')->group(function () {
         Route::resource('student-materi', StudentMateriController::class);
         Route::post('student-evaluation-answer', [StudentMateriController::class, 'store']);
+        Route::resource('student-assignment', StudentAssignmentController::class);
     });
     // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);
 });
