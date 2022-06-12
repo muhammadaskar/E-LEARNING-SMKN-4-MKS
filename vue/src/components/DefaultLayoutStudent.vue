@@ -126,7 +126,7 @@
                           active ? 'bg-gray-100' : '',
                           'block px-4 py-2 text-sm text-gray-700',
                         ]"
-                        >Sign Out</a
+                        >Keluar</a
                       >
                     </MenuItem>
                   </MenuItems>
@@ -281,15 +281,16 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 import Notification from "./Notification.vue";
+import Swal from "sweetalert2";
 
 const navigation = [
   { name: "Dasbor", to: "/dashboard-student" },
   { name: "Materi", to: "/student-materi" },
   { name: "Tugas", to: "/student-assignment" },
+  { name: "Diskusi", to: "/student-discuss" },
 ];
 const userNavigation = [
-  { name: "Your Profile", to: "#" },
-  { name: "Settings", to: "#" },
+  { name: "Edit Akun", to: "/student-account" },
   //   { name: "Sign out", href: "#" },
 ];
 
@@ -312,13 +313,24 @@ export default {
     const router = useRouter();
 
     function logout() {
-      if (confirm("Apakah anda yakin ingin keluar?")) {
-        store.dispatch("logout").then(() => {
-          router.push({
-            name: "Login",
+      Swal.fire({
+        title: "",
+        text: "Apakah anda yakin ingin keluar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ok",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          store.dispatch("logout").then(() => {
+            router.push({
+              name: "Login",
+            });
           });
-        });
-      }
+        }
+      });
     }
 
     return {

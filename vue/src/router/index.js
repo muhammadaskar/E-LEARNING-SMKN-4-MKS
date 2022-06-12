@@ -27,11 +27,15 @@ import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
 import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
 
 import DashboardStudent from "../views/Student/Dashboard.vue"
+import StudentAccount from "../views/Student/Account/index.vue"
 import StudentMateris from "../views/Student/Materi/index.vue"
 import StudentMateri from "../views/Student/Materi/detailMateri.vue"
 
 import StudentAssignments from "../views/Student/Assignment/index.vue"
 import StudentAssignment from "../views/Student/Assignment/detailAssignment.vue"
+
+import StudentDiscusses from "../views/Student/Discuss/index.vue"
+import StudentDiscuss from "../views/Student/Discuss/DetailDiscuss.vue"
 
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
@@ -113,10 +117,13 @@ const routes = [
         },
         children: [
             { path: '/dashboard-student', name: 'DashboardStudent', component: DashboardStudent },
+            { path: '/student-account', name: 'StudentAccount', component: StudentAccount },
             { path: '/student-materi', name: 'StudentMateri', component: StudentMateris },
             { path: '/student-materi/:id', name: 'StudentGetMateri', component: StudentMateri },
             { path: '/student-assignment', name: 'StudentAssignments', component: StudentAssignments },
             { path: '/student-assignment/:id', name: 'StudentGetAssignment', component: StudentAssignment },
+            { path: '/student-discuss', name: 'StudentDiscusses', component: StudentDiscusses },
+            { path: '/student-discuss/:id', name: 'StudentDetailDiscuss', component: StudentDiscuss },
         ]
     },
     {

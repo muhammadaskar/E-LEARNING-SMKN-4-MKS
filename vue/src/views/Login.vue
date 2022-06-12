@@ -7,16 +7,16 @@
         alt="Workflow"
       />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-        Sign in to your account
+        Masuk ke akun anda
       </h2>
       <p class="mt-2 text-center text-sm text-gray-600">
-        Or
+        Atau
         {{ " " }}
         <router-link
           :to="{ name: 'Register' }"
           class="font-medium text-indigo-600 hover:text-indigo-500"
         >
-          register for free
+          daftar akun di sini
         </router-link>
       </p>
     </div>
@@ -55,7 +55,7 @@
       <input type="hidden" name="remember" value="true" />
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
-          <label for="email-address" class="sr-only">Email address</label>
+          <label for="email-address" class="sr-only">Alamat emal</label>
           <input
             id="email-address"
             name="email"
@@ -81,11 +81,11 @@
               focus:z-10
               sm:text-sm
             "
-            placeholder="Email address"
+            placeholder="Alamat email"
           />
         </div>
         <div>
-          <label for="password" class="sr-only">Password</label>
+          <label for="password" class="sr-only">Kata sandi</label>
           <input
             id="password"
             name="password"
@@ -111,7 +111,7 @@
               focus:z-10
               sm:text-sm
             "
-            placeholder="Password"
+            placeholder="Kata sandi"
           />
         </div>
       </div>
@@ -133,14 +133,8 @@
             "
           />
           <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-            Remember me
+            Ingat saya
           </label>
-        </div>
-
-        <div class="text-sm">
-          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-            Forgot your password?
-          </a>
         </div>
       </div>
 
@@ -174,7 +168,28 @@
               aria-hidden="true"
             />
           </span>
-          Sign in
+          <svg
+            v-if="loading"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          Masuk
         </button>
       </div>
     </form>
@@ -194,13 +209,17 @@ const user = {
   password: "",
 };
 
+let loading = ref(false);
+
 let errorMsg = ref("");
 
 function login(e) {
   e.preventDefault();
+  loading.value = true;
   store
     .dispatch("login", user)
     .then((response) => {
+      loading.value = false;
       let role = response.user.role;
       if (role === "admin") {
         router.push({
@@ -219,6 +238,7 @@ function login(e) {
       }
     })
     .catch((err) => {
+      loading.value = false;
       errorMsg.value = err.response.data.error;
     });
 }

@@ -43,6 +43,11 @@ class StudentAssignmentController extends Controller
 
         $assignment = Assignment::find($request->assignment_id);
 
+        $studentAssignment = DB::table('student_assignments')
+            ->where('student_id', '=', $student->id)
+            ->where('assignment_id', '=', $assignment->id)
+            ->first();
+
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $dir = 'assets/file/tugas/';
@@ -84,7 +89,7 @@ class StudentAssignmentController extends Controller
                 ->update([
                     'student_id' => $student->id,
                     'assignment_id' => $request->assignment_id,
-                    'file' => $filename,
+                    'file' => $studentAssignment->file,
                     'nilai' => 0,
                     'status' => $status,
                 ]);

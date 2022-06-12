@@ -42,7 +42,8 @@ const store = createStore({
         },
         currentStudent: {
             data: {},
-            loading: false
+            loading: false,
+            user_id: ""
         },
         currentParent: {
             data: {},
@@ -449,6 +450,66 @@ const store = createStore({
                 })
             return response;
         },
+        getStudentDiscusses({ commit }) {
+            commit("setDiscussLoading", true)
+            return axiosClient.get('/student-discuss').then((res) => {
+                commit("setDiscussLoading", false)
+                commit("setStudentDiscusses", res.data)
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getStudentDiscuss({ commit }, id) {
+            commit("setCurrentDiscussLoading", true)
+            commit("setCommentLoading", true)
+            return axiosClient
+                .get(`/student-discuss/${id}`)
+                .then((res) => {
+                    commit("setCurrentDiscussLoading", false)
+                    commit("setCommentLoading", false)
+                    commit("setCurrentDiscuss", res.data.discuss)
+                    commit("setCurrentComment", res.data.comments)
+                    // commit("setCurrentStudent", res.data.student)
+                    this.state.currentStudent.user_id = res.data.student_user_id
+                    this.state.currentComment.length = res.data.comments.length
+                    return res
+                })
+        },
+        saveStudentComment({ commit }, comment) {
+            let response = axiosClient.post('/student-discuss', comment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                })
+            return response;
+        },
+        studentDeleteComment({ commit }, id) {
+            return axiosClient.delete(`/student-discuss/${id}`).then((res) => {
+                return res
+            })
+        },
+        studentGetAccount({ commit }) {
+            commit("setStudentLoading", true)
+            return axiosClient.get('/student-account').then((res) => {
+                commit("setStudentLoading", false)
+                commit("setCurrentStudent", res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        studentEditAccount({ commit }, student) {
+            let response = axiosClient.put('/student-account', student)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
 
     },
     mutations: {
@@ -475,6 +536,9 @@ const store = createStore({
             state.assignments.data = assignments
         },
         setTeacherDiscusses: (state, discusses) => {
+            state.discusses.data = discusses
+        },
+        setStudentDiscusses: (state, discusses) => {
             state.discusses.data = discusses
         },
         setStudentMateris: (state, materis) => {
