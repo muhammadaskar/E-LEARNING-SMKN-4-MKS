@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <!-- List Materi -->
+      <!-- List Assignment -->
       <div
         v-else
         class="relative overflow-x-auto shadow-md sm:rounded-lg p-4"
@@ -93,6 +93,32 @@
             <div class="">{{ assignment.due_date }}</div>
           </div>
           <div class="pt-3">
+            <router-link
+              :to="{
+                name: 'TeacherDetailAssignment',
+                params: { id: assignment.id, slug: assignment.slug },
+              }"
+              class="
+                inline-flex
+                justify-center
+                px-4
+                border border-transparent
+                shadow-sm
+                text-sm
+                font-medium
+                rounded-md
+                text-white
+                bg-sky-600
+                hover:bg-sky-700
+                focus:outline-none
+                focus:ring-2
+                focus:ring-offset-2
+                focus:ring-sky-500
+              "
+              >detail</router-link
+            >
+          </div>
+          <div class="pt-3 pl-2">
             <router-link
               :to="{
                 name: 'TeacherEditAssignment',
@@ -146,7 +172,7 @@
           </div>
         </div>
       </div>
-      <!-- End List Materi -->
+      <!-- End List Assignment -->
     </PageComponent>
   </div>
 </template>

@@ -139,20 +139,11 @@
           v-for="comment in comments.data"
           :key="comment.id"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-12 w-12"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+          <img
+            class="h-8 w-8 mt-2 rounded-full"
+            :src="'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'"
+            alt=""
+          />
           <div class="basis-5/6 pl-4">
             <h1>{{ comment.comment }}</h1>
             <p class="">{{ comment.created_at }}</p>

@@ -21,7 +21,9 @@ import TeacherEditMateri from "../views/Teacher/Materi/EditMateri.vue"
 
 import TeacherAssignment from "../views/Teacher/Assignment/index.vue"
 import TeacherAddAssignment from "../views/Teacher/Assignment/AddAssignment.vue"
+import TeacherDetailAssignment from "../views/Teacher/Assignment/DetailAssignment.vue"
 import TeacherEditAssignment from "../views/Teacher/Assignment/EditAssignment.vue"
+import TeacherAssignmentResult from "../views/Teacher/Assignment/AssignmentResult.vue"
 
 import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
 import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
@@ -93,10 +95,12 @@ const routes = [
             { path: '/dashboard-teacher', name: 'DashboardTeacher', component: DashboardTeacher },
             { path: '/teacher/materi', name: 'TeacherMateri', component: TeacherMateri },
             { path: '/teacher/materi/new', name: 'AddTeacherMateri', component: TeacherAddMateri },
-            { path: '/admin/teacher-materi/edit/:id', name: 'TeacherEditMateri', component: TeacherEditMateri },
+            { path: 'teacher/materi/edit/:id', name: 'TeacherEditMateri', component: TeacherEditMateri },
             { path: '/teacher/assignment', name: 'TeacherAssignment', component: TeacherAssignment },
             { path: '/teacher/assignment/new', name: 'AddTeacherAssignment', component: TeacherAddAssignment },
-            { path: '/admin/teacher-assignment/edit/:id', name: 'TeacherEditAssignment', component: TeacherEditAssignment },
+            { path: 'teacher/assignment/detail/:id/:slug', name: 'TeacherDetailAssignment', component: TeacherDetailAssignment },
+            { path: 'teacher/assignment/edit/:id', name: 'TeacherEditAssignment', component: TeacherEditAssignment },
+            { path: 'teacher/assignment/result/:id', name: 'TeacherAssignmentResult', component: TeacherAssignmentResult },
             { path: '/teacher/discuss', name: 'TeacherDiscuss', component: TeacherDiscuss },
             { path: '/teacher/discuss/detail/:id', name: 'TeacherDetailDiscuss', component: TeacherDetailDiscuss },
         ]

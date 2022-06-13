@@ -79,7 +79,7 @@ class StudentAssignmentController extends Controller
             $studentAssignments = StudentAssignment::create([
                 'student_id' => $student->id,
                 'assignment_id' => $request->assignment_id,
-                'file' => $filename,
+                'file' => $fileName,
                 'nilai' => 0,
                 'status' => $status,
             ]);

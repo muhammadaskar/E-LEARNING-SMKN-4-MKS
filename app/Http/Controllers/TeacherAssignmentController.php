@@ -68,8 +68,19 @@ class TeacherAssignmentController extends Controller
      */
     public function show($id)
     {
-        $data = Assignment::find($id);
-        return response()->json($data);
+        $assignment = Assignment::find($id);
+
+        $studentAssignments = DB::table('student_assignments')
+            ->join('students', 'student_assignments.student_id', '=', 'students.id')
+            ->join('users', 'students.user_id', '=', 'users.id')
+            ->select('users.name', 'student_assignments.id as id', 'student_assignments.status', 'student_assignments.created_at')
+            ->where('assignment_id', '=', $id)->get();
+
+
+        return response()->json([
+            'assignment' => $assignment,
+            'student_assignments' => $studentAssignments
+        ]);
     }
 
     /**

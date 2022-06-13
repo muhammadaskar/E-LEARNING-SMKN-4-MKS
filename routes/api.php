@@ -14,6 +14,8 @@ use App\Http\Controllers\TeacherCommentController;
 use App\Http\Controllers\TeacherDiscussController;
 use App\Http\Controllers\TeacherMateriController;
 use App\Http\Controllers\StudentMateriController;
+use App\Http\Controllers\TeacherAssignmentResultController;
+use App\Http\Controllers\TeacherStudentScoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +52,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('teacher-materi/{id}', [TeacherMateriController::class, 'destroy']);
 
         Route::resource('teacher-assignment', TeacherAssignmentController::class);
+        Route::resource('teacher-assignment-result', TeacherAssignmentResultController::class);
+        Route::resource('teacher-student-score', TeacherStudentScoreController::class);
         Route::resource('teacher-discuss', TeacherDiscussController::class);
         Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
         Route::resource('teacher-comment', TeacherCommentController::class);

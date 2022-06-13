@@ -28,6 +28,14 @@ const store = createStore({
             data: {},
             loading: false
         },
+        student_assignments: {
+            data: {},
+            loading: false
+        },
+        student_assignment: {
+            data: {},
+            loading: false
+        },
         discusses: {
             data: {},
             loading: false
@@ -306,11 +314,26 @@ const store = createStore({
                     console.log(err)
                 })
         },
+        detailTeacherAssignment({ commit }, id) {
+            this.state.student_assignments.loading = true
+            return axiosClient
+                .get(`/teacher-assignment/${id}`)
+                .then((res) => {
+                    this.state.student_assignments.loading = false
+                    commit("setCurrentAssignment", res.data.assignment)
+                    this.state.student_assignments.data = res.data.student_assignments
+                    console.log(res.data.student_assignments)
+                    // console.log(this.state.student_assignments.data)
+                    return res
+                }).catch((err) => {
+                    this.state.student_assignments.loading = false
+                })
+        },
         getTeacherAssignment({ commit }, id) {
             return axiosClient
                 .get(`/teacher-assignment/${id}`)
                 .then((res) => {
-                    commit("setCurrentAssignment", res.data)
+                    commit("setCurrentAssignment", res.data.assignment)
                     return res
                 })
         },
@@ -324,6 +347,31 @@ const store = createStore({
         },
         deleteAssignment({ commit }, id) {
             return axiosClient.delete(`/teacher-assignment/${id}`).then((res) => {
+                return res
+            })
+        },
+        teacherAssignmentResult({ commit }, id) {
+            this.state.student_assignments.loading = true
+            return axiosClient
+                .get(`/teacher-assignment-result/${id}`)
+                .then((res) => {
+                    this.state.student_assignments.loading = false
+                    commit("setCurrentAssignment", res.data)
+                    return res
+                }).catch((err) => {
+                    this.state.student_assignments.loading = false
+                })
+        },
+        saveStudentScore({ }, assignment) {
+            let response = axiosClient.put(`/teacher-student-score/${assignment.id}`, assignment)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+        deleteScore({ commit }, id) {
+            return axiosClient.delete(`/teacher-student-score/${id}`).then((res) => {
                 return res
             })
         },
