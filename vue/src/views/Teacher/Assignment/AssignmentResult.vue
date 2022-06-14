@@ -159,7 +159,7 @@
               sudah mengumpulkan
             </label>
             <!-- FIle -->
-            <div>
+            <div v-if="model.status_pengerjaan != 'belum_dikumpulkan'">
               <label class="block text-sm mt-4 font-medium text-gray-700">
                 File
               </label>
@@ -257,7 +257,10 @@
         </div>
       </div>
       <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg p-4">
-        <div class="flex flex-row">
+        <div
+          v-if="model.status_pengerjaan != 'belum_dikumpulkan'"
+          class="flex flex-row"
+        >
           <form
             @submit.prevent="saveStudentScore"
             class="animate-fade-in-down row-span-3"

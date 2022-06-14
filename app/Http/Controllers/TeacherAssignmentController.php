@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Assignment;
+use App\Models\StudentAssignment;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
@@ -57,6 +58,18 @@ class TeacherAssignmentController extends Controller
             'description' => $request->description,
             'due_date' => $date
         ]);
+
+        $students = DB::table('students')->get();
+
+        foreach ($students as $std) {
+            StudentAssignment::create([
+                'student_id' => $std->id,
+                'assignment_id' => $data->id,
+                'file' => 'kosong',
+                'nilai' => 0,
+                'status' => 'belum_dikumpulkan',
+            ]);
+        }
         return response()->json($data);
     }
 
@@ -129,6 +142,7 @@ class TeacherAssignmentController extends Controller
      */
     public function destroy($id)
     {
+        DB::table('student_assignments')->where('assignment_id', '=', $id)->delete();
         DB::table('assignments')->where('id', '=', $id)->delete();
         return response()->json([
             'status' => 'success',

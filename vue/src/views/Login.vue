@@ -236,6 +236,11 @@ function login(e) {
           name: "DashboardStudent",
         });
       }
+      if (role === "parent") {
+        router.push({
+          name: "DashboardParent",
+        });
+      }
     })
     .catch((err) => {
       loading.value = false;

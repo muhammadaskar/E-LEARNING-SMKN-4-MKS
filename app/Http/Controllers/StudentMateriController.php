@@ -41,13 +41,16 @@ class StudentMateriController extends Controller
             ]
         );
 
-        $status = StudentMateriAccessStatus::create([
-            'materi_id' => $request->materi_id,
-            'student_id' => $student->id,
-            'status_pengerjaan' => 'selesai'
-        ]);
+        $studentAccessMateri = DB::table('student_materi_access_statuses')
+            ->where('materi_id', '=', $request->materi_id)
+            ->where('student_id', '=', $student->id)
+            ->where('status_pengerjaan', '=', 'belum')->first();
 
-
+        $status = DB::table('student_materi_access_statuses')
+            ->where('id', '=', $studentAccessMateri->id)
+            ->update([
+                'status_pengerjaan' => 'selesai'
+            ]);
 
         return response()->json([
             'status' => 201,

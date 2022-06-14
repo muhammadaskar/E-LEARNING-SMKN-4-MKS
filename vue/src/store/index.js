@@ -32,6 +32,11 @@ const store = createStore({
             data: {},
             loading: false
         },
+        learn_process: {
+            data: {},
+            dataSudah: {},
+            loading: false
+        },
         student_assignment: {
             data: {},
             loading: false
@@ -558,6 +563,29 @@ const store = createStore({
                 });
             return response;
         },
+        getLearnProcess({ commit }) {
+            commit("setLearnProcessLoading", true)
+            return axiosClient.get('/parent-learn-process').then((res) => {
+                commit("setLearnProcessLoading", false)
+                commit("setLearnProcess", res.data)
+                return res
+            })
+                .catch((err) => {
+                    commit("setLearnProcessLoading", false)
+                    console.log(err)
+                })
+        },
+        getAssignmentProcess({ commit }) {
+            commit("setAssignmentLoading", true)
+            return axiosClient.get('/parent-assignment-process').then((res) => {
+                commit("setAssignmentLoading", false)
+                commit("setParentAsignments", res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
 
     },
     mutations: {
@@ -580,6 +608,9 @@ const store = createStore({
         setTeacherAsignments: (state, assignments) => {
             state.assignments.data = assignments
         },
+        setParentAsignments: (state, assignments) => {
+            state.assignments.data = assignments
+        },
         setStudentAsignments: (state, assignments) => {
             state.assignments.data = assignments
         },
@@ -591,6 +622,9 @@ const store = createStore({
         },
         setStudentMateris: (state, materis) => {
             state.materis.data = materis
+        },
+        setLearnProcess: (state, learn_process) => {
+            state.learn_process.data = learn_process
         },
         setCurrentTeacher: (state, teacher) => {
             state.currentTeacher.data = teacher
@@ -644,6 +678,9 @@ const store = createStore({
         },
         setCommentLoading: (state, loading) => {
             state.currentComment.loading = loading
+        },
+        setLearnProcessLoading: (state, loading) => {
+            state.learn_process.loading = loading
         },
         setCurrentDiscussLoading: (state, loading) => {
             state.currentDiscuss.loading = loading

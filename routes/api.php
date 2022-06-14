@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ParentAssignmentController;
+use App\Http\Controllers\ParentProcessLearnController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentAssignmentController;
 use App\Http\Controllers\StudentDiscussController;
@@ -67,7 +69,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('student-account', [StudentAccountController::class, 'update']);
         Route::resource('student-account', StudentAccountController::class);
     });
-    // Route::get('/restricted', [App\Http\Controllers\HomeController::class, 'restricted'])->middleware(['role']);
+
+    Route::middleware('parent')->group(function () {
+        Route::get('parent-learn-process', [ParentProcessLearnController::class, 'index']);
+        Route::get('parent-assignment-process', [ParentAssignmentController::class, 'index']);
+    });
 });
 
 Route::post('/register', [AuthController::class, 'register']);

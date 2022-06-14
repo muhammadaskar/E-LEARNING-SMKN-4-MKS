@@ -39,12 +39,20 @@ import StudentAssignment from "../views/Student/Assignment/detailAssignment.vue"
 import StudentDiscusses from "../views/Student/Discuss/index.vue"
 import StudentDiscuss from "../views/Student/Discuss/DetailDiscuss.vue"
 
+import DashboardParent from "../views/Parent/Dashboard.vue"
+
+import ParentLearnProcess from "../views/Parent/Learn-Process/index.vue"
+import ParentAssignmentProcess from "../views/Parent/Assignment/index.vue"
+
+
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
 
 import DefaultLayout from "../components/DefaultLayout.vue"
 import DefaultLayoutTeacher from "../components/DefaultLayoutTeacher.vue"
 import DefaultLayoutStudent from "../components/DefaultLayoutStudent.vue"
+import DefaultLayoutParent from "../components/DefaultLayoutParent.vue"
+
 import AuthLayout from "../components/AuthLayout.vue"
 
 import store from "../store"
@@ -131,6 +139,26 @@ const routes = [
         ]
     },
     {
+        path: '/',
+        name: 'DashboardParent',
+        redirect: '/dashboard-parent',
+        component: DefaultLayoutParent,
+        meta: { requiresAuth: true },
+        beforeEnter: (to, from, next) => {
+            // reject the navigation
+            if (store.state.user.role != 'parent') {
+                console.log('gagal')
+            } else {
+                next()
+            }
+        },
+        children: [
+            { path: '/dashboard-parent', name: 'DashboardParent', component: DashboardParent },
+            { path: '/parent-learn-process', name: 'ParentLearnProcess', component: ParentLearnProcess },
+            { path: '/parent-assignment-process', name: 'ParentAssignmentProcess', component: ParentAssignmentProcess },
+        ]
+    },
+    {
         path: '/auth',
         redirect: '/login',
         name: 'Auth',
@@ -168,6 +196,9 @@ router.beforeEach((to, from, next) => {
         }
         if (store.state.user.role === 'student') {
             next({ name: "DashboardStudent" });
+        }
+        if (store.state.user.role === 'parent') {
+            next({ name: "DashboardParent" });
         }
         else {
             next()

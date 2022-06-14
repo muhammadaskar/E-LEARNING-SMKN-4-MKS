@@ -284,10 +284,9 @@ import Notification from "./Notification.vue";
 import Swal from "sweetalert2";
 
 const navigation = [
-  { name: "Dasbor", to: "/dashboard-teacher" },
-  { name: "Materi", to: "/teacher/materi" },
-  { name: "Tugas", to: "/teacher/assignment" },
-  { name: "Diskusi", to: "/teacher/discuss" },
+  { name: "Dasbor", to: "/dashboard-parent" },
+  { name: "Proses Belajar", to: "/parent-learn-process" },
+  { name: "Tugas", to: "/parent-assignment-process" },
 ];
 const userNavigation = [
   { name: "Edit Akun", to: "#" },

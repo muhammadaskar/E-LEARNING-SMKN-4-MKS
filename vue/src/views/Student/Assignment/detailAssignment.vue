@@ -140,7 +140,7 @@
               </label>
               <div class="mt-1 flex items-center">
                 <svg
-                  v-if="model.file"
+                  v-if="model.file != 'kosong'"
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-6 w-6"
                   fill="none"
@@ -341,6 +341,7 @@ function saveAssignment() {
   fd.append("assignment_id", model.value.assignment_id);
   fd.append("student_assignment_id", model.value.student_assignment_id);
   fd.append("file", model.value.file);
+  fd.append("status_pengerjaan", model.value.status_pengerjaan);
 
   store
     .dispatch("sendStudentAssignment", fd)

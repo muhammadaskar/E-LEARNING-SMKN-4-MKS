@@ -75,21 +75,29 @@ class StudentAssignmentController extends Controller
             }
         }
 
-        if ($request->student_assignment_id == "null") {
-            $studentAssignments = StudentAssignment::create([
-                'student_id' => $student->id,
-                'assignment_id' => $request->assignment_id,
-                'file' => $fileName,
-                'nilai' => 0,
-                'status' => $status,
-            ]);
-        } else {
+        $stdAssignment = DB::table('student_assignments')
+            ->where('student_id', '=', $student->id)
+            ->where('assignment_id', '=', $assignment->id)
+            ->where('status', '=', 'belum_dikumpulkan')
+            ->first();
+
+        if ($request->status_pengerjaan == "belum_dikumpulkan") {
             $studentAssignments = DB::table('student_assignments')
-                ->where('id', '=', $request->student_assignment_id)
+                ->where('id', '=', $stdAssignment->id)
                 ->update([
                     'student_id' => $student->id,
                     'assignment_id' => $request->assignment_id,
-                    'file' => $studentAssignment->file,
+                    'file' => $fileName,
+                    'nilai' => 0,
+                    'status' => $status,
+                ]);
+        } else {
+            $studentAssignments = DB::table('student_assignments')
+                ->where('id', '=', $studentAssignment->id)
+                ->update([
+                    'student_id' => $student->id,
+                    'assignment_id' => $request->assignment_id,
+                    'file' => $fileName,
                     'nilai' => 0,
                     'status' => $status,
                 ]);

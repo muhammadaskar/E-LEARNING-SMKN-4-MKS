@@ -141,7 +141,7 @@
           </div>
           <!--/ Materi -->
           <form
-            v-if="model.status_pengerjaan == 'belum_selesai'"
+            v-if="model.status_pengerjaan == 'belum'"
             class="animate-fade-in-down row-span-3"
             @submit.prevent="sendEvaluation"
             enctype="multipart/form-data"

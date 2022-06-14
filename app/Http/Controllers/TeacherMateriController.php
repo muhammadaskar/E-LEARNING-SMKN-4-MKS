@@ -7,6 +7,7 @@ use App\Http\Requests\StoreTeacherMateriRequest;
 use App\Http\Requests\UpdateTeacherMateriRequest;
 use App\Http\Resources\TeacherMateriResource;
 use App\Models\EvaluationQuestion;
+use App\Models\StudentMateriAccessStatus;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
@@ -101,6 +102,16 @@ class TeacherMateriController extends Controller
             'jawaban_d_pertanyaan_3' => $request->jawaban_d_pertanyaan_3,
             'jawaban_benar_pertanyaan_3' => $request->jawaban_benar_pertanyaan_3
         ]);
+
+        $students = DB::table('students')->get();
+
+        foreach ($students as $std) {
+            StudentMateriAccessStatus::create([
+                'materi_id' => $materi->id,
+                'student_id' => $std->id,
+                'status_pengerjaan' => 'belum'
+            ]);
+        }
 
         return new TeacherMateriResource($materi);
     }
@@ -201,8 +212,15 @@ class TeacherMateriController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('materis')->where('id', '=', $id)->delete();
+        $evaluation_question = DB::table('evaluation_questions')->where('materi_id', '=', $id)->first();
+
+        DB::table('student_evaluation_question_answers')->where('evaluation_id', '=', $evaluation_question->id)->delete();
+
+        DB::table('student_materi_access_statuses')->where('materi_id', '=', $id)->delete();
+
         DB::table('evaluation_questions')->where('materi_id', '=', $id)->delete();
+
+        DB::table('materis')->where('id', '=', $id)->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'data berhasil dihapus'
