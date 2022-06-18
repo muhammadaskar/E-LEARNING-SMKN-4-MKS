@@ -16,6 +16,7 @@ use App\Http\Controllers\TeacherCommentController;
 use App\Http\Controllers\TeacherDiscussController;
 use App\Http\Controllers\TeacherMateriController;
 use App\Http\Controllers\StudentMateriController;
+use App\Http\Controllers\TeacherAccountController;
 use App\Http\Controllers\TeacherAssignmentResultController;
 use App\Http\Controllers\TeacherStudentScoreController;
 
@@ -59,6 +60,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('teacher-discuss', TeacherDiscussController::class);
         Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
         Route::resource('teacher-comment', TeacherCommentController::class);
+
+        Route::put('teacher-account', [TeacherAccountController::class, 'update']);
+        Route::resource('teacher-account', TeacherAccountController::class);
     });
 
     Route::middleware('student')->group(function () {

@@ -290,7 +290,7 @@ const navigation = [
   { name: "Diskusi", to: "/teacher/discuss" },
 ];
 const userNavigation = [
-  { name: "Edit Akun", to: "#" },
+  { name: "Edit Akun", to: "/teacher-account" },
   //   { name: "Keluar", href: "#" },
 ];
 

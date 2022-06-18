@@ -83,11 +83,11 @@
               class="block text-sm font-medium text-gray-700"
               >Tenggang waktu</label
             >
-            <Datepicker
-              disabled
-              v-model="model.due_date"
-              :minDate="new Date()"
-            ></Datepicker>
+            <label
+              for="description"
+              class="block text-sm font-medium text-gray-700"
+              >{{ model.due_date }}</label
+            >
           </div>
           <!--/ DUE DATE -->
         </div>

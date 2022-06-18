@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\StudentAssignment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -20,6 +21,7 @@ class StudentAssignmentController extends Controller
     public function index()
     {
         $data = DB::table('assignments')->orderByDesc('created_at')->get();
+
         return response()->json($data);
     }
 
@@ -132,6 +134,12 @@ class StudentAssignmentController extends Controller
             ->where('student_id', '=', $student->id)
             ->where('assignment_id', '=', $id)->first();
 
+        $d = new DateTime($assignment->due_date);
+        $formattedTime = $d;
+        $formattedTimee = $d;
+        $formattedTime = $formattedTime->format('Y-m-d');
+        $time_due_date = $formattedTimee->format('H:i');
+
         if ($studentAssignment == null) {
             return response()->json([
                 'assignment_id' => $id,
@@ -139,7 +147,7 @@ class StudentAssignmentController extends Controller
                 'title' => $assignment->title,
                 'slug' => $assignment->slug,
                 'description' => $assignment->description,
-                'due_date' => $assignment->due_date,
+                'due_date' => Carbon::parse($assignment->due_date)->isoFormat('dddd, D MMMM Y') . " " . $time_due_date,
                 'status_pengerjaan' => 'belum_dikumpulkan'
             ]);
         }
@@ -150,7 +158,7 @@ class StudentAssignmentController extends Controller
             'title' => $assignment->title,
             'slug' => $assignment->slug,
             'description' => $assignment->description,
-            'due_date' => $assignment->due_date,
+            'due_date' => Carbon::parse($assignment->due_date)->isoFormat('dddd, D MMMM Y') . " " . $time_due_date,
             'file' => $studentAssignment->file,
             'status_pengerjaan' => $studentAssignment->status,
             'submited_at' => $studentAssignment->created_at,

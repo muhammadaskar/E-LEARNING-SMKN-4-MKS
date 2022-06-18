@@ -27,6 +27,7 @@ import TeacherAssignmentResult from "../views/Teacher/Assignment/AssignmentResul
 
 import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
 import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
+import TeacherAccount from "../views/Teacher/Account/index.vue"
 
 import DashboardStudent from "../views/Student/Dashboard.vue"
 import StudentAccount from "../views/Student/Account/index.vue"
@@ -111,6 +112,7 @@ const routes = [
             { path: 'teacher/assignment/result/:id', name: 'TeacherAssignmentResult', component: TeacherAssignmentResult },
             { path: '/teacher/discuss', name: 'TeacherDiscuss', component: TeacherDiscuss },
             { path: '/teacher/discuss/detail/:id', name: 'TeacherDetailDiscuss', component: TeacherDetailDiscuss },
+            { path: '/teacher-account', name: 'TeacherAccount', component: TeacherAccount },
         ]
     },
     {

@@ -441,6 +441,28 @@ const store = createStore({
                 return res
             })
         },
+
+        teacherGetAccount({ commit }) {
+            commit("setTeacherLoading", true)
+            return axiosClient.get('/teacher-account').then((res) => {
+                commit("setTeacherLoading", false)
+                commit("setCurrentTeacher", res.data)
+                return res
+            })
+                .catch((err) => {
+                    commit("setTeacherLoading", false)
+                    console.log(err)
+                })
+        },
+        teacherEditAccount({ commit }, teacher) {
+            let response = axiosClient.put('/teacher-account', teacher)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
+
         getStudentMateris({ commit }) {
             commit("setMateriLoading", true)
             return axiosClient.get('/student-materi').then((res) => {
