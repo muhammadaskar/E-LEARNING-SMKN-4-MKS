@@ -100,6 +100,27 @@
                 focus:ring-indigo-500
               "
             >
+              <svg
+                v-if="loadingDiscuss"
+                class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
               Simpan
             </button>
           </div>
@@ -245,6 +266,27 @@
                 focus:ring-indigo-500
               "
             >
+              <svg
+                v-if="loading"
+                class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
               Simpan
             </button>
           </div>
@@ -270,8 +312,9 @@ const router = useRouter();
 
 const route = useRoute();
 
-// const assignments = computed(() => store.state.discusses);
-// store.dispatch("getTeacherDiscuss");
+let loadingDiscuss = ref(false);
+let loadingHapus = ref(false);
+let loading = ref(false);
 
 let model = ref({
   topic: "",
@@ -309,9 +352,11 @@ if (route.params.id) {
 let errors = ref("");
 
 function saveDiscuss() {
+  loadingDiscuss.value = true;
   store
     .dispatch("editTeacherDiscuss", model.value)
     .then(({ data }) => {
+      loadingDiscuss.value = false;
       store.commit("notify", {
         type: "success",
         message: "diskusi berhasil disimpan ",
@@ -321,6 +366,7 @@ function saveDiscuss() {
       });
     })
     .catch((error) => {
+      loadingDiscuss.value = false;
       console.error(error.response.status);
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;
@@ -329,10 +375,12 @@ function saveDiscuss() {
 }
 
 function saveComment() {
+  loading.value = true;
   model.value.discuss_id = route.params.id;
   store
     .dispatch("saveTeacherComment", model.value)
     .then(({ data }) => {
+      loading.value = false;
       Swal.fire("", "komentar berhasil disimpan", "success");
       store.dispatch("getTeacherDiscuss", route.params.id);
       // store.commit("notify", {
@@ -341,6 +389,7 @@ function saveComment() {
       // });
     })
     .catch((error) => {
+      loading.value = false;
       console.error(error.response.status);
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;

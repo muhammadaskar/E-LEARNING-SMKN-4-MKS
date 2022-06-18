@@ -49,7 +49,7 @@ class TeacherDiscussController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
 
         $discuss = DB::table('discusses')

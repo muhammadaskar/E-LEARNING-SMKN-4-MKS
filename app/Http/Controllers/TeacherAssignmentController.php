@@ -106,7 +106,7 @@ class TeacherAssignmentController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'title' => 'required|unique:assignments,title',
+            'title' => 'required',
             'description' => 'required',
             'due_date' => 'required'
         ], [

@@ -7,45 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherStudentScoreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         if ($request->nilai > 0 && $request->nilai <= 100) {
@@ -76,7 +37,7 @@ class TeacherStudentScoreController extends Controller
      */
     public function destroy($id)
     {
-        $score = DB::table('student_assignments')
+        DB::table('student_assignments')
             ->where('id', '=', $id)
             ->update([
                 'nilai' => 0,

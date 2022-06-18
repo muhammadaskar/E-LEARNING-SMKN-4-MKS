@@ -29,7 +29,7 @@
         </div>
         <form
           class="animate-fade-in-down row-span-3"
-          @submit.prevent="saveParent"
+          @submit.prevent="saveAssignment"
           enctype="multipart/form-data"
         >
           <Alert
@@ -136,6 +136,27 @@
                   focus:ring-indigo-500
                 "
               >
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
                 Simpan
               </button>
             </div>
@@ -160,6 +181,8 @@ const router = useRouter();
 
 const route = useRoute();
 
+let loading = ref(false);
+
 let model = ref({
   title: "",
   description: "",
@@ -168,11 +191,13 @@ let model = ref({
 
 let errors = ref("");
 
-function saveParent() {
+function saveAssignment() {
+  loading.value = true;
   console.log(model.value.due_date);
   store
     .dispatch("saveTeacherAssignment", model.value)
     .then(({ data }) => {
+      loading.value = false;
       store.commit("notify", {
         type: "success",
         message: "tugas berhasil disimpan ",
@@ -182,6 +207,7 @@ function saveParent() {
       });
     })
     .catch((error) => {
+      loading.value = false;
       console.error(error.response.status);
       if (error.response.status === 422) {
         errors.value = error.response.data.errors;
