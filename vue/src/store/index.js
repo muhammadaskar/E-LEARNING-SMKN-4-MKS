@@ -26,16 +26,20 @@ const store = createStore({
         },
         assignments: {
             data: {},
-            loading: false
+            loading: false,
+            keterangan: false
         },
         student_assignments: {
             data: {},
-            loading: false
+            loading: false,
+            length: 0
         },
         learn_process: {
             data: {},
             dataSudah: {},
-            loading: false
+            keterangan: false,
+            loading: false,
+            length: 0
         },
         student_assignment: {
             data: {},
@@ -589,7 +593,9 @@ const store = createStore({
             commit("setLearnProcessLoading", true)
             return axiosClient.get('/parent-learn-process').then((res) => {
                 commit("setLearnProcessLoading", false)
-                commit("setLearnProcess", res.data)
+                commit("setLearnProcess", res.data.materis)
+                this.state.learn_process.keterangan = res.data.keterangan
+                this.state.learn_process.length = res.data.materis.length
                 return res
             })
                 .catch((err) => {
@@ -601,7 +607,8 @@ const store = createStore({
             commit("setAssignmentLoading", true)
             return axiosClient.get('/parent-assignment-process').then((res) => {
                 commit("setAssignmentLoading", false)
-                commit("setParentAsignments", res.data)
+                commit("setParentAsignments", res.data.assignments)
+                this.state.assignments.keterangan = res.data.keterangan
                 return res
             })
                 .catch((err) => {

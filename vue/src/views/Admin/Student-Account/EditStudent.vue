@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="flex justify-between items-center">
           <h1 class="text-3x1 font-bold text-gray-900">
-            <router-link :to="{ name: 'StudentAccount' }">
+            <router-link :to="{ name: 'AdminStudentAccount' }">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 inline-block"
@@ -192,30 +192,78 @@
               </div>
               <!--/ NIs -->
 
-                            <!-- GENDER -->
+              <!-- GENDER -->
               <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="gender"
+                  class="block text-sm font-medium text-gray-700"
                   >Jenis Kelamin</label
                 >
-                 <select id="gender" name="gender" autocomplete="gender" v-model="model.gender" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                 <!-- <div v-if="model.gender=='L'">
+                <select
+                  id="gender"
+                  name="gender"
+                  autocomplete="gender"
+                  v-model="model.gender"
+                  class="
+                    mt-1
+                    block
+                    w-full
+                    py-2
+                    px-3
+                    border border-gray-300
+                    bg-white
+                    rounded-md
+                    shadow-sm
+                    focus:outline-none
+                    focus:ring-indigo-500
+                    focus:border-indigo-500
+                    sm:text-sm
+                  "
+                >
+                  <!-- <div v-if="model.gender=='L'">
                     <option value="L" selected>Laki-laki</option>
                     <option value="P">Perempuan</option>
                  </div> -->
-                    <option value="L" v-if="model.gender=='L'" selected>Laki-laki</option>
-                    <option value="P" v-if="model.gender=='L'">Perempuan</option>
-                    <option value="P" v-if="model.gender=='P'" selected>Perempuan</option>
-                    <option value="P" v-if="model.gender=='P'">Laki-laki</option>
-                  </select>
+                  <option value="L" v-if="model.gender == 'L'" selected>
+                    Laki-laki
+                  </option>
+                  <option value="P" v-if="model.gender == 'L'">
+                    Perempuan
+                  </option>
+                  <option value="P" v-if="model.gender == 'P'" selected>
+                    Perempuan
+                  </option>
+                  <option value="P" v-if="model.gender == 'P'">
+                    Laki-laki
+                  </option>
+                </select>
               </div>
               <!--/ GENDER -->
 
               <!-- ADDRESS -->
               <div>
-                <label for="address" class="block text-sm font-medium text-gray-700"
+                <label
+                  for="address"
+                  class="block text-sm font-medium text-gray-700"
                   >Alamat</label
                 >
-                   <textarea id="about" name="about" rows="3" v-model="model.address" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md" placeholder="Sudiang raya" />
+                <textarea
+                  id="about"
+                  name="about"
+                  rows="3"
+                  v-model="model.address"
+                  class="
+                    shadow-sm
+                    focus:ring-indigo-500 focus:border-indigo-500
+                    mt-1
+                    block
+                    w-full
+                    sm:text-sm
+                    border border-gray-300
+                    rounded-md
+                  "
+                  placeholder="Sudiang raya"
+                />
               </div>
               <!--/ ADDRESS -->
             </div>
@@ -271,7 +319,6 @@ let model = ref({
   foto_url: null,
   gender: "",
   address: "",
-
 });
 
 function onImageChoose(e) {
@@ -308,7 +355,7 @@ function saveStudent() {
       message: "akun siswa berhasil disimpan ",
     });
     router.push({
-      name: "StudentAccount"
+      name: "StudentAccount",
     });
   });
 }

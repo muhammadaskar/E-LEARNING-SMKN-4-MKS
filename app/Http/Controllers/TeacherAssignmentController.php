@@ -39,7 +39,7 @@ class TeacherAssignmentController extends Controller
         ], [
             //message
         ], [
-            'title' => 'judul',
+            'title' => 'judul tugas',
             'description' => 'deskripsi',
             'due_date' => 'tenggang waktu',
         ]);

@@ -25,8 +25,12 @@
           </div>
         </div>
       </div>
+      <div v-else-if="learn_process.length == 0">data belum tersedia</div>
       <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left text-gray-500 text-gray-400">
+        <table
+          v-if="keterangan != false"
+          class="w-full text-sm text-left text-gray-500 text-gray-400"
+        >
           <thead
             class="
               text-xs text-gray-700
@@ -66,6 +70,7 @@
             </tr>
           </tbody>
         </table>
+        <div v-else>Belum ada</div>
       </div>
     </PageComponent>
   </div>
@@ -82,6 +87,8 @@ const router = useRouter();
 const route = useRoute();
 
 const learn_process = computed(() => store.state.learn_process);
+
+const keterangan = computed(() => store.state.learn_process.keterangan);
 
 store.dispatch("getLearnProcess");
 </script>

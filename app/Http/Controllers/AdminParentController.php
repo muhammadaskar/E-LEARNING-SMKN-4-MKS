@@ -23,9 +23,9 @@ class AdminParentController extends Controller
     {
         $data = DB::table('users')
             ->join('parents', 'users.id', '=', 'parents.user_id')
-            ->join('students', 'parents.student_id', '=', 'students.id')
-            ->join('users as users_students', 'students.user_id', '=', 'users_students.id')
-            ->select('users.id as user_parent_id', 'users.name as parent_name', 'users.email as parent_email', 'users.gender as parent_gender', 'parents.*', 'users_students.name as student_name')
+            // ->join('students', 'parents.student_id', '=', 'students.id')
+            // ->join('users as users_students', 'students.user_id', '=', 'users_students.id')
+            ->select('users.id as user_parent_id', 'users.name as parent_name', 'users.email as parent_email', 'users.gender as parent_gender', 'parents.*')
             ->where('users.role', '=', 'parent')
             ->get();
 
@@ -113,7 +113,6 @@ class AdminParentController extends Controller
                 ->update([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['nik']),
                     'role' => 'parent',
                     'foto' => $data['foto'],
                     'gender' => $data['gender'],
@@ -125,7 +124,6 @@ class AdminParentController extends Controller
                 ->update([
                     'name' => $data['name'],
                     'email' => $data['email'],
-                    'password' => bcrypt($data['nik']),
                     'role' => 'parent',
                     'gender' => $data['gender'],
                     'address' => $data['address'],

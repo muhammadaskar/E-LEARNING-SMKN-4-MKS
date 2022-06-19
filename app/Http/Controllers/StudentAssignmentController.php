@@ -22,6 +22,12 @@ class StudentAssignmentController extends Controller
     {
         $data = DB::table('assignments')->orderByDesc('created_at')->get();
 
+        // $assignments = array();
+
+        // foreach ($data as $d) {
+        //     $assignments = $d;
+        // }
+
         return response()->json($data);
     }
 
@@ -84,15 +90,25 @@ class StudentAssignmentController extends Controller
             ->first();
 
         if ($request->status_pengerjaan == "belum_dikumpulkan") {
-            $studentAssignments = DB::table('student_assignments')
-                ->where('id', '=', $stdAssignment->id)
-                ->update([
+            if ($stdAssignment == null) {
+                $studentAssignments = StudentAssignment::create([
                     'student_id' => $student->id,
                     'assignment_id' => $request->assignment_id,
                     'file' => $fileName,
                     'nilai' => 0,
                     'status' => $status,
                 ]);
+            } else {
+                $studentAssignments = DB::table('student_assignments')
+                    ->where('id', '=', $stdAssignment->id)
+                    ->update([
+                        'student_id' => $student->id,
+                        'assignment_id' => $request->assignment_id,
+                        'file' => $fileName,
+                        'nilai' => 0,
+                        'status' => $status,
+                    ]);
+            }
         } else {
             $studentAssignments = DB::table('student_assignments')
                 ->where('id', '=', $studentAssignment->id)

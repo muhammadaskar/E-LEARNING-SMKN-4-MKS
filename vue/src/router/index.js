@@ -48,6 +48,7 @@ import ParentAssignmentProcess from "../views/Parent/Assignment/index.vue"
 
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
+import RegisterOption from "../views/Register-Option.vue"
 
 import DefaultLayout from "../components/DefaultLayout.vue"
 import DefaultLayoutTeacher from "../components/DefaultLayoutTeacher.vue"
@@ -75,13 +76,13 @@ const routes = [
         },
         children: [
             { path: '/dashboard-admin', name: 'Dashboard', component: DashboardAdmin },
-            { path: '/admin/teacher-account', name: 'TeacherAccount', component: AdminTeacherAccount },
+            { path: '/admin-teacher-account', name: 'AdminTeacherAccount', component: AdminTeacherAccount },
             { path: '/admin/teacher-account/new', name: 'AddTeacherAccount', component: AdminAddTeacherAccount },
             { path: '/admin/teacher-account/edit/:id', name: 'AdminEditTeacherAccount', component: AdminEditTeacherAccount },
-            { path: '/admin/student-account', name: 'StudentAccount', component: AdminStudentAccount },
+            { path: '/admin-student-account', name: 'AdminStudentAccount', component: AdminStudentAccount },
             { path: '/admin/student-account/new', name: 'AddStudentAccount', component: AdminAddStudentAccount },
             { path: '/admin/student-account/edit/:id', name: 'AdminEditStudentAccount', component: AdminEditStudentAccount },
-            { path: '/admin/parent-account', name: 'ParentAccount', component: AdminParentAccount },
+            { path: '/admin-parent-account', name: 'ParentAccount', component: AdminParentAccount },
             { path: '/admin/parent-account/new', name: 'AddParentAccount', component: AdminAddParentAccount },
             { path: '/admin/parent-account/edit/:id', name: 'AdminEditParentAccount', component: AdminEditParentAccount },
         ]
@@ -170,6 +171,11 @@ const routes = [
             {
                 path: '/register',
                 name: 'Register',
+                component: RegisterOption
+            },
+            {
+                path: '/register-account/:role',
+                name: 'RegisterAccount',
                 component: Register
             },
             {

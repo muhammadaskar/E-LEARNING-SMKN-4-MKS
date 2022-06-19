@@ -126,7 +126,7 @@
                           active ? 'bg-gray-100' : '',
                           'block px-4 py-2 text-sm text-gray-700',
                         ]"
-                        >Sign Out</a
+                        >Keluar</a
                       >
                     </MenuItem>
                   </MenuItems>
@@ -251,7 +251,7 @@
                 cursor-pointer
               "
             >
-              Sign out
+              Keluar
             </button>
           </div>
         </div>
@@ -282,18 +282,20 @@ import { useRouter } from "vue-router";
 
 import Notification from "./Notification.vue";
 
+import Swal from "sweetalert2";
+
 const navigation = [
   { name: "Dasbor", to: "/dashboard-admin" },
-  { name: "Guru", to: "/admin/teacher-account" },
-  { name: "Siswa", to: "/admin/student-account" },
-  { name: "Orang Tua", to: "/admin/parent-account" },
+  { name: "Guru", to: "/admin-teacher-account" },
+  { name: "Siswa", to: "/admin-student-account" },
+  { name: "Orang Tua", to: "/admin-parent-account" },
   //   { name: "Siswa", to: "manage-akun-siswa" },
   //   { name: "Calendar", href: "#",},
   //   { name: "Reports", href: "#",},
 ];
 const userNavigation = [
-  { name: "Your Profile", to: "#" },
-  { name: "Settings", to: "#" },
+  // { name: "Your Profile", to: "#" },
+  // { name: "Settings", to: "#" },
   //   { name: "Sign out", href: "#" },
 ];
 
@@ -316,13 +318,24 @@ export default {
     const router = useRouter();
 
     function logout() {
-      if (confirm("Apakah anda yakin ingin keluar?")) {
-        store.dispatch("logout").then(() => {
-          router.push({
-            name: "Login",
+      Swal.fire({
+        title: "",
+        text: "Apakah anda yakin ingin keluar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ok",
+        cancelButtonText: "Batal",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          store.dispatch("logout").then(() => {
+            router.push({
+              name: "Login",
+            });
           });
-        });
-      }
+        }
+      });
     }
 
     return {

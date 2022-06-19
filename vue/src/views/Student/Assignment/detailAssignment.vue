@@ -214,7 +214,8 @@
                       cursor-pointer
                     "
                   />
-                  ganti
+                  <div v-if="model.file != 'kosong'">ganti file</div>
+                  <div v-else>pilih file</div>
                 </button>
               </div>
             </div>
@@ -323,7 +324,7 @@ function onChange(e) {
   if (file.size > 1024 * 5120) {
     e.preventDefault();
     Swal.fire(
-      "Uppps",
+      "Ups...",
       "Ukuran file telalu besar. Silahkan upload file dengan ukuran kurang dari 5 MB.",
       "error"
     );
