@@ -35,7 +35,7 @@ import StudentMateris from "../views/Student/Materi/index.vue"
 import StudentMateri from "../views/Student/Materi/detailMateri.vue"
 
 import StudentAssignments from "../views/Student/Assignment/AssignmentView.vue"
-import StudentAssignment from "../views/Student/Assignment/DetailAssignment.vue"
+import StudentAssignment from "../views/Student/Assignment/detailAssignment.vue"
 
 import StudentDiscusses from "../views/Student/Discuss/index.vue"
 import StudentDiscuss from "../views/Student/Discuss/DetailDiscuss.vue"
