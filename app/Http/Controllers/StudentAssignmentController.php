@@ -20,13 +20,9 @@ class StudentAssignmentController extends Controller
      */
     public function index()
     {
-        $data = DB::table('assignments')->orderByDesc('created_at')->get();
+        // $data = DB::table('assignments')->orderByDesc('created_at')->get();
 
-        // $assignments = array();
-
-        // foreach ($data as $d) {
-        //     $assignments = $d;
-        // }
+        $data = Assignment::orderByDesc('created_at')->get()->all();
 
         return response()->json($data);
     }
@@ -127,11 +123,6 @@ class StudentAssignmentController extends Controller
             'message' => 'tugas siswa berhasil dikirim',
             'data' => $studentAssignments
         ]);
-
-        // return response()->json([
-        //     'now' => $date . " " . $time,
-        //     'deadline' => $formattedTime . " " . $time_due_date
-        // ]);
     }
 
     /**

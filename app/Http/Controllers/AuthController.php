@@ -116,7 +116,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => 'required|email|string|exists:users,email',
+            'email' => 'required|email|string',
             'password' => [
                 'required'
             ],
@@ -128,17 +128,13 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials, $remember)) {
             return response([
-                'error' => 'Kredensial yang diberikan tidak benar'
+                'error' => 'email atau kata sandi tidak sesuai'
             ], 422);
         }
 
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
 
-
-        // return response([
-
-        // ]);
         return response([
             'user' => $user,
             'token' => $token,

@@ -18,7 +18,6 @@ class ParentProcessLearnController extends Controller
         $parent = DB::table('parents')->where('user_id', '=', $user->id)->first();
 
         $keterangan = false;
-        // tambahkan keterangan jika student id null
         if ($parent->student_id == null) {
             return response()->json([
                 'keterangan' => $keterangan,
