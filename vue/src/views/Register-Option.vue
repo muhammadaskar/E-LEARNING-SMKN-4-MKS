@@ -4,7 +4,7 @@
     <div>
       <img
         class="mx-auto h-20 w-auto"
-        src="https://smkn4makassar.sch.id/assets/images/logo.png"
+        src="https://muhammadaskar.com/img/logo.png"
         alt="Workflow"
       />
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
