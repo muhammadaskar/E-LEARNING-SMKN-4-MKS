@@ -9,7 +9,7 @@
             <div class="flex-shrink-0">
               <img
                 class="h-10 w-10"
-                src="https://smkn4makassar.sch.id/assets/images/logo.png"
+                src="https://muhammadaskar.com/img/logo.png"
                 alt="SMKN-4-MKS"
               />
             </div>

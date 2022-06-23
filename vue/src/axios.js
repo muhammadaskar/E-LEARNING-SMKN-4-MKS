@@ -3,8 +3,11 @@ import store from "./store";
 import router from "./router";
 
 const axiosClient = axios.create({
-    baseURL: `http://localhost:8000/api`
+    baseURL: `https://api.elearning.muhammadaskar.com/api`
+    // baseURL: `http://localhost:8000/api`
 })
+
+axiosClient.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 axiosClient.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${store.state.user.token}`

@@ -95,7 +95,7 @@
             params: { id: 2, role: 'parent' },
           }"
         >
-          <p class="font-bold">Orang tuas siswa</p>
+          <p class="font-bold">Orang tua siswa</p>
           <p class="text-sm">
             Khusus akun orang tua siswa mata pelajaran Simulasi Digital Kelas X
           </p>
