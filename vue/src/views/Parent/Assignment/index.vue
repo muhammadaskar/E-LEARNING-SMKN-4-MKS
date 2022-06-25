@@ -63,18 +63,20 @@
               <td class="px-6 py-4">{{ tugas.created_at }}</td>
               <td class="px-6 py-4">
                 <div
-                  v-if="tugas.status_pengerjaan == 'belum'"
+                  v-if="tugas.status == 'belum_dikumpulkan'"
                   class="text-yellow-600"
                 >
                   belum dikumpulkan
                 </div>
-                <div
-                  v-if="tugas.status_pengerjaan == 'telat'"
-                  class="text-yellow-600"
-                >
+                <div v-if="tugas.status == 'telat'" class="text-yellow-600">
                   telat dikumpulkan
                 </div>
-                <div v-else class="text-green-600">tepat waktu</div>
+                <div
+                  v-if="tugas.status == 'tepat waktu'"
+                  class="text-green-600"
+                >
+                  tepat waktu
+                </div>
               </td>
             </tr>
           </tbody>
