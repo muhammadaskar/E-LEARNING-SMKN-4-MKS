@@ -60,7 +60,11 @@
                 {{ tugas.title }}
               </td>
               <td class="px-6 py-4">{{ tugas.due_date }}</td>
-              <td class="px-6 py-4">{{ tugas.created_at }}</td>
+              <td class="px-6 py-4">
+                <div v-if="tugas.status != 'belum_dikumpulkan'">
+                  {{ tugas.created_at }}
+                </div>
+              </td>
               <td class="px-6 py-4">
                 <div
                   v-if="tugas.status == 'belum_dikumpulkan'"
