@@ -353,48 +353,64 @@ let errors = ref("");
 
 function saveDiscuss() {
   loadingDiscuss.value = true;
-  store
-    .dispatch("editTeacherDiscuss", model.value)
-    .then(({ data }) => {
-      loadingDiscuss.value = false;
-      store.commit("notify", {
-        type: "success",
-        message: "diskusi berhasil disimpan ",
-      });
-      router.push({
-        name: "TeacherDiscuss",
-      });
-    })
-    .catch((error) => {
-      loadingDiscuss.value = false;
-      console.error(error.response.status);
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+  if (model.value.topic == "") {
+    loadingDiscuss.value = false;
+    store.commit("notify", {
+      type: "failed",
+      message: "form diskusi wajib diisi",
     });
+  } else {
+    store
+      .dispatch("editTeacherDiscuss", model.value)
+      .then(({ data }) => {
+        loadingDiscuss.value = false;
+        store.commit("notify", {
+          type: "success",
+          message: "topik diskusi berhasil disimpan ",
+        });
+        router.push({
+          name: "TeacherDiscuss",
+        });
+      })
+      .catch((error) => {
+        loadingDiscuss.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
+      });
+  }
 }
 
 function saveComment() {
   loading.value = true;
-  model.value.discuss_id = route.params.id;
-  store
-    .dispatch("saveTeacherComment", model.value)
-    .then(({ data }) => {
-      loading.value = false;
-      Swal.fire("", "komentar berhasil disimpan", "success");
-      store.dispatch("getTeacherDiscuss", route.params.id);
-      // store.commit("notify", {
-      //   type: "success",
-      //   message: "komen berhasil disimpan ",
-      // });
-    })
-    .catch((error) => {
-      loading.value = false;
-      console.error(error.response.status);
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+  if (model.value.comment == null) {
+    loading.value = false;
+    store.commit("notify", {
+      type: "failed",
+      message: "form komentar wajib diisi",
     });
+  } else {
+    model.value.discuss_id = route.params.id;
+    store
+      .dispatch("saveTeacherComment", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        Swal.fire("", "komentar berhasil disimpan", "success");
+        store.dispatch("getTeacherDiscuss", route.params.id);
+        // store.commit("notify", {
+        //   type: "success",
+        //   message: "komen berhasil disimpan ",
+        // });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
+      });
+  }
 }
 
 function deleteComment(id) {

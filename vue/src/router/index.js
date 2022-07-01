@@ -44,6 +44,7 @@ import DashboardParent from "../views/Parent/Dashboard.vue"
 
 import ParentLearnProcess from "../views/Parent/Learn-Process/index.vue"
 import ParentAssignmentProcess from "../views/Parent/Assignment/index.vue"
+import ParentAccount from "../views/Parent/Account/index.vue"
 
 
 import Login from "../views/Login.vue"
@@ -82,7 +83,7 @@ const routes = [
             { path: '/admin-student-account', name: 'AdminStudentAccount', component: AdminStudentAccount },
             { path: '/admin/student-account/new', name: 'AddStudentAccount', component: AdminAddStudentAccount },
             { path: '/admin/student-account/edit/:id', name: 'AdminEditStudentAccount', component: AdminEditStudentAccount },
-            { path: '/admin-parent-account', name: 'ParentAccount', component: AdminParentAccount },
+            { path: '/admin-parent-account', name: 'AdminParentAccount', component: AdminParentAccount },
             { path: '/admin/parent-account/new', name: 'AddParentAccount', component: AdminAddParentAccount },
             { path: '/admin/parent-account/edit/:id', name: 'AdminEditParentAccount', component: AdminEditParentAccount },
         ]
@@ -159,6 +160,7 @@ const routes = [
             { path: '/dashboard-parent', name: 'DashboardParent', component: DashboardParent },
             { path: '/parent-learn-process', name: 'ParentLearnProcess', component: ParentLearnProcess },
             { path: '/parent-assignment-process', name: 'ParentAssignmentProcess', component: ParentAssignmentProcess },
+            { path: '/parent-account', name: 'ParentAccount', component: ParentAccount },
         ]
     },
     {

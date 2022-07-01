@@ -146,8 +146,8 @@ class AdminStudentController extends Controller
      */
     public function destroy($user_id)
     {
-        DB::table('users')->where('id', '=', $user_id)->delete();
         DB::table('students')->where('user_id', '=', $user_id)->delete();
+        DB::table('users')->where('id', '=', $user_id)->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'data berhasil dihapus'

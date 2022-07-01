@@ -146,7 +146,7 @@ function deleteParentAccount(id) {
     store.dispatch("deleteParentAccount", id).then(() => {
       store.commit("notify", {
         type: "success",
-        message: "akun guru berhasil dihapus ",
+        message: "akun orang tua berhasil dihapus ",
       });
       store.dispatch("getParentsAccount");
     });

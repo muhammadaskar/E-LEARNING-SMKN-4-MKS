@@ -59,6 +59,7 @@
                 File
               </label>
               <div class="mt-1 flex items-center">
+                <!-- <vue-pdf-embed :source="model.file" /> -->
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="
@@ -603,6 +604,7 @@ import { computed, ref, watch } from "vue";
 import PageComponent from "../../../components/PageComponent.vue";
 import { useRoute, useRouter } from "vue-router";
 import store from "../../../store";
+import VuePdfEmbed from "vue-pdf-embed";
 
 const router = useRouter();
 
@@ -666,23 +668,36 @@ let answer = ref({
 
 // var FormData = require("form-data");
 function sendEvaluation() {
-  answer.value.id = model.value.id;
-  answer.value.materi_id = model.value.materi_id;
-  answer.value.answer_1 = model.value.answer_1;
-  answer.value.answer_2 = model.value.answer_2;
-  answer.value.answer_3 = model.value.answer_3;
-  store.dispatch("sendEvalutionQuestion", answer.value).then(({ data }) => {
+  if (
+    answer.value.answer_1 == "" ||
+    answer.value.answer_2 == "" ||
+    answer.value.answer_3 == ""
+  ) {
     store.commit("notify", {
-      type: "success",
-      message: "materi berhasil disimpan ",
+      type: "failed",
+      message: "seluruh jawaban wajib diisi",
     });
-    store.dispatch("getStudentMateri", route.params.id);
-  });
+  } else {
+    answer.value.id = model.value.id;
+    answer.value.materi_id = model.value.materi_id;
+    answer.value.answer_1 = model.value.answer_1;
+    answer.value.answer_2 = model.value.answer_2;
+    answer.value.answer_3 = model.value.answer_3;
+    store.dispatch("sendEvalutionQuestion", answer.value).then(({ data }) => {
+      store.commit("notify", {
+        type: "success",
+        message: "materi berhasil disimpan ",
+      });
+      store.dispatch("getStudentMateri", route.params.id);
+    });
+  }
 }
+
+// const url = `http://localhost:8000/${model.value.file}`;
 
 function downloadFile(url) {
   console.log(url);
-  window.open(`http://localhost:8000/${url}`);
+  window.open(url);
   //   document.getElementById("my_iframe").src = url;
 }
 </script>

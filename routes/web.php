@@ -17,17 +17,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+use App\Mail\TestEmail;
+use Illuminate\Support\Facades\Mail;
 
-Route::get('/dashboard', function () {
-    return view('admin.index');
-});
+Route::get('send-email', function () {
+    $mailData = [
+        'title' => 'Sample Title From Mail',
+        'body' => 'This is sample content we have added for this test mail'
 
-Route::get('/tables', function () {
-    return view('admin.tables');
-});
+    ];
 
-Route::get('/tes', function () {
-    $data = "123.String";
-    $whatIWant = substr($data, strpos($data, ".") + 1);
-    echo $whatIWant;
+    Mail::to("muhammadaskar74@gmail.com")->send(new TestEmail($mailData));
+
+    dd("Mail Sent Successfully!");
 });

@@ -71,13 +71,12 @@ class StudentAssignmentController extends Controller
 
         if ($date > $formattedTime) {
             $status = "telat";
+        } else if ($date == $formattedTime && $time > $time_due_date) {
+            $status = "telat";
         } else {
-            if ($time > $time_due_date) {
-                $status = "telat";
-            } else {
-                $status = "tepat_waktu";
-            }
+            $status = "tepat_waktu";
         }
+
 
         $stdAssignment = DB::table('student_assignments')
             ->where('student_id', '=', $student->id)

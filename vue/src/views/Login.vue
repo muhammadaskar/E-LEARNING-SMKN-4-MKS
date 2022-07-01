@@ -21,6 +21,16 @@
       </p>
     </div>
     <form class="mt-8 space-y-6" @submit="login">
+      <Alert
+        v-if="Object.keys(errors).length"
+        class="flex-col items-stretch text-sm"
+      >
+        <div v-for="(field, i) of Object.keys(errors)" :key="i">
+          <div v-for="(error, ind) of errors[field] || []" :key="ind">
+            * {{ error }}
+          </div>
+        </div>
+      </Alert>
       <div
         v-if="errorMsg"
         class="
@@ -61,7 +71,6 @@
             name="email"
             type="email"
             autocomplete="email"
-            required=""
             v-model="user.email"
             class="
               appearance-none
@@ -91,7 +100,6 @@
             name="password"
             type="password"
             autocomplete="current-password"
-            required=""
             v-model="user.password"
             class="
               appearance-none
@@ -201,8 +209,11 @@ import { LockClosedIcon } from "@heroicons/vue/solid";
 import store from "../store";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import Alert from "../components/Alert.vue";
 
 const router = useRouter();
+
+let errors = ref("");
 
 const user = {
   email: "",
@@ -245,6 +256,9 @@ function login(e) {
     .catch((err) => {
       loading.value = false;
       errorMsg.value = err.response.data.error;
+      if (err.response.status === 422) {
+        errors.value = err.response.data.errors;
+      }
     });
 }
 </script>

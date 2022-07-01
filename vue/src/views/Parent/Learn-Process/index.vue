@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <div v-else-if="learn_process.length == 0">data belum tersedia</div>
+      <div v-else-if="learn_process.length == 0">belum tersedia</div>
       <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table
           v-if="keterangan != false"

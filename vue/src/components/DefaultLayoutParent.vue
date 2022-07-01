@@ -289,7 +289,7 @@ const navigation = [
   { name: "Tugas", to: "/parent-assignment-process" },
 ];
 const userNavigation = [
-  { name: "Edit Akun", to: "#" },
+  { name: "Edit Akun", to: "/parent-account" },
   //   { name: "Keluar", href: "#" },
 ];
 

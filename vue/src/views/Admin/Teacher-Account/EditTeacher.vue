@@ -355,7 +355,7 @@ function saveTeacher() {
       message: "akun guru berhasil disimpan ",
     });
     router.push({
-      name: "TeacherAccount",
+      name: "AdminTeacherAccount",
     });
   });
 }

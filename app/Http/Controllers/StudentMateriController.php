@@ -6,6 +6,7 @@ use App\Models\StudentEvaluationQuestionAnswer;
 use App\Models\StudentMateriAccessStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class StudentMateriController extends Controller
 {
@@ -88,7 +89,7 @@ class StudentMateriController extends Controller
                 'materi_id' => $id,
                 'title' => $materi->title,
                 'slug' =>  $materi->slug,
-                'file' => $materi->file,
+                'file' => URL::to($materi->file),
                 'link' => $materi->link,
                 'description' => $materi->description,
                 'question1' => $materi->question1,
@@ -116,7 +117,7 @@ class StudentMateriController extends Controller
             'materi_id' => $id,
             'title' => $materi->title,
             'slug' =>  $materi->slug,
-            'file' => $materi->file,
+            'file' => URL::to($materi->file),
             'link' => $materi->link,
             'description' => $materi->description,
             'question1' => $materi->question1,

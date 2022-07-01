@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminTeacherController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ParentAccountController;
 use App\Http\Controllers\ParentAssignmentController;
 use App\Http\Controllers\ParentProcessLearnController;
 use App\Http\Controllers\StudentAccountController;
@@ -31,7 +32,15 @@ use App\Http\Controllers\TeacherStudentScoreController;
 |
 */
 
+
+Route::get('/', function () {
+    return response()->json([
+        'status' => 200,
+        'success' => true
+    ]);
+});
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
@@ -77,6 +86,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('parent')->group(function () {
         Route::get('parent-learn-process', [ParentProcessLearnController::class, 'index']);
         Route::get('parent-assignment-process', [ParentAssignmentController::class, 'index']);
+        Route::get('parent-account', [ParentAccountController::class, 'index']);
+        Route::put('parent-account', [ParentAccountController::class, 'update']);
     });
 });
 

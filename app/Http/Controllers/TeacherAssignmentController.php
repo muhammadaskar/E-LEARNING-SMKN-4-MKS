@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Assignment as MailAssignment;
 use App\Models\Assignment;
 use App\Models\StudentAssignment;
+use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+// email : muhammadaskar.dev
+// pass : *Askar123deV*
 
 class TeacherAssignmentController extends Controller
 {
@@ -60,6 +65,26 @@ class TeacherAssignmentController extends Controller
         ]);
 
         $students = DB::table('students')->get();
+
+        $users = DB::table('users')
+            ->where('role', '=', 'student')
+            ->get();
+
+        $d = new DateTime($request->due_date);
+        $formattedTime = $d;
+        $formattedTimee = $d;
+        $tanggal = $formattedTime->format('Y-m-d');
+        $waktu = $formattedTimee->format('H:i');
+
+        foreach ($users as $user) {
+            $mailData = [
+                'name' => $user->name,
+                'due_date' => Carbon::parse($tanggal)->isoFormat('dddd, D MMMM Y'),
+                'time' => $waktu
+            ];
+
+            Mail::to($user->email)->send(new MailAssignment($mailData));
+        }
 
         foreach ($students as $std) {
             StudentAssignment::create([

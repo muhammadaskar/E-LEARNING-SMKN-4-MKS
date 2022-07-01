@@ -3,7 +3,7 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1 class="text-3x1 font-bold text-gray-900">Akun Siswa</h1>
+          <h1 class="text-3x1 font-bold text-gray-900">Akun Guru</h1>
         </div>
       </template>
       <div class="grid grid-cols-2 gap-2">
@@ -445,25 +445,39 @@ let errors = ref("");
 
 function saveTeacher() {
   loading.value = true;
-  store
-    .dispatch("teacherEditAccount", model.value)
-    .then(({ data }) => {
-      loading.value = false;
-      errors.value = "";
-      store.commit("notify", {
-        type: "success",
-        message: "akun anda berhasil disimpan ",
-      });
-      router.push({
-        name: "StudentAccount",
-      });
-    })
-    .catch((error) => {
-      loading.value = false;
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+  if (
+    model.value.name == "" ||
+    model.value.email == "" ||
+    model.value.nip == "" ||
+    model.value.gender == "" ||
+    model.value.address == ""
+  ) {
+    loading.value = false;
+    store.commit("notify", {
+      type: "failed",
+      message: "form wajib diisi",
     });
+  } else {
+    store
+      .dispatch("teacherEditAccount", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        errors.value = "";
+        store.commit("notify", {
+          type: "success",
+          message: "akun anda berhasil disimpan ",
+        });
+        router.push({
+          name: "TeacherAccount",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
+      });
+  }
 }
 </script>
 

@@ -615,6 +615,25 @@ const store = createStore({
                     console.log(err)
                 })
         },
+        parentGetAccount({ commit }) {
+            commit("setParentLoading", true)
+            return axiosClient.get('/parent-account').then((res) => {
+                commit("setParentLoading", false)
+                commit("setCurrentParent", res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        parentEditAccount({ commit }, parent) {
+            let response = axiosClient.put('/parent-account', parent)
+                .then((res) => {
+                    console.log(res)
+                    return res;
+                });
+            return response;
+        },
 
     },
     mutations: {

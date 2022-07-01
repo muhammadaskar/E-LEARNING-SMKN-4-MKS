@@ -169,6 +169,7 @@ async function addDiscuss() {
     input: "textarea",
     inputLabel: "Topik diskusi",
     cancelButtonText: "Batal",
+    confirmButtonText: "Simpan",
     inputPlaceholder: "Masukkan topik diskusi di sini...",
     inputAttributes: {
       "aria-label": "Masukkan topik diskusi di sini",
@@ -182,7 +183,7 @@ async function addDiscuss() {
     store.dispatch("saveTeacherDiscuss", { text }).then(({ data }) => {
       store.commit("notify", {
         type: "success",
-        message: "topik berhasil disimpan ",
+        message: "topik diskusi berhasil disimpan ",
       });
       //   router.push({
       //     name: "TeacherDiscuss",

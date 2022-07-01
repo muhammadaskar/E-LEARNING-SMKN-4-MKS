@@ -445,25 +445,39 @@ let errors = ref("");
 
 function saveStudent() {
   loading.value = true;
-  store
-    .dispatch("studentEditAccount", model.value)
-    .then(({ data }) => {
-      loading.value = false;
-      errors.value = "";
-      store.commit("notify", {
-        type: "success",
-        message: "akun siswa berhasil disimpan ",
-      });
-      router.push({
-        name: "StudentAccount",
-      });
-    })
-    .catch((error) => {
-      loading.value = false;
-      if (error.response.status === 422) {
-        errors.value = error.response.data.errors;
-      }
+  if (
+    model.value.name == "" ||
+    model.value.email == "" ||
+    model.value.nis == "" ||
+    model.value.gender == "" ||
+    model.value.address == ""
+  ) {
+    loading.value = false;
+    store.commit("notify", {
+      type: "failed",
+      message: "data tidak boleh kosong",
     });
+  } else {
+    store
+      .dispatch("studentEditAccount", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        errors.value = "";
+        store.commit("notify", {
+          type: "success",
+          message: "akun anda berhasil disimpan ",
+        });
+        router.push({
+          name: "StudentAccount",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
+      });
+  }
 }
 </script>
 

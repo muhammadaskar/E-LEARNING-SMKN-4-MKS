@@ -35,9 +35,19 @@ class AdminTeacherController extends Controller
      * @param  \App\Http\Requests\StoreAdminTeacherRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreAdminTeacherRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'foto' => 'nullable|string',
+            'gender' => 'required',
+            'address' => 'required',
+            'nip' => 'required|unique:teachers,nip',
+            'user_id' => 'exists:users,id'
+        ], [], [
+            'nip' => 'data guru'
+        ]);
 
         if (isset($data['foto'])) {
             $relativePath = $this->saveImage($data['foto']);
@@ -60,7 +70,9 @@ class AdminTeacherController extends Controller
             'is_active' => true
         ]);
 
-        return new AdminTeacherResource($teacher);
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**
@@ -147,8 +159,8 @@ class AdminTeacherController extends Controller
      */
     public function destroy($user_id)
     {
-        DB::table('users')->where('id', '=', $user_id)->delete();
         DB::table('teachers')->where('user_id', '=', $user_id)->delete();
+        DB::table('users')->where('id', '=', $user_id)->delete();
         return response()->json([
             'status' => 'success',
             'message' => 'data berhasil dihapus'

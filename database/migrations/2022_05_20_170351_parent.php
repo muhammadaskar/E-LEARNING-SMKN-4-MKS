@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignIdFor(AdminStudent::class, 'student_id')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');;
+            $table->foreignIdFor(AdminStudent::class, 'student_id')->nullable()->onDelete('cascade');;
             $table->string('nik')->unique();
             $table->boolean('is_active')->default(false);
             $table->timestamps();

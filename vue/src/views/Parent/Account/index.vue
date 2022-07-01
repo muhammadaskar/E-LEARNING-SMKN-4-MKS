@@ -3,22 +3,7 @@
     <PageComponent>
       <template v-slot:header>
         <div class="flex justify-between items-center">
-          <h1 class="text-3x1 font-bold text-gray-900">
-            <router-link :to="{ name: 'AdminParentAccount' }">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 inline-block"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                  clip-rule="evenodd"
-                /></svg
-            ></router-link>
-            Akun Orang Tua
-          </h1>
+          <h1 class="text-3x1 font-bold text-gray-900">Akun Orang Tua</h1>
         </div>
       </template>
       <div class="grid grid-cols-2 gap-2">
@@ -27,10 +12,37 @@
             src="https://img.freepik.com/free-vector/teacher-character-collection_23-2148517110.jpg?w=2000"
           />
         </div>
+        <div
+          v-if="teacherLoading"
+          class="justify-center shadow sm:rounded-md sm:overflow-hidden"
+        >
+          <div class="p-6 w-full mx-auto">
+            <div
+              class="mb-2 animate-pulse flex space-x-4"
+              v-for="n in 9"
+              :key="n"
+            >
+              <div class="flex-1 space-y-4 py-1">
+                <div class="h-2 bg-slate-700 rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <form
+          v-else
           class="animate-fade-in-down row-span-3"
           @submit.prevent="saveParent"
         >
+          <Alert
+            v-if="Object.keys(errors).length"
+            class="flex-col items-stretch text-sm"
+          >
+            <div v-for="(field, i) of Object.keys(errors)" :key="i">
+              <div v-for="(error, ind) of errors[field] || []" :key="ind">
+                * {{ error }}
+              </div>
+            </div>
+          </Alert>
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Teacher Account Fields -->
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -167,7 +179,61 @@
               </div>
               <!--/ Email -->
 
-              <!-- NIP -->
+              <!-- Password -->
+              <div>
+                <label
+                  for="password"
+                  class="block text-sm font-medium text-gray-700"
+                  >Kata sandi</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  autocomplete="password"
+                  v-model="model.password"
+                  class="
+                    mt-1
+                    focus:ring-indigo-500 focus:border-indigo-500
+                    block
+                    w-full
+                    shadow-sm
+                    sm:text-sm
+                    border-gray-300
+                    rounded-md
+                  "
+                />
+              </div>
+              <!--/ Password -->
+
+              <!-- Password Confirmation -->
+              <div>
+                <label
+                  for="password-confirmation"
+                  class="block text-sm font-medium text-gray-700"
+                  >Konfrimasi kata sandi</label
+                >
+                <input
+                  type="password"
+                  name="password_confirmation"
+                  id="password-confirmation"
+                  autocomplete="current-password-confirmation"
+                  v-model="model.password_confirmation"
+                  class="
+                    mt-1
+                    focus:ring-indigo-500 focus:border-indigo-500
+                    block
+                    w-full
+                    shadow-sm
+                    sm:text-sm
+                    border-gray-300
+                    rounded-md
+                  "
+                />
+              </div>
+              <!--/ Password Confirmation -->
+
+              <!-- NIK -->
               <div>
                 <label for="nik" class="block text-sm font-medium text-gray-700"
                   >NIK</label
@@ -220,50 +286,25 @@
                     sm:text-sm
                   "
                 >
-                  <option value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
-                </select>
-              </div>
-              <!--/ GENDER -->
-
-              <!-- STUDENT -->
-              <div>
-                <label
-                  for="gender"
-                  class="block text-sm font-medium text-gray-700"
-                  >Anak</label
-                >
-                <select
-                  id="gender"
-                  name="gender"
-                  autocomplete="gender"
-                  v-model="model.student_id"
-                  class="
-                    mt-1
-                    block
-                    w-full
-                    py-2
-                    px-3
-                    border border-gray-300
-                    bg-white
-                    rounded-md
-                    shadow-sm
-                    focus:outline-none
-                    focus:ring-indigo-500
-                    focus:border-indigo-500
-                    sm:text-sm
-                  "
-                >
-                  <option
-                    v-for="student in students.data"
-                    :key="student.id"
-                    :value="student.id"
-                  >
-                    {{ student.name }} | {{ student.nis }}
+                  <!-- <div v-if="model.gender=='L'">
+                    <option value="L" selected>Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                 </div> -->
+                  <option value="L" v-if="model.gender == 'L'" selected>
+                    Laki-laki
+                  </option>
+                  <option value="P" v-if="model.gender == 'L'">
+                    Perempuan
+                  </option>
+                  <option value="P" v-if="model.gender == 'P'" selected>
+                    Perempuan
+                  </option>
+                  <option value="P" v-if="model.gender == 'P'">
+                    Laki-laki
                   </option>
                 </select>
               </div>
-              <!--/ STUDENT -->
+              <!--/ GENDER -->
 
               <!-- ADDRESS -->
               <div>
@@ -316,6 +357,27 @@
                   focus:ring-indigo-500
                 "
               >
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
                 Simpan
               </button>
             </div>
@@ -331,42 +393,26 @@ import { computed, ref, watch } from "vue";
 import PageComponent from "../../../components/PageComponent.vue";
 import { useRoute, useRouter } from "vue-router";
 import store from "../../../store";
+import Alert from "../../../components/Alert.vue";
 
 const router = useRouter();
 
 const route = useRoute();
 
-const students = computed(() => store.state.students);
-store.dispatch("getStudentsAccount");
-
-const parents = computed(() => store.state.parents);
-store.dispatch("getParentsAccount");
+let loading = ref(false);
 
 let model = ref({
+  user_id: "",
   name: "",
   email: "",
+  passowrd: "",
+  password_confirmation: "",
   nik: "",
   foto: null,
   foto_url: null,
   gender: "",
   address: "",
-  student_id: 0,
-  is_active: "",
 });
-
-watch(
-  () => store.state.currentParent.data,
-  (newVal) => {
-    model.value = {
-      ...JSON.parse(JSON.stringify(newVal)),
-      status: newVal.status !== "draft",
-    };
-  }
-);
-
-if (route.params.id) {
-  store.dispatch("getParentAccount", route.params.id);
-}
 
 function onImageChoose(e) {
   const file = e.target.files[0];
@@ -381,8 +427,24 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
+const teacherLoading = computed(() => store.state.teachers.loading);
+
+watch(
+  () => store.state.currentParent.data,
+  (newVal) => {
+    model.value = {
+      ...JSON.parse(JSON.stringify(newVal)),
+      status: newVal.status !== "draft",
+    };
+  }
+);
+
+store.dispatch("parentGetAccount");
+
+let errors = ref("");
+
 function saveParent() {
-  console.log(model.student_id);
+  loading.value = true;
   if (
     model.value.name == "" ||
     model.value.email == "" ||
@@ -390,20 +452,31 @@ function saveParent() {
     model.value.gender == "" ||
     model.value.address == ""
   ) {
+    loading.value = false;
     store.commit("notify", {
       type: "failed",
-      message: "data wajib diisi",
+      message: "form wajib diisi",
     });
   } else {
-    store.dispatch("editParentAccount", model.value).then(({ data }) => {
-      store.commit("notify", {
-        type: "success",
-        message: "akun orang tua berhasil disimpan ",
+    store
+      .dispatch("parentEditAccount", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        errors.value = "";
+        store.commit("notify", {
+          type: "success",
+          message: "akun anda berhasil disimpan ",
+        });
+        router.push({
+          name: "ParentAccount",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
       });
-      router.push({
-        name: "AdminParentAccount",
-      });
-    });
   }
 }
 </script>

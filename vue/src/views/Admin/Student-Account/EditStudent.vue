@@ -349,15 +349,28 @@ if (route.params.id) {
 }
 
 function saveStudent() {
-  store.dispatch("editStudentAccount", model.value).then(({ data }) => {
+  if (
+    model.value.name == "" ||
+    model.value.email == "" ||
+    model.value.nis == "" ||
+    model.value.gender == "" ||
+    model.value.address == ""
+  ) {
     store.commit("notify", {
-      type: "success",
-      message: "akun siswa berhasil disimpan ",
+      type: "failed",
+      message: "form wajib diisi",
     });
-    router.push({
-      name: "StudentAccount",
+  } else {
+    store.dispatch("editStudentAccount", model.value).then(({ data }) => {
+      store.commit("notify", {
+        type: "success",
+        message: "akun siswa berhasil disimpan ",
+      });
+      router.push({
+        name: "AdminStudentAccount",
+      });
     });
-  });
+  }
 }
 </script>
 

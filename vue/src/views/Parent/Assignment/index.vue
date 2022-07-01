@@ -76,7 +76,7 @@
                   telat dikumpulkan
                 </div>
                 <div
-                  v-if="tugas.status == 'tepat waktu'"
+                  v-if="tugas.status == 'tepat_waktu'"
                   class="text-green-600"
                 >
                   tepat waktu

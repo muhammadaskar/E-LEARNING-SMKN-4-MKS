@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RoleTeacher
 {
@@ -17,7 +18,8 @@ class RoleTeacher
     public function handle(Request $request, Closure $next)
     {
         $user = $request->user();
-        if ($user->role === 'teacher') {
+        $teacher = DB::table('teachers')->where('user_id', '=', $user->id)->first();
+        if ($user->role === 'teacher' && $teacher->is_active === 1) {
             return $next($request);
         }
         abort(403, "Cannot access to restricted page");

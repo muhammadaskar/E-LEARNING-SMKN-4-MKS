@@ -4,7 +4,7 @@
       <template v-slot:header>
         <div class="flex justify-between items-center">
           <h1 class="text-3x1 font-bold text-gray-900">
-            <router-link :to="{ name: 'ParentAccount' }">
+            <router-link :to="{ name: 'AdminParentAccount' }">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="h-5 w-5 inline-block"
@@ -377,7 +377,7 @@ function saveParent() {
       message: "akun orang tua berhasil disimpan ",
     });
     router.push({
-      name: "ParentAccount",
+      name: "AdminParentAccount",
     });
   });
 }

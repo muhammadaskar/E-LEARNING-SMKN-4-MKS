@@ -26,6 +26,16 @@
       class="mt-8 space-y-6"
       @submit="register"
     >
+      <Alert
+        v-if="Object.keys(errors).length"
+        class="flex-col items-stretch text-sm"
+      >
+        <div v-for="(field, i) of Object.keys(errors)" :key="i">
+          <div v-for="(error, ind) of errors[field] || []" :key="ind">
+            * {{ error }}
+          </div>
+        </div>
+      </Alert>
       <input type="hidden" name="remember" value="true" />
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
@@ -35,7 +45,6 @@
             name="name"
             type="text"
             autocomplete="name"
-            required=""
             v-model="teacher.name"
             class="
               appearance-none
@@ -65,7 +74,6 @@
             name="nip"
             type="number"
             autocomplete="nip"
-            required=""
             v-model="teacher.nip"
             class="
               appearance-none
@@ -95,7 +103,6 @@
             name="email"
             type="email"
             autocomplete="email"
-            required=""
             v-model="teacher.email"
             class="
               appearance-none
@@ -125,7 +132,6 @@
             name="password"
             type="password"
             autocomplete="current-password"
-            required=""
             v-model="teacher.password"
             class="
               appearance-none
@@ -157,7 +163,6 @@
             name="password_confirmation"
             type="password"
             autocomplete="current-password-confirmation"
-            required=""
             v-model="teacher.password_confirmation"
             class="
               appearance-none
@@ -284,7 +289,6 @@
             name="name"
             type="text"
             autocomplete="name"
-            required=""
             v-model="student.name"
             class="
               appearance-none
@@ -314,7 +318,6 @@
             name="nis"
             type="number"
             autocomplete="nis"
-            required=""
             v-model="student.nis"
             class="
               appearance-none
@@ -344,7 +347,6 @@
             name="email"
             type="email"
             autocomplete="email"
-            required=""
             v-model="student.email"
             class="
               appearance-none
@@ -374,7 +376,6 @@
             name="password"
             type="password"
             autocomplete="current-password"
-            required=""
             v-model="student.password"
             class="
               appearance-none
@@ -406,7 +407,6 @@
             name="password_confirmation"
             type="password"
             autocomplete="current-password-confirmation"
-            required=""
             v-model="student.password_confirmation"
             class="
               appearance-none
@@ -532,7 +532,6 @@
             name="name"
             type="text"
             autocomplete="name"
-            required=""
             v-model="parent.name"
             class="
               appearance-none
@@ -562,7 +561,6 @@
             name="nik"
             type="number"
             autocomplete="nik"
-            required=""
             v-model="parent.nik"
             class="
               appearance-none
@@ -592,7 +590,6 @@
             name="email"
             type="email"
             autocomplete="email"
-            required=""
             v-model="parent.email"
             class="
               appearance-none
@@ -622,7 +619,6 @@
             name="password"
             type="password"
             autocomplete="current-password"
-            required=""
             v-model="parent.password"
             class="
               appearance-none
@@ -654,7 +650,6 @@
             name="password_confirmation"
             type="password"
             autocomplete="current-password-confirmation"
-            required=""
             v-model="parent.password_confirmation"
             class="
               appearance-none
@@ -762,6 +757,27 @@
             focus:ring-indigo-500
           "
         >
+          <svg
+            v-if="loading"
+            class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
           Daftar
         </button>
       </div>
@@ -773,6 +789,8 @@
 import { LockClosedIcon } from "@heroicons/vue/solid";
 import store from "../store";
 import { useRoute, useRouter } from "vue-router";
+import { ref } from "vue";
+import Alert from "../components/Alert.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -787,6 +805,9 @@ const teacher = {
   nip: "",
   role: "teacher",
 };
+
+let errors = ref("");
+let loading = ref(false);
 
 const student = {
   name: "",
@@ -810,27 +831,64 @@ const parent = {
   role: "parent",
 };
 
+// const role =
+
 function register(e) {
   e.preventDefault();
-  if (route.params.role == "teacher") {
-    store.dispatch("register", teacher).then(() => {
-      router.push({
-        name: "Dashboard",
+  loading.value = true;
+  if (route.params.role === "teacher") {
+    store
+      .dispatch("register", teacher)
+      .then((response) => {
+        loading.value = false;
+        router.push({
+          name: "DashboardTeacher",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
       });
-    });
-  } else if (route.params.role == "student") {
-    store.dispatch("register", student).then(() => {
-      router.push({
-        name: "Dashboard",
+  }
+  if (route.params.role === "student") {
+    // let role = response.user.role
+    store
+      .dispatch("register", student)
+      .then((response) => {
+        loading.value = false;
+        router.push({
+          name: "DashboardStudent",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
       });
-    });
-  } else if (route.params.role == "parent") {
-    store.dispatch("register", parent).then(() => {
-      router.push({
-        name: "Dashboard",
+  }
+  if (route.params.role === "parent") {
+    store
+      .dispatch("register", parent)
+      .then((response) => {
+        loading.value = false;
+        router.push({
+          name: "DashboardParent",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
       });
-    });
   } else {
+    loading.value = false;
     console.log("role tidak ditemukan");
   }
 }

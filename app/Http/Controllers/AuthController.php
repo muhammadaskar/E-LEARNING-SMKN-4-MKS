@@ -26,7 +26,9 @@ class AuthController extends Controller
                 ],
                 'gender' => 'required',
                 'address' => 'required',
-                'nip' => 'required',
+                'nip' => 'required|unique:teachers,nip',
+            ], [], [
+                'nip' => 'data guru'
             ]);
             /** @var \App\Models\User $user */
             $user = User::create([
@@ -54,7 +56,9 @@ class AuthController extends Controller
                 ],
                 'gender' => 'required',
                 'address' => 'required',
-                'nis' => 'required',
+                'nis' => 'required|unique:students,nis',
+            ], [], [
+                'nis' => 'data siswa'
             ]);
             /** @var \App\Models\User $user */
             $user = User::create([
@@ -82,7 +86,9 @@ class AuthController extends Controller
                 ],
                 'gender' => 'required',
                 'address' => 'required',
-                'nik' => 'required',
+                'nik' => 'required|unique:parents,nik',
+            ], [], [
+                'nik' => 'data orang tua'
             ]);
             /** @var \App\Models\User $user */
             $user = User::create([
@@ -121,6 +127,8 @@ class AuthController extends Controller
                 'required'
             ],
             'remember' => 'boolean'
+        ], [], [
+            'password' => 'kata sandi'
         ]);
 
         $remember = $credentials['remember'] ?? false;

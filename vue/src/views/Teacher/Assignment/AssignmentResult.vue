@@ -403,13 +403,13 @@ function downloadFile(url) {
   window.open(url);
 }
 function saveStudentScore() {
-  if (model.value.nilai > 0 && model.value.nilai < 100) {
+  if (model.value.nilai > 0 && model.value.nilai <= 100) {
     store
       .dispatch("saveStudentScore", model.value)
       .then(({ data }) => {
         store.commit("notify", {
           type: "success",
-          message: "nilai berhasil disimpan",
+          message: "nilai tugas siswa berhasil disimpan",
         });
         store.dispatch("teacherAssignmentResult", route.params.id);
       })
