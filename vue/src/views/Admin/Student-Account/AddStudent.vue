@@ -31,6 +31,16 @@
           class="animate-fade-in-down row-span-3"
           @submit.prevent="saveStudent"
         >
+          <Alert
+            v-if="Object.keys(errors).length"
+            class="flex-col items-stretch text-sm"
+          >
+            <div v-for="(field, i) of Object.keys(errors)" :key="i">
+              <div v-for="(error, ind) of errors[field] || []" :key="ind">
+                * {{ error }}
+              </div>
+            </div>
+          </Alert>
           <div class="shadow sm:rounded-md sm:overflow-hidden">
             <!-- Teacher Account Fields -->
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -277,6 +287,27 @@
                   focus:ring-indigo-500
                 "
               >
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
                 Simpan
               </button>
             </div>
@@ -292,8 +323,10 @@ import { computed, ref, watch } from "vue";
 import PageComponent from "../../../components/PageComponent.vue";
 import { useRoute, useRouter } from "vue-router";
 import store from "../../../store";
+import Alert from "../../../components/Alert.vue";
 
 const router = useRouter();
+let errors = ref("");
 
 let model = ref({
   name: "",
@@ -318,7 +351,10 @@ function onImageChoose(e) {
   reader.readAsDataURL(file);
 }
 
+let loading = ref(false);
+
 function saveStudent() {
+  loading.value = true;
   if (
     model.value.name == "" ||
     model.value.email == "" ||
@@ -326,20 +362,31 @@ function saveStudent() {
     model.value.gender == "" ||
     model.value.address == ""
   ) {
+    loading.value = false;
     store.commit("notify", {
       type: "failed",
       message: "form wajib diisi",
     });
   } else {
-    store.dispatch("saveStudentAccount", model.value).then(({ data }) => {
-      store.commit("notify", {
-        type: "success",
-        message: "akun siswa berhasil disimpan ",
+    store
+      .dispatch("saveStudentAccount", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        store.commit("notify", {
+          type: "success",
+          message: "akun siswa berhasil disimpan ",
+        });
+        router.push({
+          name: "AdminStudentAccount",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
       });
-      router.push({
-        name: "AdminStudentAccount",
-      });
-    });
   }
 }
 </script>

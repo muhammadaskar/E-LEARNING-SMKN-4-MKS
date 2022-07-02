@@ -32,11 +32,11 @@ class StoreAdminStudentRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'foto' => 'nullable|string',
             'gender' => 'required',
             'address' => 'required',
-            'nis' => 'required',
+            'nis' => 'required|unique:students,nis',
             'user_id' => 'exists:users,id'
         ];
     }
