@@ -21,16 +21,6 @@
       </p>
     </div>
     <form class="mt-8 space-y-6" @submit="login">
-      <Alert
-        v-if="Object.keys(errors).length"
-        class="flex-col items-stretch text-sm"
-      >
-        <div v-for="(field, i) of Object.keys(errors)" :key="i">
-          <div v-for="(error, ind) of errors[field] || []" :key="ind">
-            * {{ error }}
-          </div>
-        </div>
-      </Alert>
       <div
         v-if="errorMsg"
         class="

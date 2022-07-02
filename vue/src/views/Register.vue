@@ -74,7 +74,8 @@
             name="nip"
             type="number"
             autocomplete="nip"
-            v-model="teacher.nip"
+            pattern="^([1-8][0])$"
+            v-model.number="teacher.nip"
             class="
               appearance-none
               rounded-none
@@ -830,8 +831,6 @@ const parent = {
   nik: "",
   role: "parent",
 };
-
-// const role =
 
 function register(e) {
   e.preventDefault();

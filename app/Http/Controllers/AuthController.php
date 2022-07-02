@@ -26,7 +26,7 @@ class AuthController extends Controller
                 ],
                 'gender' => 'required',
                 'address' => 'required',
-                'nip' => 'required|unique:teachers,nip',
+                'nip' => ['required', 'unique:teachers,nip'],
             ], [], [
                 'nip' => 'data guru'
             ]);
