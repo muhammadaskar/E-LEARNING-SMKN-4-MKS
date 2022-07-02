@@ -31,7 +31,7 @@ class StoreAdminParentRequest extends FormRequest
             'address' => 'required',
             'nik' => 'required|unique:parents,nik',
             'user_id' => 'exists:users,id',
-            'student_id' => 'required'
+            'student_id' => 'required|unique:parents,student_id'
         ];
     }
 }

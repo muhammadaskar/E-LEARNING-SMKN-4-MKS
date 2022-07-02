@@ -421,24 +421,25 @@ function saveParent() {
     });
   } else {
     console.log(model.student_id);
-    store.dispatch("saveParentAccount", model.value).then(({ data }) => {
-      loading.value = false;
-      store.commit("notify", {
-        type: "success",
-        message: "akun orang tua berhasil disimpan ",
-      });
-      router
-        .push({
-          name: "AdminParentAccount",
-        })
-        .catch((error) => {
-          loading.value = false;
-          console.error(error.response.status);
-          if (error.response.status === 422) {
-            errors.value = error.response.data.errors;
-          }
+    store
+      .dispatch("saveParentAccount", model.value)
+      .then(({ data }) => {
+        loading.value = false;
+        store.commit("notify", {
+          type: "success",
+          message: "akun orang tua berhasil disimpan ",
         });
-    });
+        router.push({
+          name: "AdminParentAccount",
+        });
+      })
+      .catch((error) => {
+        loading.value = false;
+        console.error(error.response.status);
+        if (error.response.status === 422) {
+          errors.value = error.response.data.errors;
+        }
+      });
   }
 }
 </script>
