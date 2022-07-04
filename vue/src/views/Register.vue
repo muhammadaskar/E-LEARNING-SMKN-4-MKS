@@ -74,8 +74,8 @@
             name="nip"
             type="number"
             autocomplete="nip"
-            pattern="^([1-8][0])$"
-            v-model.number="teacher.nip"
+            v-model="teacher.nip"
+            v-on:keypress="NumbersOnly"
             class="
               appearance-none
               rounded-none
@@ -320,6 +320,7 @@
             type="number"
             autocomplete="nis"
             v-model="student.nis"
+            v-on:keypress="NumbersOnly"
             class="
               appearance-none
               rounded-none
@@ -563,6 +564,7 @@
             type="number"
             autocomplete="nik"
             v-model="parent.nik"
+            v-on:keypress="NumbersOnly"
             class="
               appearance-none
               rounded-none
@@ -831,6 +833,17 @@ const parent = {
   nik: "",
   role: "parent",
 };
+
+
+function NumbersOnly(evt) {
+  evt = evt ? evt : window.event;
+  var charCode = evt.which ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 46) {
+    evt.preventDefault();
+  } else {
+    return true;
+  }
+}
 
 function register(e) {
   e.preventDefault();
