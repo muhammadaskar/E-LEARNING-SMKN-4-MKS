@@ -25,11 +25,11 @@ class StoreAdminParentRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'foto' => 'nullable|string',
             'gender' => 'required',
             'address' => 'required',
-            'nik' => 'required',
+            'nik' => 'required|unique:parents,nik',
             'user_id' => 'exists:users,id',
             'student_id' => 'required|unique:parents,student_id'
         ];

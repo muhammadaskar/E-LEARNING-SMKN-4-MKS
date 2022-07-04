@@ -19,7 +19,7 @@ class RoleTeacher
     {
         $user = $request->user();
         $teacher = DB::table('teachers')->where('user_id', '=', $user->id)->first();
-        if ($user->role === 'teacher' && $teacher->is_active === 1) {
+        if ($user->role === 'teacher') {
             return $next($request);
         }
         abort(403, "Cannot access to restricted page");

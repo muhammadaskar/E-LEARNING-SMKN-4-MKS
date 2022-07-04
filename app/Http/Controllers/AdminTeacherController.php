@@ -39,7 +39,7 @@ class AdminTeacherController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|unique:users,email',
             'foto' => 'nullable|string',
             'gender' => 'required',
             'address' => 'required',
