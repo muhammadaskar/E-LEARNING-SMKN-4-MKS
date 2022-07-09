@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminParentController;
 use App\Http\Controllers\AdminStudentController;
 use App\Http\Controllers\AdminTeacherController;
@@ -8,9 +9,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ParentAccountController;
 use App\Http\Controllers\ParentAssignmentController;
+use App\Http\Controllers\ParentDashboardController;
 use App\Http\Controllers\ParentProcessLearnController;
 use App\Http\Controllers\StudentAccountController;
 use App\Http\Controllers\StudentAssignmentController;
+use App\Http\Controllers\StudentDashboardController;
 use App\Http\Controllers\StudentDiscussController;
 use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\TeacherCommentController;
@@ -19,6 +22,7 @@ use App\Http\Controllers\TeacherMateriController;
 use App\Http\Controllers\StudentMateriController;
 use App\Http\Controllers\TeacherAccountController;
 use App\Http\Controllers\TeacherAssignmentResultController;
+use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherStudentScoreController;
 
 /*
@@ -57,6 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('admin-parent', AdminParentController::class);
         Route::get('admin-parent/{user_id}', [AdminParentController::class, 'show']);
         Route::delete('admin-parent/{user_id}', [AdminParentController::class, 'destroy']);
+        Route::get('admin-dashboard', [AdminDashboardController::class, 'index']);
     });
     Route::middleware('teacher')->group(function () {
         Route::resource('teacher-materi', TeacherMateriController::class);
@@ -72,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::put('teacher-account', [TeacherAccountController::class, 'update']);
         Route::resource('teacher-account', TeacherAccountController::class);
+        Route::get('teacher-dashboard', [TeacherDashboardController::class, 'index']);
     });
 
     Route::middleware('student')->group(function () {
@@ -81,6 +87,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('student-discuss', StudentDiscussController::class);
         Route::put('student-account', [StudentAccountController::class, 'update']);
         Route::resource('student-account', StudentAccountController::class);
+        Route::get('student-dashboard', [StudentDashboardController::class, 'index']);
     });
 
     Route::middleware('parent')->group(function () {
@@ -88,6 +95,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('parent-assignment-process', [ParentAssignmentController::class, 'index']);
         Route::get('parent-account', [ParentAccountController::class, 'index']);
         Route::put('parent-account', [ParentAccountController::class, 'update']);
+        Route::get('parent-dashboard', [ParentDashboardController::class, 'index']);
     });
 });
 

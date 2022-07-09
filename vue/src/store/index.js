@@ -8,17 +8,39 @@ const store = createStore({
             token: sessionStorage.getItem('TOKEN'),
             role: sessionStorage.getItem('ROLE'),
         },
+        admins: {
+            loading: false,
+            guru: 0,
+            siswa: 0,
+            orang_tua: 0,
+        },
         teachers: {
             data: {},
-            loading: false
+            loading: false,
+            siswa: 0,
+            materi: 0,
+            tugas: 0,
+            diskusi: 0,
         },
         students: {
             data: {},
-            loading: false
+            loading: false,
+            materi: 0,
+            tugas: 0,
+            tugas_selesai: 0,
+            tugas_belum: 0,
+            diskusi: 0,
         },
         parents: {
             data: {},
-            loading: false
+            loading: false,
+            materi: 0,
+            tugas: 0,
+            tugas_selesai: 0,
+            tugas_belum: 0,
+            tugas_telat: 0,
+            diskusi: 0,
+            status: false,
         },
         materis: {
             data: {},
@@ -254,6 +276,23 @@ const store = createStore({
             return axiosClient.delete(`/admin-parent/${id}`).then((res) => {
                 return res
             })
+        },
+
+        getTeacherDashboard({ commit }) {
+            commit("setTeacherLoading", true)
+            return axiosClient.get('/teacher-dashboard').then((res) => {
+                commit("setTeacherLoading", false)
+                // commit("setTeacherAsignments", res.data)
+                this.state.teachers.siswa = res.data.siswa
+                this.state.teachers.materi = res.data.materi
+                this.state.teachers.tugas = res.data.tugas
+                this.state.teachers.diskusi = res.data.diskusi
+                console.log(res.data)
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
         },
 
         saveTeacherMateri({ commit }, materi) {
@@ -589,6 +628,22 @@ const store = createStore({
                 });
             return response;
         },
+        getStudentDashboard({ commit }) {
+            commit("setStudentLoading", true)
+            return axiosClient.get('/student-dashboard').then((res) => {
+                commit("setStudentLoading", false)
+                this.state.students.materi = res.data.materi
+                this.state.students.tugas = res.data.tugas
+                this.state.students.tugas_selesai = res.data.tugas_selesai
+                this.state.students.tugas_belum = res.data.tugas_belum
+                this.state.students.diskusi = res.data.diskusi
+                return res
+            })
+                .catch((err) => {
+                    commit("setStudentLoading", false)
+                    console.log(err)
+                })
+        },
         getLearnProcess({ commit }) {
             commit("setLearnProcessLoading", true)
             return axiosClient.get('/parent-learn-process').then((res) => {
@@ -634,7 +689,38 @@ const store = createStore({
                 });
             return response;
         },
-
+        getParentDashboard({ commit }) {
+            commit("setParentLoading", true)
+            return axiosClient.get('/parent-dashboard').then((res) => {
+                commit("setParentLoading", false)
+                // commit("setTeacherAsignments", res.data)
+                this.state.parents.materi = res.data.materi
+                this.state.parents.tugas = res.data.tugas
+                this.state.parents.tugas_selesai = res.data.tugas_selesai
+                this.state.parents.tugas_telat = res.data.tugas_telat
+                this.state.parents.tugas_belum = res.data.tugas_belum
+                this.state.parents.diskusi = res.data.diskusi
+                this.state.parents.status = res.data.status
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
+        getAdminDashboard({ commit }) {
+            commit("setAdminLoading", true)
+            return axiosClient.get('/admin-dashboard').then((res) => {
+                commit("setAdminLoading", false)
+                // commit("setTeacherAsignments", res.data)
+                this.state.admins.guru = res.data.guru
+                this.state.admins.siswa = res.data.siswa
+                this.state.admins.orang_tua = res.data.orang_tua
+                return res
+            })
+                .catch((err) => {
+                    console.log(err)
+                })
+        },
     },
     mutations: {
 
@@ -714,6 +800,9 @@ const store = createStore({
         },
         setParentLoading: (state, loading) => {
             state.parents.loading = loading
+        },
+        setAdminLoading: (state, loading) => {
+            state.admins.loading = loading
         },
         setMateriLoading: (state, loading) => {
             state.materis.loading = loading
