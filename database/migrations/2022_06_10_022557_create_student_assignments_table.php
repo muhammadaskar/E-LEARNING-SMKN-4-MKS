@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('assignment_id')->constrained('assignments')->onDelete('cascade');;
             $table->string('file');
             $table->integer('nilai')->nullable();
+            $table->text('feedback')->nullable();
             $table->string('status');
             $table->timestamps();
         });

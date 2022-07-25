@@ -82,7 +82,8 @@ const store = createStore({
         currentStudent: {
             data: {},
             loading: false,
-            user_id: ""
+            user_id: "",
+            discuss_status: ""
         },
         currentParent: {
             data: {},
@@ -99,7 +100,8 @@ const store = createStore({
         },
         currentDiscuss: {
             data: {},
-            loading: false
+            loading: false,
+            discuss_status: ""
         },
         currentComment: {
             data: {},
@@ -454,6 +456,7 @@ const store = createStore({
                     commit("setCurrentDiscuss", res.data.discuss)
                     commit("setCurrentComment", res.data.comments)
                     this.state.currentComment.length = res.data.comments.length
+                    this.state.currentDiscuss.discuss_status = res.data.discuss_status
                     return res
                 })
         },
@@ -592,6 +595,7 @@ const store = createStore({
                     commit("setCurrentComment", res.data.comments)
                     // commit("setCurrentStudent", res.data.student)
                     this.state.currentStudent.user_id = res.data.student_user_id
+                    this.state.currentStudent.discuss_status = res.data.discuss_status
                     this.state.currentComment.length = res.data.comments.length
                     return res
                 })

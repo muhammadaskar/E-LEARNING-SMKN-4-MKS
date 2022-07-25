@@ -75,6 +75,20 @@
               />
             </div>
             <!--/ TOPIK -->
+
+            <!-- DUE DATE -->
+            <div>
+              <label
+                for="description"
+                class="block text-sm font-medium text-gray-700"
+                >Tenggang waktu</label
+              >
+              <Datepicker
+                v-model="model.due_date"
+                :minDate="new Date()"
+              ></Datepicker>
+            </div>
+            <!--/ DUE DATE -->
           </div>
           <!--/ Discuss Fields -->
 
@@ -166,13 +180,21 @@
             alt=""
           />
           <div class="basis-5/6 pl-4">
+            <h1 class="font-semibold">
+              <span v-if="comment.user_id == model.user_id">Anda</span>
+              <span v-else>
+                {{ comment.name }}
+              </span>
+              <span class="pl-2 text-xs font-normal">
+                {{ comment.created_at }}</span
+              >
+            </h1>
             <h1>{{ comment.comment }}</h1>
-            <p class="">{{ comment.created_at }}</p>
           </div>
           <div class="pt-3"></div>
           <div class="pt-3 pl-2" v-if="comment.user_id == model.user_id">
             <button
-              v-if="comment.id"
+              v-if="comment.id && discuss_status === 'opened'"
               @click="deleteComment(comment.id)"
               type="button"
               class="
@@ -199,6 +221,7 @@
         </div>
       </div>
       <form
+        v-if="discuss_status === 'opened'"
         class="animate-fade-in-down row-span-3 mt-4"
         @submit.prevent="saveComment"
         enctype="multipart/form-data"
@@ -216,7 +239,7 @@
         <div class="shadow sm:rounded-md sm:overflow-hidden">
           <!-- Discuss Fields -->
           <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-            <!-- TOPIK -->
+            <!-- COMMENTS -->
             <div>
               <label
                 for="discuss"
@@ -240,7 +263,7 @@
                 "
               />
             </div>
-            <!--/ TOPIK -->
+            <!--/ COMMENTS -->
           </div>
           <!--/ Discuss Fields -->
 
@@ -292,6 +315,20 @@
           </div>
         </div>
       </form>
+      <div
+        v-else
+        class="
+          justify-center
+          relative
+          overflow-x-auto
+          shadow-md
+          sm:rounded-lg
+          p-4
+          animate-fade-in-down
+        "
+      >
+        <h1 class="text-center text-red-500">Diskusi telah ditutup</h1>
+      </div>
     </PageComponent>
   </div>
 </template>
@@ -317,16 +354,21 @@ let loadingHapus = ref(false);
 let loading = ref(false);
 
 let model = ref({
+  id: "",
   topic: "",
+  due_date: "",
   user_id: "",
   comment: "",
-  discuss_id: null,
   is_null: false,
 });
 
 const comments = computed(() => store.state.currentComment);
 
 const discussLoading = computed(() => store.state.currentDiscuss.loading);
+
+const discuss_status = computed(
+  () => store.state.currentDiscuss.discuss_status
+);
 
 watch(
   () => store.state.currentDiscuss.data,

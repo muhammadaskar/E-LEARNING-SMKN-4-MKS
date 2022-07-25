@@ -15,7 +15,7 @@ class TeacherAssignmentResultController extends Controller
         $studentAssignment = DB::table('student_assignments')
             ->join('students', 'student_assignments.student_id', '=', 'students.id')
             ->join('users', 'students.user_id', '=', 'users.id')
-            ->select('student_assignments.id', 'student_assignments.assignment_id', 'student_assignments.file', 'student_assignments.created_at', 'users.name', 'student_assignments.status', 'student_assignments.nilai', 'users.foto')
+            ->select('student_assignments.id', 'student_assignments.assignment_id', 'student_assignments.file', 'student_assignments.created_at', 'users.name', 'student_assignments.status', 'student_assignments.nilai', 'users.foto', 'student_assignments.feedback')
             ->where('student_assignments.id', '=', $id)->first();
 
         $assignment = DB::table('assignments')
@@ -33,6 +33,7 @@ class TeacherAssignmentResultController extends Controller
             'file' => URL::to($studentAssignment->file),
             'status_pengerjaan' => $studentAssignment->status,
             'nilai' => $studentAssignment->nilai,
+            'feedback' => $studentAssignment->feedback,
             'created_at' => $studentAssignment->created_at,
         ]);
     }

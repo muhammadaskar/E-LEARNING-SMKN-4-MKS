@@ -12,5 +12,6 @@ class Discuss extends Model
     protected $fillable = [
         'teacher_id',
         'topic',
+        'due_date',
     ];
 }

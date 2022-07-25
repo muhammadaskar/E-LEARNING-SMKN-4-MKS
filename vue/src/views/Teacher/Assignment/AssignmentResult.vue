@@ -236,7 +236,7 @@
       </div>
       <!-- End List Assignment -->
 
-      <h1 class="mt-3">Nilai Siswa</h1>
+      <h1 class="mt-3">Nilai dan Umpan Balik Untuk Siswa</h1>
       <div v-if="loadingStudentAssignments" class="justify-center">
         <div
           class="
@@ -269,6 +269,11 @@
             <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
               <!-- TITLE -->
               <div>
+                <label
+                  for="description"
+                  class="block text-sm font-medium text-gray-700"
+                  >Nilai</label
+                >
                 <input
                   type="number"
                   name="nilai"
@@ -286,8 +291,35 @@
                   "
                 />
               </div>
+
+              <!-- FEEDBACK -->
+              <div>
+                <label
+                  for="description"
+                  class="block text-sm font-medium text-gray-700"
+                  >Umpan Balik</label
+                >
+                <textarea
+                  id="description"
+                  name="description"
+                  rows="3"
+                  v-model="model.feedback"
+                  class="
+                    shadow-sm
+                    focus:ring-indigo-500 focus:border-indigo-500
+                    mt-1
+                    block
+                    w-full
+                    sm:text-sm
+                    border border-gray-300
+                    rounded-md
+                  "
+                />
+              </div>
+              <!--/ FEEDBACK -->
+
               <div class="grid grid-cols-2 gap-2">
-                <div class="px-1 py-1 text-right sm:px-6">
+                <div class="px-1 py-1 text-left sm:px-6">
                   <button
                     type="submit"
                     class="
@@ -376,6 +408,7 @@ let model = ref({
   foto: null,
   status_pengerjaan: "",
   nilai: "",
+  feedback: "",
   file: null,
   created_at: null,
 });

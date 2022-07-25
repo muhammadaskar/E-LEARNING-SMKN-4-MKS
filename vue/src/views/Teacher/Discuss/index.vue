@@ -4,8 +4,8 @@
       <template v-slot:header>
         <div class="flex justify-between items-center">
           <h1 class="text-3x1 font-bold text-gray-900">Diskusi</h1>
-          <button
-            @click="addDiscuss"
+          <router-link
+            :to="{ name: 'TeacherAddDiscuss' }"
             class="
               py-2
               px-3
@@ -29,7 +29,7 @@
                 d="M12 4v16m8-8H4"
               /></svg
             >Tambah diskusi
-          </button>
+          </router-link>
         </div>
       </template>
       <div v-if="discusses.loading" class="justify-center">
@@ -66,16 +66,7 @@
           <div class="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="
-                flex
-                items-center
-                justify-center
-                h-12
-                w-12
-                rounded-full
-                overflow-hidden
-                bg-gray-100
-              "
+              class="h-12 w-12 mt-2 inline-block"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -84,7 +75,7 @@
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"
               />
             </svg>
           </div>
@@ -163,35 +154,6 @@ const route = useRoute();
 
 const discusses = computed(() => store.state.discusses);
 store.dispatch("getTeacherDiscusses");
-
-async function addDiscuss() {
-  const { value: text } = await Swal.fire({
-    input: "textarea",
-    inputLabel: "Topik diskusi",
-    cancelButtonText: "Batal",
-    confirmButtonText: "Simpan",
-    inputPlaceholder: "Masukkan topik diskusi di sini...",
-    inputAttributes: {
-      "aria-label": "Masukkan topik diskusi di sini",
-    },
-    showCancelButton: true,
-  });
-
-  if (text) {
-    // Swal.fire(text);
-    // console.log({ text });
-    store.dispatch("saveTeacherDiscuss", { text }).then(({ data }) => {
-      store.commit("notify", {
-        type: "success",
-        message: "topik diskusi berhasil disimpan ",
-      });
-      //   router.push({
-      //     name: "TeacherDiscuss",
-      //   });
-      store.dispatch("getTeacherDiscusses");
-    });
-  }
-}
 
 function deleteDiscuss(id) {
   Swal.fire({

@@ -864,27 +864,27 @@
                   focus:ring-indigo-500
                 "
               >
-              <svg
-                v-if="loading"
-                class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+                <svg
+                  v-if="loading"
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
                 Simpan
               </button>
             </div>
@@ -960,6 +960,7 @@ function onChange(e) {
 function saveMateri() {
   loading.value = true;
   let fd = new FormData();
+  fd.append("status", "update");
   fd.append("materi_id", model.value.materi_id);
   fd.append("title", model.value.title);
   fd.append("description", model.value.description);
@@ -992,18 +993,21 @@ function saveMateri() {
     "jawaban_benar_pertanyaan_3",
     model.value.jawaban_benar_pertanyaan_3
   );
-  store.dispatch("editTeacherMateri", fd).then(({ data }) => {
-    loading.value = false;
-    store.commit("notify", {
-      type: "success",
-      message: "materi berhasil disimpan ",
+  store
+    .dispatch("saveTeacherMateri", fd)
+    .then(({ data }) => {
+      loading.value = false;
+      store.commit("notify", {
+        type: "success",
+        message: "materi berhasil disimpan ",
+      });
+      router.push({
+        name: "TeacherMateri",
+      });
+    })
+    .catch((error) => {
+      loading.value = false;
     });
-    // router.push({
-    //   name: "TeacherMateri",
-    // });
-  }).catch((error) => {
-    loading.value = false;
-  });
 }
 </script>
 

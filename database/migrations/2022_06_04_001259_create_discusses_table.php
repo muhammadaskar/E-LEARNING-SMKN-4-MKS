@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->longText('topic');
+            $table->dateTime('due_date');
             $table->timestamps();
         });
     }

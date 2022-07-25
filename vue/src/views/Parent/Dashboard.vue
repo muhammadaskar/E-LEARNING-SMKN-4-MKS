@@ -108,49 +108,6 @@
                   </div>
                 </div>
                 <h1 v-else class="mt-1 text-2xl font-bold">
-                  {{ tugas_telat }}
-                </h1>
-                <h4 class="mt-1 text-lg font-bold">Telat Dikumpulkan</h4>
-              </div>
-              <div class="">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-16 w-16 mt-2 inline-block"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div
-            class="
-              flex flex-col
-              py-4
-              px-6
-              rounded-md
-              shadow-md
-              bg-green-100
-              h-[120px]
-            "
-          >
-            <div class="flex justify-between">
-              <div>
-                <div v-if="loading" class="mt-2">
-                  <div class="animate-pulse flex">
-                    <div class="flex-1 space-y-4 py-1">
-                      <div class="h-2 bg-slate-700 rounded"></div>
-                    </div>
-                  </div>
-                </div>
-                <h1 v-else class="mt-1 text-2xl font-bold">
                   {{ tugas_belum }}
                 </h1>
                 <h4 class="mt-1 text-lg font-bold">Belum Dikumpulkan</h4>

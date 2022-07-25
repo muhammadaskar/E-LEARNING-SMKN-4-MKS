@@ -41,7 +41,7 @@
                 <label
                   for="title"
                   class="block text-sm font-medium text-gray-700"
-                  >Judul</label
+                  >Judul <span class="text-red-400">*</span></label
                 >
                 <input
                   type="text"
@@ -68,7 +68,7 @@
                 <label
                   for="description"
                   class="block text-sm font-medium text-gray-700"
-                  >Deskripsi</label
+                  >Deskripsi<span class="text-red-400">*</span></label
                 >
                 <textarea
                   id="description"
@@ -92,7 +92,8 @@
               <!-- FIle -->
               <div>
                 <label class="block text-sm font-medium text-gray-700">
-                  File
+                  File (<span class="text-green-500">.pdf</span>) dan maksimal 5
+                  MB<span class="text-red-400">*</span>
                 </label>
                 <div class="mt-1 flex items-center">
                   <svg
@@ -181,7 +182,7 @@
                 <label
                   for="link"
                   class="block text-sm font-medium text-gray-700"
-                  >Link Tambahan</label
+                  >Link Tambahan<span class="text-red-400">*</span></label
                 >
                 <input
                   type="text"
@@ -214,7 +215,7 @@
                 <label
                   for="question"
                   class="block text-sm font-medium text-gray-700"
-                  >Pertanyaan 1</label
+                  >Pertanyaan 1<span class="text-red-400">*</span></label
                 >
                 <textarea
                   id="question"
@@ -240,7 +241,9 @@
                 <label
                   for="link"
                   class="block text-sm font-medium text-gray-700"
-                  >Jawaban soal nomor 1</label
+                  >Jawaban soal nomor 1<span class="text-red-400"
+                    >*</span
+                  ></label
                 >
                 <div class="grid grid-rows-2 grid-flow-col gap-2 justify-start">
                   <div class="row row-span-2">
@@ -424,7 +427,7 @@
                 <label
                   for="question"
                   class="block text-sm font-medium text-gray-700"
-                  >Pertanyaan 2</label
+                  >Pertanyaan 2<span class="text-red-400">*</span></label
                 >
                 <textarea
                   id="question"
@@ -450,7 +453,9 @@
                 <label
                   for="link"
                   class="block text-sm font-medium text-gray-700"
-                  >Jawaban soal nomor 2</label
+                  >Jawaban soal nomor 2<span class="text-red-400"
+                    >*</span
+                  ></label
                 >
                 <div class="grid grid-rows-2 grid-flow-col gap-2 justify-start">
                   <div class="row row-span-2">
@@ -634,7 +639,7 @@
                 <label
                   for="question"
                   class="block text-sm font-medium text-gray-700"
-                  >Pertanyaan 3</label
+                  >Pertanyaan 3<span class="text-red-400">*</span></label
                 >
                 <textarea
                   id="question"
@@ -660,7 +665,9 @@
                 <label
                   for="link"
                   class="block text-sm font-medium text-gray-700"
-                  >Jawaban soal nomor 3</label
+                  >Jawaban soal nomor 3<span class="text-red-400"
+                    >*</span
+                  ></label
                 >
                 <div class="grid grid-rows-2 grid-flow-col gap-2 justify-start">
                   <div class="row row-span-2">
@@ -942,6 +949,7 @@ function onChange(e) {
 function saveMateri() {
   loading.value = true;
   let fd = new FormData();
+  fd.append("status", "add");
   fd.append("title", model.value.title);
   fd.append("description", model.value.description);
   fd.append("link", model.value.link);

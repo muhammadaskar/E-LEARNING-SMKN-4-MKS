@@ -72,8 +72,8 @@
                 >
                   belum dikumpulkan
                 </div>
-                <div v-if="tugas.status == 'telat'" class="text-yellow-600">
-                  telat dikumpulkan
+                <div v-if="tugas.status == 'telat'" class="text-yellow-900">
+                  terlambat dikumpulkan
                 </div>
                 <div
                   v-if="tugas.status == 'tepat_waktu'"

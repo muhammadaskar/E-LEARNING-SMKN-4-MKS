@@ -27,6 +27,7 @@ import TeacherAssignmentResult from "../views/Teacher/Assignment/AssignmentResul
 
 import TeacherDiscuss from "../views/Teacher/Discuss/index.vue"
 import TeacherDetailDiscuss from "../views/Teacher/Discuss/DetailDiscuss.vue"
+import TeacherAddDiscuss from "../views/Teacher/Discuss/AddDiscuss.vue"
 import TeacherAccount from "../views/Teacher/Account/index.vue"
 
 import DashboardStudent from "../views/Student/Dashboard.vue"
@@ -46,6 +47,8 @@ import ParentLearnProcess from "../views/Parent/Learn-Process/index.vue"
 import ParentAssignmentProcess from "../views/Parent/Assignment/index.vue"
 import ParentAccount from "../views/Parent/Account/index.vue"
 
+import NotFound from "../views/Errors/404.vue"
+import Unauthorized from "../views/Errors/401.vue"
 
 import Login from "../views/Login.vue"
 import Register from "../views/Register.vue"
@@ -70,7 +73,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             // reject the navigation
             if (store.state.user.role != 'admin') {
-                console.log('gagal')
+                next({ name: "Unauthorized" });
             } else {
                 next()
             }
@@ -97,7 +100,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             // reject the navigation
             if (store.state.user.role != 'teacher') {
-                console.log('gagal')
+                next({ name: "Unauthorized" });
             } else {
                 next()
             }
@@ -113,6 +116,7 @@ const routes = [
             { path: 'teacher/assignment/edit/:id', name: 'TeacherEditAssignment', component: TeacherEditAssignment },
             { path: 'teacher/assignment/result/:id', name: 'TeacherAssignmentResult', component: TeacherAssignmentResult },
             { path: '/teacher/discuss', name: 'TeacherDiscuss', component: TeacherDiscuss },
+            { path: '/teacher/discuss/new', name: 'TeacherAddDiscuss', component: TeacherAddDiscuss },
             { path: '/teacher/discuss/detail/:id', name: 'TeacherDetailDiscuss', component: TeacherDetailDiscuss },
             { path: '/teacher-account', name: 'TeacherAccount', component: TeacherAccount },
         ]
@@ -126,7 +130,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             // reject the navigation
             if (store.state.user.role != 'student') {
-                console.log('gagal')
+                next({ name: "Unauthorized" });
             } else {
                 next()
             }
@@ -151,7 +155,7 @@ const routes = [
         beforeEnter: (to, from, next) => {
             // reject the navigation
             if (store.state.user.role != 'parent') {
-                console.log('gagal')
+                next({ name: "Unauthorized" });
             } else {
                 next()
             }
@@ -186,12 +190,23 @@ const routes = [
                 component: Login
             }
         ]
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound
+    },
+    {
+        path: '/401',
+        name: 'Unauthorized',
+        component: Unauthorized
     }
 ]
 
 const router = createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    hasHistory() { return window.history.length > 2 },
 })
 
 router.beforeEach((to, from, next) => {

@@ -30,7 +30,7 @@
                 stroke-width="2"
                 d="M12 4v16m8-8H4"
               /></svg
-            >Tambah materi</router-link
+            >Tambah materi & Soal evaluasi</router-link
           >
         </div>
       </template>

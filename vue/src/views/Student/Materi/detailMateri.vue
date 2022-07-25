@@ -669,9 +669,9 @@ let answer = ref({
 // var FormData = require("form-data");
 function sendEvaluation() {
   if (
-    answer.value.answer_1 == "" ||
-    answer.value.answer_2 == "" ||
-    answer.value.answer_3 == ""
+    model.value.answer_1 === "" ||
+    model.value.answer_2 === "" ||
+    model.value.answer_3 === ""
   ) {
     store.commit("notify", {
       type: "failed",

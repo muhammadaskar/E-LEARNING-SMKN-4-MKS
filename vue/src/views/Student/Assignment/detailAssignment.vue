@@ -116,7 +116,19 @@
             </label>
 
             <label
-              v-if="model.status_pengerjaan == 'belum_dikumpulkan'"
+              v-if="
+                model.status_pengerjaan == 'belum_dikumpulkan' &&
+                model.ket == 'missing'
+              "
+              class="block text-sm mt-2 font-medium text-red-700"
+            >
+              missing
+            </label>
+            <label
+              v-if="
+                model.status_pengerjaan == 'belum_dikumpulkan' &&
+                model.ket == null
+              "
               class="block text-sm mt-2 font-medium text-yellow-700"
             >
               belum dikumpulkan
@@ -297,6 +309,7 @@ let model = ref({
   due_date: "",
   file: null,
   status_pengerjaan: "",
+  ket: "",
 });
 
 let loading = ref(false);

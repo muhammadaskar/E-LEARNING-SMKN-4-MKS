@@ -76,15 +76,15 @@ class TeacherAssignmentController extends Controller
         $tanggal = $formattedTime->format('Y-m-d');
         $waktu = $formattedTimee->format('H:i');
 
-        foreach ($users as $user) {
-            $mailData = [
-                'name' => $user->name,
-                'due_date' => Carbon::parse($tanggal)->isoFormat('dddd, D MMMM Y'),
-                'time' => $waktu
-            ];
+        // foreach ($users as $user) {
+        //     $mailData = [
+        //         'name' => $user->name,
+        //         'due_date' => Carbon::parse($tanggal)->isoFormat('dddd, D MMMM Y'),
+        //         'time' => $waktu
+        //     ];
 
-            Mail::to($user->email)->send(new MailAssignment($mailData));
-        }
+        //     Mail::to($user->email)->send(new MailAssignment($mailData));
+        // }
 
         foreach ($students as $std) {
             StudentAssignment::create([

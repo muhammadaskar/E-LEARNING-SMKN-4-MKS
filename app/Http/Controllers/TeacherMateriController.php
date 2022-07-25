@@ -39,7 +39,7 @@ class TeacherMateriController extends Controller
 
         $request->validate([
             'title' => 'required',
-            'file' => 'required|mimes:pdf,docx,pptx',
+            // 'file' => 'required|mimes:pdf',
             'link' => 'required',
             'description' => 'required',
             'question1' => 'required',
@@ -63,57 +63,113 @@ class TeacherMateriController extends Controller
         ]);
 
         $fileName = null;
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $dir = 'assets/file/materi/';
-            $filename = time() . '-' . $file->getClientOriginalName();
-            $file = $file->move(public_path($dir), $filename);
-            $fileName = $dir . $filename;
-        }
-
-        $materi = TeacherMateri::create([
-            'title' => $request->title,
-            'slug' =>  \Illuminate\Support\Str::slug($request->title, '-'),
-            'file' => $fileName,
-            'link' => $request->link,
-            'description' => $request->description,
-        ]);
-
-
-        EvaluationQuestion::create([
-            'materi_id' => $materi->id,
-            'question1' => $request->question1,
-            'question2' => $request->question2,
-            'question3' => $request->question3,
-            'jawaban_a_pertanyaan_1' => $request->jawaban_a_pertanyaan_1,
-            'jawaban_b_pertanyaan_1' => $request->jawaban_b_pertanyaan_1,
-            'jawaban_c_pertanyaan_1' => $request->jawaban_c_pertanyaan_1,
-            'jawaban_d_pertanyaan_1' => $request->jawaban_d_pertanyaan_1,
-            'jawaban_benar_pertanyaan_1' => $request->jawaban_benar_pertanyaan_1,
-            'jawaban_a_pertanyaan_2' => $request->jawaban_a_pertanyaan_2,
-            'jawaban_b_pertanyaan_2' => $request->jawaban_b_pertanyaan_2,
-            'jawaban_c_pertanyaan_2' => $request->jawaban_c_pertanyaan_2,
-            'jawaban_d_pertanyaan_2' => $request->jawaban_d_pertanyaan_2,
-            'jawaban_benar_pertanyaan_2' => $request->jawaban_benar_pertanyaan_2,
-            'jawaban_a_pertanyaan_3' => $request->jawaban_a_pertanyaan_3,
-            'jawaban_b_pertanyaan_3' => $request->jawaban_b_pertanyaan_3,
-            'jawaban_c_pertanyaan_3' => $request->jawaban_c_pertanyaan_3,
-            'jawaban_d_pertanyaan_3' => $request->jawaban_d_pertanyaan_3,
-            'jawaban_benar_pertanyaan_3' => $request->jawaban_benar_pertanyaan_3
-        ]);
-
-        $students = DB::table('students')->get();
-
-        foreach ($students as $std) {
-            StudentMateriAccessStatus::create([
-                'materi_id' => $materi->id,
-                'student_id' => $std->id,
-                'status_pengerjaan' => 'belum'
+        if ($request->status == 'add') {
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $dir = 'assets/file/materi/';
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $file = $file->move(public_path($dir), $filename);
+                $fileName = $dir . $filename;
+            }
+            $materi = TeacherMateri::create([
+                'title' => $request->title,
+                'slug' =>  \Illuminate\Support\Str::slug($request->title, '-'),
+                'file' => $fileName,
+                'link' => $request->link,
+                'description' => $request->description,
             ]);
+
+            EvaluationQuestion::create([
+                'materi_id' => $materi->id,
+                'question1' => $request->question1,
+                'question2' => $request->question2,
+                'question3' => $request->question3,
+                'jawaban_a_pertanyaan_1' => $request->jawaban_a_pertanyaan_1,
+                'jawaban_b_pertanyaan_1' => $request->jawaban_b_pertanyaan_1,
+                'jawaban_c_pertanyaan_1' => $request->jawaban_c_pertanyaan_1,
+                'jawaban_d_pertanyaan_1' => $request->jawaban_d_pertanyaan_1,
+                'jawaban_benar_pertanyaan_1' => $request->jawaban_benar_pertanyaan_1,
+                'jawaban_a_pertanyaan_2' => $request->jawaban_a_pertanyaan_2,
+                'jawaban_b_pertanyaan_2' => $request->jawaban_b_pertanyaan_2,
+                'jawaban_c_pertanyaan_2' => $request->jawaban_c_pertanyaan_2,
+                'jawaban_d_pertanyaan_2' => $request->jawaban_d_pertanyaan_2,
+                'jawaban_benar_pertanyaan_2' => $request->jawaban_benar_pertanyaan_2,
+                'jawaban_a_pertanyaan_3' => $request->jawaban_a_pertanyaan_3,
+                'jawaban_b_pertanyaan_3' => $request->jawaban_b_pertanyaan_3,
+                'jawaban_c_pertanyaan_3' => $request->jawaban_c_pertanyaan_3,
+                'jawaban_d_pertanyaan_3' => $request->jawaban_d_pertanyaan_3,
+                'jawaban_benar_pertanyaan_3' => $request->jawaban_benar_pertanyaan_3
+            ]);
+
+            $students = DB::table('students')->get();
+
+            foreach ($students as $std) {
+                StudentMateriAccessStatus::create([
+                    'materi_id' => $materi->id,
+                    'student_id' => $std->id,
+                    'status_pengerjaan' => 'belum'
+                ]);
+            }
+        } else {
+
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $dir = 'assets/file/materi/';
+                $filename = time() . '-' . $file->getClientOriginalName();
+                $file = $file->move(public_path($dir), $filename);
+                $fileName = $dir . $filename;
+
+                $materi = DB::table('materis')
+                    ->where('id', '=', $request->materi_id)
+                    ->update([
+                        'title' => $request->title,
+                        'slug' =>  \Illuminate\Support\Str::slug($request->title, '-'),
+                        'file' => $fileName,
+                        'link' => $request->link,
+                        'description' => $request->description,
+                    ]);
+            } else {
+                $materi = DB::table('materis')
+                    ->where('id', '=', $request->materi_id)
+                    ->update([
+                        'title' => $request->title,
+                        'slug' =>  \Illuminate\Support\Str::slug($request->title, '-'),
+                        'link' => $request->link,
+                        'description' => $request->description,
+                    ]);
+            }
+
+
+            DB::table('evaluation_questions')
+                ->where('materi_id', '=', $request->materi_id)
+                ->update([
+                    'materi_id' => $request->materi_id,
+                    'question1' => $request->question1,
+                    'question2' => $request->question2,
+                    'question3' => $request->question3,
+                    'jawaban_a_pertanyaan_1' => $request->jawaban_a_pertanyaan_1,
+                    'jawaban_b_pertanyaan_1' => $request->jawaban_b_pertanyaan_1,
+                    'jawaban_c_pertanyaan_1' => $request->jawaban_c_pertanyaan_1,
+                    'jawaban_d_pertanyaan_1' => $request->jawaban_d_pertanyaan_1,
+                    'jawaban_benar_pertanyaan_1' => $request->jawaban_benar_pertanyaan_1,
+                    'jawaban_a_pertanyaan_2' => $request->jawaban_a_pertanyaan_2,
+                    'jawaban_b_pertanyaan_2' => $request->jawaban_b_pertanyaan_2,
+                    'jawaban_c_pertanyaan_2' => $request->jawaban_c_pertanyaan_2,
+                    'jawaban_d_pertanyaan_2' => $request->jawaban_d_pertanyaan_2,
+                    'jawaban_benar_pertanyaan_2' => $request->jawaban_benar_pertanyaan_2,
+                    'jawaban_a_pertanyaan_3' => $request->jawaban_a_pertanyaan_3,
+                    'jawaban_b_pertanyaan_3' => $request->jawaban_b_pertanyaan_3,
+                    'jawaban_c_pertanyaan_3' => $request->jawaban_c_pertanyaan_3,
+                    'jawaban_d_pertanyaan_3' => $request->jawaban_d_pertanyaan_3,
+                    'jawaban_benar_pertanyaan_3' => $request->jawaban_benar_pertanyaan_3
+                ]);
         }
 
-        return new TeacherMateriResource($materi);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'materi berhasil disimpan',
+        ]);
     }
 
     /**

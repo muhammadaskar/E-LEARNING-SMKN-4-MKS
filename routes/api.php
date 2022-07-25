@@ -72,7 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('teacher-assignment-result', TeacherAssignmentResultController::class);
         Route::resource('teacher-student-score', TeacherStudentScoreController::class);
         Route::resource('teacher-discuss', TeacherDiscussController::class);
-        Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
+        // Route::put('teacher-discuss/{id}', [TeacherDiscussController::class, 'update']);
         Route::resource('teacher-comment', TeacherCommentController::class);
 
         Route::put('teacher-account', [TeacherAccountController::class, 'update']);

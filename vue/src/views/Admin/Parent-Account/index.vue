@@ -132,6 +132,7 @@ import PageComponent from "../../../components/PageComponent.vue";
 import store from "../../../store";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 
@@ -142,15 +143,26 @@ const parents = computed(() => store.state.parents);
 store.dispatch("getParentsAccount");
 
 function deleteParentAccount(id) {
-  if (confirm("Apakah anda yakin ingin menghapus ?")) {
-    store.dispatch("deleteParentAccount", id).then(() => {
-      store.commit("notify", {
-        type: "success",
-        message: "akun orang tua berhasil dihapus ",
+  Swal.fire({
+    title: "",
+    text: "Apakah anda yakin ingin menghapus?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ok",
+    cancelButtonText: "Batal",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      store.dispatch("deleteParentAccount", id).then(() => {
+        store.commit("notify", {
+          type: "success",
+          message: "akun orang tua berhasil dihapus ",
+        });
+        store.dispatch("getParentsAccount");
       });
-      store.dispatch("getParentsAccount");
-    });
-  }
+    }
+  });
 }
 </script>
 

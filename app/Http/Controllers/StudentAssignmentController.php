@@ -77,7 +77,6 @@ class StudentAssignmentController extends Controller
             $status = "tepat_waktu";
         }
 
-
         $stdAssignment = DB::table('student_assignments')
             ->where('student_id', '=', $student->id)
             ->where('assignment_id', '=', $assignment->id)
@@ -140,13 +139,28 @@ class StudentAssignmentController extends Controller
             ->where('student_id', '=', $student->id)
             ->where('assignment_id', '=', $id)->first();
 
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
+
         $d = new DateTime($assignment->due_date);
         $formattedTime = $d;
         $formattedTimee = $d;
         $formattedTime = $formattedTime->format('Y-m-d');
         $time_due_date = $formattedTimee->format('H:i');
 
+        $ket = null;
+        if ($studentAssignment != null) {
+            if ($studentAssignment->status === "belum_dikumpulkan") {
+                if ($date > $formattedTime) {
+                    $ket = "missing";
+                } else if ($date == $formattedTime && $time > $time_due_date) {
+                    $ket = "missing";
+                }
+            }
+        }
+
         if ($studentAssignment == null) {
+
             return response()->json([
                 'assignment_id' => $id,
                 'student_assignment_id' => null,
@@ -154,7 +168,8 @@ class StudentAssignmentController extends Controller
                 'slug' => $assignment->slug,
                 'description' => $assignment->description,
                 'due_date' => Carbon::parse($assignment->due_date)->isoFormat('dddd, D MMMM Y') . " " . $time_due_date,
-                'status_pengerjaan' => 'belum_dikumpulkan'
+                'status_pengerjaan' => 'belum_dikumpulkan',
+                'ket' => $ket
             ]);
         }
 
@@ -168,6 +183,7 @@ class StudentAssignmentController extends Controller
             'file' => $studentAssignment->file,
             'status_pengerjaan' => $studentAssignment->status,
             'submited_at' => $studentAssignment->created_at,
+            'ket' => $ket
         ]);
     }
 }

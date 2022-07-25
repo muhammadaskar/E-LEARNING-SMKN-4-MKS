@@ -49,7 +49,8 @@
                 "
               >
                 <span class="sr-only">View notifications</span>
-                <BellIcon class="h-6 w-6" aria-hidden="true" />
+                <!-- <BellIcon class="h-6 w-6" aria-hidden="true" /> -->
+                Admin
               </button>
 
               <!-- Profile dropdown -->

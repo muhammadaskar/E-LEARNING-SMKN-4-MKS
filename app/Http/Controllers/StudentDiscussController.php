@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,20 +53,41 @@ class StudentDiscussController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $status = null;
         $discuss = DB::table('discusses')
             ->where('discusses.id', '=', $id)
             ->first();
 
-        $comments = DB::table('comments')->where('discuss_id', '=', $id)->get();
+        $comments = DB::table('comments')
+            ->join('users', 'comments.user_id', '=', 'users.id')
+            ->select('comments.id as id', 'comments.user_id as user_id', 'comments.comment as comment', 'users.name as name', 'comments.created_at as created_at', 'comments.updated_at as created_at')
+            ->where('discuss_id', '=', $id)->get();
 
         $user = $request->user();
         $student = DB::table('students')->where('user_id', '=', $user->id)->first();
 
+        $date = date('Y-m-d');
+        $time = date('H:i:s');
+
+        $d = new DateTime($discuss->due_date);
+        $formattedTime = $d;
+        $formattedTimee = $d;
+        $formattedTime = $formattedTime->format('Y-m-d');
+        $time_due_date = $formattedTimee->format('H:i:s');
+
+        if ($date > $formattedTime) {
+            $status = "closed";
+        } else if ($date == $formattedTime && $time > $time_due_date) {
+            $status = "closed";
+        } else {
+            $status = "opened";
+        }
 
         return response()->json([
             'discuss' => $discuss,
             'comments' => $comments,
             'student_user_id' => $student->user_id,
+            'discuss_status' => $status,
         ]);
     }
 
