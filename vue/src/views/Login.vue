@@ -205,6 +205,8 @@ const router = useRouter();
 
 let errors = ref("");
 
+console.log("Hello World")
+
 const user = {
   email: "",
   password: "",
