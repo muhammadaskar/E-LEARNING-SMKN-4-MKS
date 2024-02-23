@@ -48,8 +48,8 @@ return [
             'host' => "smtp.googlemail.com",
             'port' => 465,
             'encryption' => 'ssl',
-            'username' => "askar@biru.app",
-            'password' => "*As110500kaR*",
+            'username' => "",
+            'password' => "",
             'timeout' => null,
         ],
 
